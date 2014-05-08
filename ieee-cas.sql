@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 07 Mai 2014 à 08:57
+-- Généré le: Jeu 08 Mai 2014 à 19:34
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -36,7 +36,14 @@ CREATE TABLE `conference` (
   PRIMARY KEY (`id`,`user_id`,`model_id`),
   KEY `fk_conference_user1_idx` (`user_id`),
   KEY `fk_conference_model1_idx` (`model_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `conference`
+--
+
+INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adress`, `description`, `start`, `end`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 12, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
 
 -- --------------------------------------------------------
 
@@ -139,18 +146,24 @@ CREATE TABLE `tasks_list` (
   `name` varchar(45) DEFAULT NULL,
   `description` text,
   `link` mediumtext,
+  `link_name` varchar(255) DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`,`node_id`),
   KEY `fk_tasks_list_node1_idx` (`node_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Contenu de la table `tasks_list`
 --
 
-INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`) VALUES
-(1, 1, 'Task 1', 'description 1', 'hey'),
-(2, 1, 'Task 2', 'description 2', 'azaz'),
-(3, 2, 'Task test', 'lskdjlks', NULL);
+INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_name`, `date`) VALUES
+(1, 1, 'Task 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at mauris nec arcu sagittis gravida nec non ipsum. Nam rutrum nisi magna, et gravida diam pharetra vitae. Vivamus dictum ultricies tellus, sit amet auctor turpis malesuada eget. Nam cursus nulla quis euismod rhoncus. Donec ultrices tellus nulla, sed molestie dolor sodales quis. In in dui quis dui eleifend interdum quis in eros. Nullam cursus tempor suscipit. In at dolor eu arcu varius bibendum eget eget lorem.\n\nQuisque at leo lacinia, vestibulum nisl et, auctor dolor. Proin commodo sed ante quis bibendum. Integer vulputate vitae mauris et congue. Cras eleifend magna lorem. Phasellus lobortis commodo purus vitae sagittis. Nulla facilisi. Etiam diam diam, tristique et auctor eu, tristique non enim. Etiam massa mi, condimentum pellentesque dui at, volutpat ultrices justo. Maecenas faucibus nunc vitae quam rhoncus luctus. In cursus, dolor in vestibulum volutpat, ante dolor malesuada velit, eget pharetra sapien tellus at dolor. Nunc sit amet interdum quam.', 'http://ieee-cas.org/', 'Link to IEEE-CAS', NULL),
+(2, 1, 'Task 2', 'description 2', 'azaz', 'Link to subscription', NULL),
+(3, 2, 'Task test', 'Put Your Best Face Forward: Getting to the Basics.This may sound cliché but the face truly is a passport to the world. Whether you''re at an interview, holding a meeting, or courting someone at your local bar, your face acts as an ambassador for your personality – giving those you interact with ...', NULL, NULL, NULL),
+(4, 3, 'Fill the form on IEEE', 'Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l''imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n''a pas fait que survivre cinq siècles, mais s''est aussi adapté à la bureautique informatique, sans que son contenu n''en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.', 'http://fr.lipsum.com/', 'Site de Lorem Ipsum', NULL),
+(5, 2, 'Send papers', 'Pellentesque blandit est eu eleifend faucibus. Vivamus in posuere felis. Cras ipsum nisl, elementum sit amet mauris vitae, bibendum posuere purus. Vestibulum sed nibh posuere leo semper tincidunt vitae eu metus. Integer vitae sapien placerat dolor sollicitudin lobortis et ut nibh. Mauris euismod tortor eleifend odio adipiscing dapibus. Sed ullamcorper risus non tortor venenatis, ut scelerisque quam interdum. Etiam ullamcorper nisi ipsum, bibendum vestibulum tortor convallis bibendum. Donec sit amet posuere nibh, sit amet cursus nulla. Nulla a malesuada massa. Quisque sed posuere enim. Sed pretium arcu quam, non tincidunt nisi accumsan nec. Nullam tempus vehicula metus, id convallis diam feugiat ac. Nam at molestie libero. In egestas convallis arcu, sit amet dapibus leo porta sed. Aenean convallis hendrerit turpis id vulputate.', NULL, NULL, NULL),
+(6, 2, 'Sign papers', 'Aenean venenatis lacus eu accumsan posuere. Vestibulum lorem diam, varius eget varius id, tempor quis libero. Proin gravida sagittis turpis nec luctus. Cras volutpat ultricies tortor, at hendrerit orci tincidunt vitae. Nullam sit amet pellentesque metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed dignissim sapien a purus bibendum dictum. Vivamus ut vehicula ipsum. Morbi rutrum nunc tincidunt lobortis consequat. Ut malesuada orci at consectetur dapibus. Vivamus tempus eu odio vitae ultricies. Curabitur luctus euismod eros nec suscipit. Pellentesque sit amet magna id mauris accumsan mollis. Ut volutpat neque varius risus pulvinar, sed commodo metus sagittis.', 'http://fr.lipsum.com/feed/html', 'Lorem Ipsum Site', NULL),
+(7, 3, 'Task force', 'nnd nkndsk sjd kjsdksjdksj ldskd', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -163,12 +176,26 @@ CREATE TABLE `task_validation` (
   `conference_id` int(11) NOT NULL,
   `tasks_list_id` int(11) NOT NULL,
   `validation` tinyint(1) NOT NULL DEFAULT '0',
+  `limit_date` date DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` varchar(45) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`conference_id`,`tasks_list_id`),
   KEY `fk_task_validation_conference1_idx` (`conference_id`),
   KEY `fk_task_validation_tasks_list1_idx` (`tasks_list_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Contenu de la table `task_validation`
+--
+
+INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `limit_date`, `created_at`, `updated_at`) VALUES
+(3, 1, 1, 1, '2014-05-10', '2014-05-08 01:59:34', '2014-05-08 01:59:34'),
+(4, 1, 2, 1, NULL, '2014-05-08 01:59:49', '2014-05-08 01:59:49'),
+(5, 1, 3, 1, NULL, '2014-05-08 01:59:59', '2014-05-08 01:59:59'),
+(6, 1, 4, 0, NULL, '2014-05-08 17:10:30', '2014-05-08 17:10:30'),
+(7, 1, 5, 0, '2014-05-22', '2014-05-08 19:06:41', '2014-05-08 19:06:41'),
+(8, 1, 6, 0, NULL, '2014-05-08 19:10:00', '2014-05-08 19:10:00'),
+(9, 1, 7, 0, NULL, '2014-05-08 19:21:47', '2014-05-08 19:21:47');
 
 -- --------------------------------------------------------
 
@@ -204,7 +231,14 @@ CREATE TABLE `user` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `birthday`, `affiliation`, `type`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 'tferrand@isep.fr', 'azerty', 'Thomas', 'Fe', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17');
 
 --
 -- Contraintes pour les tables exportées

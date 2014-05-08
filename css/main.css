@@ -1,0 +1,362 @@
+html {
+	overflow-y: scroll;
+}
+body {
+	font-family:sans-serif;
+	max-width: 700px;
+	margin: 20px auto 50px auto;
+	/*background: #1f1f1f;*/
+	text-align: center;
+	font-size:13px;
+}
+
+/*Fil rouge*/
+ul {
+	list-style: none;
+	margin: 0; padding: 0;
+	text-align: left;
+}
+body > ul.red-wire {
+	margin-bottom: 30px;
+	padding:20px;
+	/*border: 1px solid #222;*/
+	@include box-shadow(0 0 25px #000);
+	background-color:white;
+	border: 1px solid #ccc;
+	border-radius:3px;
+	box-shadow: inset #f6f6f6 0 -5px 10px;
+}
+body > ul.red-wire > li.node-list{
+	position: relative;
+	padding-bottom: 20px;
+	border-left: 5px solid green;
+}
+body > ul.red-wire > li.node-list:last-child{
+	padding-bottom:0;
+}
+
+body > ul.red-wire > li.node-list > a.node-a {
+	display: block;
+	outline: 0;
+	/*padding: .7em 1em;*/
+	padding-left:0;
+	padding-right:10px;
+	/*padding-top:10px;*/
+	padding-bottom:20px;
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+	@include text-shadow(#111 0 -1px);
+	/*background: #333;*/
+	@include box-shadow(inset 0 1px 0 0 rgba(250,250,250,0.1));
+	@include background-image(linear-gradient(#444, #333));
+	@include filter-gradient(#444, #333, horizontal);
+}
+
+body > ul.red-wire > li.node-list:last-child > a.node-a{
+	padding-bottom:0;
+}
+
+body > ul.red-wire > li.node-list > a.node-a:hover{
+	/*text-decoration:underline;*/
+}
+
+body > ul.red-wire > li.node-list > ul {
+	counter-reset: items;
+	height: 0;
+	overflow: hidden;
+	/*background: #eee;*/
+	color: #777;
+	font-size: 13px;
+	@include box-shadow(inset 0 0 50px #BBB);
+}
+
+body > ul.red-wire > li.node-list > ul > li.task {
+	counter-increment: items;
+	padding:7px;
+	margin-left:20px;
+	margin-top:2px;
+	margin-bottom:2px;
+	/*border-bottom: 1px dotted #DDD;*/
+	color:black;
+	cursor:pointer;
+	float:left;
+    clear:left;
+    border: 1px solid white;
+	border-radius:3px;
+	box-shadow: inset white 0 -5px 10px;
+}
+
+body > ul.red-wire > li.node-list:last-child > ul > li.task:first-child{
+	margin-top:20px;
+}
+
+body > ul.red-wire > li.node-list > ul > li.task:hover {
+	background-color:white;
+	border: 1px solid #ccc;
+	border-radius:3px;
+	box-shadow: inset #f6f6f6 0 -5px 10px;
+}
+
+body > ul.red-wire > li.node-list > ul > li.task:active {
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.node-circle{
+	background-color: white;
+	border-radius: 50px;
+	padding: 0px 8px;
+	left: -15px;
+	position: relative;
+	color: white;
+	border: 5px solid green;
+	box-shadow: #B2B0B0 0 0px 5px;
+}
+
+.node-percentage{
+	margin-left: 10px;
+	border-radius:3px;
+	color:white;
+	padding: 5px;
+}
+
+
+/*Modal*/
+.modal-body{
+	text-align:justify;
+}
+
+.modal .panel{
+	margin-top:20px;
+	margin-bottom:0px;
+	text-align:justify;
+}
+
+div.tooltip-inner {
+    min-width: 140px;
+}
+
+.node-title{
+	padding-right:10px;
+}
+
+/*Conference Header*/
+.conference-header{
+	background-color:white;
+	border: 1px solid #ccc;
+	border-radius:3px;
+	box-shadow: inset #f6f6f6 0 -5px 10px;
+	margin-bottom:20px;
+}
+
+.conference-header-left{
+	text-align:left;
+	width: 470px;
+	padding:10px 0px 10px 10px;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.conference-header-left h1{
+	padding:0;
+	margin:0;
+	margin-bottom:10px;
+}
+
+.conference-header.accueil .conference-header-left h1{
+	font-size:22px;
+}
+
+.conference-header-left h2{
+	padding:0;
+	margin:0;
+	font-size:20px;
+	margin-bottom:15px;
+}
+
+.conference-header-left p{
+	padding:0;
+	margin:0;
+}
+
+.conference-header-right{
+	width:220px;
+	display:inline-block;
+	padding: 22px 10px 10px 10px;
+}
+
+.conference-header.accueil .conference-header-right{
+	padding: 8px 10px 10px 10px;
+}
+
+.conference-header-right h3{
+	font-size:15px;
+	margin-top:0px;
+	text-align:left;
+}
+
+.conference-header-right .progress{
+	margin-bottom: 22px;
+}
+
+button span.glyphicon{
+	margin-right:10px;
+}
+
+li.task span.glyphicon{
+	margin-left:10px;
+}
+
+li.task span.glyphicon.glyphicon-ok{
+	color:green;
+	font-size:15px;
+}
+
+/*Load bar*/
+.progress {
+    position: relative;
+	height: 25px;
+}
+
+.progress > .progress-completed {
+	position: absolute;
+	right: 0px;
+	font-weight: 800;
+	padding: 3px 10px 2px;
+}
+
+
+/*Notif*/
+#notifExampleHiddenContent{
+	display:none;
+}
+
+.popover{
+	width:400px;
+	max-width:400px;
+}
+
+.popover-content{
+	padding:0;
+}
+
+.notif_item{
+	border-bottom: 1px solid #ebebeb;
+	padding:10px;
+	cursor:pointer;
+}
+
+.notif_item:last-child{
+	border-bottom: none;
+}
+
+.notif_item:hover{
+	background-color: #f7f7f7;
+}
+
+.notif_left{
+	display: inline-block;
+	width: 10%;
+	vertical-align:top;
+}
+
+.notif_right{
+	display: inline-block;
+	width: 86%;
+	margin-left:10px;
+}
+
+.notif_left > img{
+	width:100%;
+	border-radius:50px;
+	border: 1px solid #ccc;
+	box-shadow: inset #f6f6f6 0 -5px 10px;
+	background-color:white;
+}
+
+.notif_right .date{
+	margin-bottom:0;
+}
+
+.btn a{
+	color:white;
+	text-decoration:none;
+}
+
+
+/*Breadcrumb*/
+.breadcrumb{
+	text-align:left;
+}
+
+
+/*Text color classes*/
+.red{
+	color:red;
+}
+
+.green{
+	color:green;
+}
+
+.blue{
+	color:#0055cc;
+}
+
+/*Background color classes*/
+.bg-red{
+	background-color: red;
+}
+
+.bg-green{
+	background-color: green;
+}
+
+.bg-orange{
+	background-color: orange;
+}
+
+/*wire color classes*/
+.wire-red{
+	border-left-color: red;
+}
+
+.wire-green{
+	border-left-color: green;
+}
+
+.wire-orange{
+	border-left-color: orange;
+}
+
+/*General*/
+.glyphicon-time.red{
+	margin-right:5px;
+}
+
+
+.modal-body label{
+	margin-top:10px;
+}
+
+.modal-body label:first-child{
+	margin-top:0px;
+}
+
+.modal-body .row{
+	margin-top:10px;
+}
+
+.modal-body .row.checkboxes{
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+}
+
+#new-adress-geocodify-dropdown{
+	position:relative;
+	width:auto;
+}
+
