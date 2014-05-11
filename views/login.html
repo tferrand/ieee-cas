@@ -1,0 +1,13 @@
+		{{! Si un message d'erreur existe, on l'affiche }}
+		{{#error}}
+		<div class="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Warning !</strong> {{error}}
+		</div>
+		{{/error}}
+
+		<form id="formLogin" action="/auth/local" method="POST" class="form-horizontal">
+			<input value="tferrand@isep.fr" id="username" name="username" type="text" placeholder="Username" class="input-xlarge span4">
+			<input value="secret" id="password" name="password" type="password" placeholder="Password" class="password input-xlarge span4">
+			<button id="buttonSubmit" type="submit" class="btn btn-large btn-primary span2">Sign in</button>
+		</form>

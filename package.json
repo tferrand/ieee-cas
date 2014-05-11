@@ -1,0 +1,14 @@
+{
+   "name": "IEEE-CAS",
+   "version": "0.0.1",
+   "description": "Project GL",
+   "dependencies": {
+      "express": "3.1.0",
+      "hogan-express": "0.3.3",
+      "nconf": "0.6.7",
+      "socket.io": "*",
+      "mysql":"*",
+      "passport": "0.1.15",
+      "passport-local" : "0.1.6"
+   }
+}
