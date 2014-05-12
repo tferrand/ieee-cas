@@ -305,19 +305,6 @@ li.task span.glyphicon.glyphicon-ok{
 	color:#0055cc;
 }
 
-/*Background color classes*/
-.bg-red{
-	background-color: red;
-}
-
-.bg-green{
-	background-color: green;
-}
-
-.bg-orange{
-	background-color: orange;
-}
-
 /*wire color classes*/
 .wire-red{
 	border-left-color: red;

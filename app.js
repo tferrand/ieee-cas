@@ -115,6 +115,19 @@ io.sockets.on('connection', function (socket, pseudo) {
         });
     });
 
+
+    //get tasks
+    socket.on('validate_task', function(conference_id, task_id) {
+        pool.getConnection(function (err, connection){
+            connection.query('UPDATE task_validation SET validation = 1 WHERE conference_id='+conference_id+' AND tasks_list_id='+task_id, function(err, rows, fields) {
+                connection.release();
+                if (err) throw err;
+
+                socket.emit('validate_task', {task_id: task_id});
+            });
+        });
+    });
+
 });
 
 

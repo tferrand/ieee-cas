@@ -6,7 +6,7 @@ $(document).ready(function(){
     var location_url = $(location).attr('href');
 
     if(location_url.indexOf("conference") >= 0){
-    	socket.emit('get_conference', $("#conf-id").data('conference_id'));
+    	socket.emit('get_conference', $("#conf-id").data('conference_id_ieee'));
     } else {
     	socket.emit('get_user_conferences', $('#user_id').data('user_id'));
     }
@@ -44,6 +44,7 @@ $(document).ready(function(){
     	//On fait une demande au serveur pour récupérer les noeuds
     	socket.emit('get_nodes');
 
+    	$('#conf-id').data('conference_id',data.conference[0].id);
     	$('.conf-title').text(data.conference[0].title);
     	$('#conf-location').append(data.conference[0].adress);
     	$('#conf-date').append('from '+data.conference[0].start.substr(0,10)+' to '+data.conference[0].end.substr(0,10));
@@ -56,10 +57,11 @@ $(document).ready(function(){
     		console.log(data.nodes[nodeId].name+' - '+data.nodes[nodeId].node_nbr);
 
     		$('.red-wire').append(
-    			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_nbr+'">'
+    			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_nbr+'" data-node_id="'+data.nodes[nodeId].node_nbr+'"">'
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
+						+'<span class="node-percentage"></span>'
 					+'</a>'
 					+'<ul>'
 					+'</ul>'
@@ -129,8 +131,8 @@ $(document).ready(function(){
 			placement:'right'
 		});
 
-		calculatePercentage();
 		nodePercentage(data.tasks[0].node_id);
+		calculatePercentage();
 
     });
 
@@ -155,6 +157,15 @@ $(document).ready(function(){
 		$("#task-modal").modal("show");
     });
 
+
+    socket.on('validate_task', function(data){
+    	$('li.task[data-task_id="'+data.task_id+'"]').append('<span class="glyphicon glyphicon-ok"></span>');
+    	$('li.task[data-task_id="'+data.task_id+'"]').data('validation',1);
+    	$("#task-modal").modal("hide");
+    	
+		nodePercentage($('li.task[data-task_id="'+data.task_id+'"]').parent().parent().data('node_id'));
+		calculatePercentage();
+    });
 
 
 
@@ -218,6 +229,7 @@ $(document).ready(function(){
 		$('.conference-header-right .progress.progress-striped .progress-completed').text(percentage+'%');
 		$('.conference-header-right .progress.progress-striped .progress-bar.progress-bar-success').css('width', percentage+'%');
 		$('.conference-header-right .progress.progress-striped .progress-bar.progress-bar-success').attr('aria-valuenow', percentage);
+		console.log(percentage);
 	}
 
 
@@ -232,7 +244,7 @@ $(document).ready(function(){
 		});
 		percentage = parseInt((percentage/nbr_tasks)*100);
 
-		$('li#node_id_'+node_id+' span.node-title').append('<span class="node-percentage">'+percentage+'%'+'</span>');
+		$('li#node_id_'+node_id+' .node-percentage').text(percentage+'%');
 		
 		if(percentage == 100){
 			updateColor(node_id, 'green');
@@ -241,10 +253,11 @@ $(document).ready(function(){
 		} else {
 			updateColor(node_id, 'red');
 		}
+		console.log(percentage);
 	}
 
 	function updateColor(node_id, color){
-		$('li#node_id_'+node_id+' span.node-percentage').addClass('bg-'+color);
+		$('li#node_id_'+node_id+' span.node-percentage').css('background-color',color);
 		$('li#node_id_'+node_id).css('border-left-color',color);
 		$('li#node_id_'+node_id+' .node-circle').css('border-color',color);
 	}
@@ -258,7 +271,8 @@ $(document).ready(function(){
 	
 
 	$("#task-modal-validate").click(function(){
-		alert($(this).data("task_id"));
+		console.log($(this).data("task_id")+' - '+$('#conf-id').data('conference_id'));
+		socket.emit('validate_task',$('#conf-id').data('conference_id'), $(this).data("task_id"));
 	});
 
 
