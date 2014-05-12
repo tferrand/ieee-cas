@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 08 Mai 2014 à 19:34
+-- Généré le: Lun 12 Mai 2014 à 13:28
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -43,7 +43,7 @@ CREATE TABLE `conference` (
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adress`, `description`, `start`, `end`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 12, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
+(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
 
 -- --------------------------------------------------------
 
