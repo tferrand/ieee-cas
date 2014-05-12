@@ -1,16 +1,8 @@
 var express    = require('express');
 var passport   = require('passport');
 var myPassport = require('./passport');
+var pool=require('./connection_db').initPool();
 
-//A SUPPRIMER BIENTOT
-var mysql = require('mysql');
-var pool = mysql.createPool({
-    user     : 'root',
-    password : 'root',
-    host     : 'localhost',
-    port : '8889',
-    database: 'ieee-cas',
-});
 
 module.exports = function(app){
 

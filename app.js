@@ -7,15 +7,14 @@ var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité 
 var myPassport = require('./config/passport');
 var myConfig   = require('./config/config');
 var myRoutes   = require('./config/routes');
-
+var pool       = require('./config/connection_db').initPool();
 var mysql = require('mysql');
-var pool = mysql.createPool({
+/*var pool = mysql.createPool({
     user     : 'root',
     password : 'root',
     host     : 'localhost',
-    port : '8889',
     database: 'ieee-cas',
-});
+});*/
 
 
 // --------------------------------------------------------------------------
@@ -120,3 +119,4 @@ io.sockets.on('connection', function (socket, pseudo) {
 
 
 //server.listen(8080);
+ 
