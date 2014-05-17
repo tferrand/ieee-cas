@@ -62,9 +62,8 @@ $(document).ready(function(){
     			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_nbr+'" data-node_id="'+data.nodes[nodeId].node_nbr+'"">'
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
-						+'<span class="node-title">'+data.nodes[nodeId].name+''
-							+'<span class="node-percentage"></span>'
-						+'</span>'
+						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
+						+'<span class="node-percentage"></span>'
 					+'</a>'
 					+'<ul></ul>'
 				+'</li>');
@@ -82,7 +81,7 @@ $(document).ready(function(){
 
 			//Task tooltip
 			$('.node-title').tooltip({
-				placement:'right'
+				placement:'left'
 			});
 
     		socket.emit('get_tasks', data.nodes[nodeId].id);
@@ -173,7 +172,7 @@ $(document).ready(function(){
     socket.on('get_tutos', function(data){
     	//console.log(data.tutos.length);
     	if(data.tutos.length != 0){
-    		$('#node_id_'+data.tutos[0].node_id+' .node-title').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials</span>');
+    		$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials</span>');
     	}
 
     	for (var position in data.tutos){
@@ -223,9 +222,9 @@ $(document).ready(function(){
 
 
     //Click on a node
-	$('ul.red-wire').on('click', '.node-a', function() {
-		if($(this).data("openable") != "no"){
-			var ul = $(this).next(),
+	$('ul.red-wire').on('click', '.node-title', function() {
+		if($(this).parent().data("openable") != "no"){
+			var ul = $(this).parent().next(),
 				clone = ul.clone().css({"height":"auto"}).appendTo("body"),
 				height = ul.css("height") === "0px" ? ul[0].scrollHeight + "px" : "0px";
 		

@@ -36,6 +36,7 @@ body > ul.red-wire > li.node-list:last-child{
 }
 
 body > ul.red-wire > li.node-list > a.node-a {
+	cursor: default;
 	display: block;
 	outline: 0;
 	/*padding: .7em 1em;*/
@@ -128,6 +129,7 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	color:white;
 	padding: 5px;
 	background-color: grey;
+	cursor: pointer;
 }
 
 
@@ -148,6 +150,11 @@ div.tooltip-inner {
 
 .node-title{
 	padding-right:10px;
+	cursor: pointer;
+}
+
+.node-title:hover{
+	text-decoration: underline;
 }
 
 /*Conference Header*/
