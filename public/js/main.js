@@ -26,10 +26,10 @@ $(document).ready(function(){
 					+'<div class="conference-header-right">'
 						+'<h3>Progression :</h3>'
 						+'<div class="progress progress-striped">'
-				            +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">'
-				                +'<span class="sr-only">40% Complete (success)</span>'
+				            +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data.conferences[conferenceId].progression+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data.conferences[conferenceId].progression+'%">'
+				                +'<span class="sr-only">'+data.conferences[conferenceId].progression+'% Complete</span>'
 				            +'</div>'
-				            +'<span class="progress-completed">40%</span>'
+				            +'<span class="progress-completed">'+data.conferences[conferenceId].progression+'%</span>'
 				        +'</div>'
 						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">Voir le fil rouge</a></button>'
 					+'</div>'
@@ -38,33 +38,35 @@ $(document).ready(function(){
     	}
     });
 
-
+	$model_id='';
     //Quand on recoit les infos d'une conference pour le fil rouge
     socket.on('get_conference', function(data){
-    	//On fait une demande au serveur pour récupérer les noeuds
-    	socket.emit('get_nodes');
 
     	$('#conf-id').data('conference_id',data.conference[0].id);
     	$('.conf-title').text(data.conference[0].title);
     	$('#conf-location').append(data.conference[0].adress);
     	$('#conf-date').append('from '+data.conference[0].start.substr(0,10)+' to '+data.conference[0].end.substr(0,10));
+    	$model_id=data.conference[0].model_id;
+
+    	//On fait une demande au serveur pour récupérer les noeuds
+    	socket.emit('get_nodes', $model_id);
     });
 
     // Quand on reçoit les noeuds
     socket.on('get_nodes', function(data) {
     	//console.log(data.rows);
     	for (var nodeId in data.nodes){
-    		console.log(data.nodes[nodeId].name+' - '+data.nodes[nodeId].node_nbr);
+    		//console.log(data.nodes[nodeId].name+' - '+data.nodes[nodeId].node_nbr);
 
     		$('.red-wire').append(
     			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_nbr+'" data-node_id="'+data.nodes[nodeId].node_nbr+'"">'
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
-						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
-						+'<span class="node-percentage"></span>'
+						+'<span class="node-title">'+data.nodes[nodeId].name+''
+							+'<span class="node-percentage"></span>'
+						+'</span>'
 					+'</a>'
-					+'<ul>'
-					+'</ul>'
+					+'<ul></ul>'
 				+'</li>');
 
     		//Add tooltip to nodes
@@ -83,7 +85,8 @@ $(document).ready(function(){
 				placement:'right'
 			});
 
-    		socket.emit('get_tasks', data.nodes[nodeId].node_nbr);
+    		socket.emit('get_tasks', data.nodes[nodeId].id);
+    		socket.emit('get_tutos', data.nodes[nodeId].id);
     	}
 
     });
@@ -150,14 +153,13 @@ $(document).ready(function(){
     	} else {
     		$("#task-modal-link").hide();
     	}
-    	
-		
+
 		$("#task-modal-validate").data("task_id",data.task_infos[0].id);
 		
 		$("#task-modal").modal("show");
     });
 
-
+    //Quand on recoit la validation d'une tache
     socket.on('validate_task', function(data){
     	$('li.task[data-task_id="'+data.task_id+'"]').append('<span class="glyphicon glyphicon-ok"></span>');
     	$('li.task[data-task_id="'+data.task_id+'"]').data('validation',1);
@@ -167,8 +169,40 @@ $(document).ready(function(){
 		calculatePercentage();
     });
 
+    //Quand on recoit les tutos
+    socket.on('get_tutos', function(data){
+    	//console.log(data.tutos.length);
+    	if(data.tutos.length != 0){
+    		$('#node_id_'+data.tutos[0].node_id+' .node-title').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials</span>');
+    	}
 
+    	for (var position in data.tutos){
+    		$('#tuto-modal #tuto-modal-body').append(
+    			'<div class="panel panel-default" data-node_id="'+data.tutos[position].node_id+'">'
+					+'<div class="panel-heading">'
+						+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
+					+'</div>'
+					+'<div class="panel-body">'
+						+'<a href="#">'+data.tutos[position].link+'</a>'
+					+'</div>'
+				+'</div>'
+    		);
+    	}
+    });
 
+    //Dynamic click on a tutorial button
+    $('ul.red-wire').on('click', '.node-tuto',function(){
+    	$cliked_node_id = $(this).data('node_id');
+    	$('#tuto-modal #tuto-modal-body .panel.panel-default').each(function(n){
+    		if($(this).data('node_id') == $cliked_node_id){
+    			$(this).show();
+    		} else {
+    			$(this).hide();
+    		}
+    	});
+
+    	$('#tuto-modal').modal("show");
+    });
 
 
     function getDate() {
@@ -210,6 +244,13 @@ $(document).ready(function(){
 			$("#error-modal-body").text("This task can't be validated right now...");
 			$("#error-modal").modal("show");
 		} else {
+			if($(this).data('validation') == 0){
+				$('#modal-footer-buttons').show();
+				$('#modal-footer-validated').hide();
+			} else {
+				$('#modal-footer-buttons').hide();
+				$('#modal-footer-validated').show();
+			}
 			socket.emit('get_task_infos', $(this).data('task_id'));
 		}
 	});
@@ -229,7 +270,8 @@ $(document).ready(function(){
 		$('.conference-header-right .progress.progress-striped .progress-completed').text(percentage+'%');
 		$('.conference-header-right .progress.progress-striped .progress-bar.progress-bar-success').css('width', percentage+'%');
 		$('.conference-header-right .progress.progress-striped .progress-bar.progress-bar-success').attr('aria-valuenow', percentage);
-		console.log(percentage);
+		
+		socket.emit('update_progression',$('#conf-id').data('conference_id'),percentage);
 	}
 
 
@@ -264,7 +306,7 @@ $(document).ready(function(){
 
 
 	//Task Modal
-	$('#task-modal, #error-modal').modal({
+	$('#task-modal, #error-modal, #tuto-modal').modal({
 	  keyboard: false,
 	  show: false
 	});

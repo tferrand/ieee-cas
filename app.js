@@ -75,10 +75,10 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     //get nodes
-    socket.on('get_nodes', function() {
+    socket.on('get_nodes', function(model_id) {
         pool.getConnection(function (err, connection){
             if (err) throw err;
-            connection.query('SELECT * from node WHERE model_id = 1', function(err, rows, fields) {
+            connection.query('SELECT * from node WHERE model_id='+model_id, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
 
@@ -116,7 +116,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
 
-    //get tasks
+    //validate tasks
     socket.on('validate_task', function(conference_id, task_id) {
         pool.getConnection(function (err, connection){
             connection.query('UPDATE task_validation SET validation = 1 WHERE conference_id='+conference_id+' AND tasks_list_id='+task_id, function(err, rows, fields) {
@@ -124,6 +124,30 @@ io.sockets.on('connection', function (socket, pseudo) {
                 if (err) throw err;
 
                 socket.emit('validate_task', {task_id: task_id});
+            });
+        });
+    });
+
+    //update progression
+    socket.on('update_progression', function(conference_id, percentage) {
+        pool.getConnection(function (err, connection){
+            connection.query('UPDATE conference SET progression = '+percentage+' WHERE id='+conference_id, function(err, rows, fields) {
+                connection.release();
+                if (err) throw err;
+
+            });
+        });
+    });
+
+    //get tutos
+    socket.on('get_tutos', function(node_id) {
+        pool.getConnection(function (err, connection){
+            connection.query('SELECT * FROM node LEFT OUTER JOIN tuto ON node.id = tuto.node_id WHERE node_id ='+node_id, function(err, rows, fields) {
+                connection.release();
+                if (err) throw err;
+
+                socket.emit('get_tutos', {tutos: rows});
+                console.log(rows);
             });
         });
     });

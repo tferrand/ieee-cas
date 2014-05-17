@@ -122,6 +122,14 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	padding: 5px;
 }
 
+.node-tuto{
+	margin-left: 10px;
+	border-radius:3px;
+	color:white;
+	padding: 5px;
+	background-color: grey;
+}
+
 
 /*Modal*/
 .modal-body{
@@ -129,8 +137,8 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 }
 
 .modal .panel{
-	margin-top:20px;
-	margin-bottom:0px;
+	margin-top:10px;
+	margin-bottom:10px;
 	text-align:justify;
 }
 
