@@ -121,15 +121,24 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	border-radius:3px;
 	color:white;
 	padding: 5px;
+	font-weight: normal;
+	border: 2px solid;
 }
 
 .node-tuto{
 	margin-left: 10px;
 	border-radius:3px;
-	color:white;
+	color:grey;
+	border: 2px solid grey;
 	padding: 5px;
-	background-color: grey;
+	background-color: none;
+	font-weight: normal;
 	cursor: pointer;
+}
+
+.node-tuto:hover{
+	color:white;
+	background-color: grey;
 }
 
 

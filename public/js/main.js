@@ -172,7 +172,7 @@ $(document).ready(function(){
     socket.on('get_tutos', function(data){
     	//console.log(data.tutos.length);
     	if(data.tutos.length != 0){
-    		$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials</span>');
+    		$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials available</span>');
     	}
 
     	for (var position in data.tutos){
@@ -298,7 +298,7 @@ $(document).ready(function(){
 	}
 
 	function updateColor(node_id, color){
-		$('li#node_id_'+node_id+' span.node-percentage').css('background-color',color);
+		$('li#node_id_'+node_id+' span.node-percentage').css({'background-color':color, 'border-color':color});
 		$('li#node_id_'+node_id).css('border-left-color',color);
 		$('li#node_id_'+node_id+' .node-circle').css('border-color',color);
 	}
