@@ -1,5 +1,10 @@
+
+var pool=require('../config/connection_db').initPool();
+
+
 // On stocke les utilisateurs dans un tableau javascript statique pour l'exemple
-var tabUser = [
+
+/*var tabUser = [
 
 	// Utilisateurs internes
 	{ 'id' : '1', 'login' : 'tferrand@isep.fr', 'password'   : 'secret', 'external' : false, 'nbConn' : 0 },
@@ -8,8 +13,27 @@ var tabUser = [
 	// utilisateurs externes (identifier unique fournit par le provider)
 	{ 'id' : '3', 'login' : 'Mary', 'identifier' : 'blabla', 'external' : true , 'nbConn' : 0 }
 
-];
+];*/
 
+
+var findUserSQL = function(loginUser,password,callback) {
+
+	pool.getConnection(function (err, connection){
+            if (err) throw err;
+            connection.query("SELECT * FROM user WHERE email='"+loginUser+"' AND password='"+password+"'", function(err, rows, fields) {
+                connection.release();
+                console.log(rows);
+                if (err) return callback(null, null);
+                return callback(null, rows[0]);
+
+                
+            });
+        });
+	
+
+};
+
+	
 
 
 
@@ -118,7 +142,7 @@ var findOrCreateExternalUserById = function(identifier, callback) {
 
 // On exporte les fonctions pouvant être accessibles depuis les autres modules
 module.exports = {
-
+	'findUserSQL'				   : findUserSQL,
 	'findUserByLogin'              : findUserByLogin,
 	'findUserById'                 : findUserById,
 	'findOrCreateExternalUserById' : findOrCreateExternalUserById

@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var pool = mysql.createPool({
     user     : 'root',
-    password : '',
+    password : 'root',
     host     : 'localhost',
     database: 'ieee-cas',
 });
@@ -9,5 +9,3 @@ var pool = mysql.createPool({
 exports.initPool = function(){
 	return pool;
 };
-
-
