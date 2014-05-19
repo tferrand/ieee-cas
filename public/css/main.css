@@ -36,6 +36,7 @@ body > ul.red-wire > li.node-list:last-child{
 }
 
 body > ul.red-wire > li.node-list > a.node-a {
+	cursor: default;
 	display: block;
 	outline: 0;
 	/*padding: .7em 1em;*/
@@ -120,6 +121,24 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	border-radius:3px;
 	color:white;
 	padding: 5px;
+	font-weight: normal;
+	border: 2px solid;
+}
+
+.node-tuto{
+	margin-left: 10px;
+	border-radius:3px;
+	color:grey;
+	border: 2px solid grey;
+	padding: 5px;
+	background-color: none;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.node-tuto:hover{
+	color:white;
+	background-color: grey;
 }
 
 
@@ -129,8 +148,8 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 }
 
 .modal .panel{
-	margin-top:20px;
-	margin-bottom:0px;
+	margin-top:10px;
+	margin-bottom:10px;
 	text-align:justify;
 }
 
@@ -140,6 +159,11 @@ div.tooltip-inner {
 
 .node-title{
 	padding-right:10px;
+	cursor: pointer;
+}
+
+.node-title:hover{
+	text-decoration: underline;
 }
 
 /*Conference Header*/
