@@ -348,7 +348,11 @@ $(document).ready(function(){
     
 	$('#new-adress-geocodify input').removeClass('geocodifyInput');
     $('#new-adress-geocodify input').addClass('form-control');
-	
 
+
+    // $('#new-conference-btn').click(function(){
+    // 	socket.emit('create_tasks', 1);
+    // });
+    
 
 });

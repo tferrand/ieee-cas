@@ -146,6 +146,34 @@ io.sockets.on('connection', function (socket, pseudo) {
         });
     });
 
+    //create tasks for new conference
+    socket.on('create_tasks', function(conference_id) {
+        pool.getConnection(function (err, connection){
+            connection.query('SELECT tasks_list.id FROM tasks_list INNER JOIN node ON tasks_list.node_id = node.id WHERE node.model_id = 1 ORDER BY tasks_list.node_id', function(err, rows, fields) {
+                //connection.release();
+                if (err) throw err;
+
+                insert_validation(rows, conference_id);
+                
+            });
+        });        
+    });
+
+    function insert_validation(tasks, conference_id){
+        pool.getConnection(function (err, connection){
+            for (var i = 0; i < tasks.length; i++) {
+                console.log(tasks[i].id);
+                connection.query('INSERT INTO task_validation (conference_id, tasks_list_id) VALUES ('+conference_id+', '+tasks[i].id+')', function(err, rows, fields) {
+                    connection.release();
+                    if (err) throw err;
+
+                });
+            }
+        });
+    }
+
+
+
 });
 
 
