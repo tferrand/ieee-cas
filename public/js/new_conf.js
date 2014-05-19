@@ -9,9 +9,13 @@ $(document).ready(function(){
 				 
 		if(tcOk && idOk && titleOk && acronymOk)
 		   return true;
+		else if(tcOk == false && idOk && titleOk && acronymOk){
+			alert("Vous n'avez pas selectionné assez de Technical Committees.")
+			return false;
+		}
 		else
 		{
-		   alert("Veuillez remplir correctement tous les champs");
+		   alert("Veuillez remplir correctement tous les champs.");
 		   return false;
 		}
 	});
