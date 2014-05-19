@@ -8,24 +8,6 @@ $(document).ready(function(){
 				 
 		if(tcOk && idOk && titleOk && acronymOk)
 		   return true;
-			//create table
-			var dataConf = new Array();
-			//var tcs = new Array();
-			dataConf['new-id-ieee'] = $('#new-id-ieee').val();
-			dataConf['new-title'] = $('#new-title').val();
-			dataConf['new-adress'] = $('#new-adress').val();
-			dataConf['new-description'] = $('#new-description').val();
-			// for (var i = 0, tab.lenght; )
-			dataConf['new-tcs'] = new Array();
-
-			$('#wrap_tc input:checked').each(function(n){
-				dataConf['new-tcs'][n] = $(this).attr('id');
-			});
-
-			console.log(dataConf);
-
-			// émission des données de création de conf
-		    socket.emit('create_conf', dataConf);
 		else if(tcOk == false && idOk && titleOk && acronymOk){
 			alert("Vous n'avez pas selectionné assez de Technical Committees.")
 			return false;
@@ -111,4 +93,27 @@ $(document).ready(function(){
 	}
 
 
+	$('#new-conference-validate').click(function(){
+		//create table
+		var dataConf = new Array();
+		//var tcs = new Array();
+		dataConf['new-id-ieee'] = $('#new-id-ieee').val();
+		dataConf['new-title'] = $('#new-title').val();
+		dataConf['new-adress'] = $('#new-adress').val();
+		dataConf['new-description'] = $('#new-description').val();
+		// for (var i = 0, tab.lenght; )
+		dataConf['new-tcs'] = new Array();
+
+		$('#wrap_tc input:checked').each(function(n){
+			dataConf['new-tcs'][n] = $(this).attr('id');
+		});
+
+		console.log(dataConf);
+
+		// émission des données de création de conf
+	    socket.emit('create_conf', dataConf);
+	  
+	});
+
+	
 });
