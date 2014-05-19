@@ -1,4 +1,9 @@
+
+var pool=require('../config/connection_db').initPool();
+
+
 // On stocke les utilisateurs dans un tableau javascript statique pour l'exemple
+
 var tabUser = [
 
 	// Utilisateurs internes
@@ -10,6 +15,27 @@ var tabUser = [
 
 ];
 
+
+var findUserSQL = function(loginUser,password,callback) {
+
+	pool.getConnection(function (err, connection){
+            if (err) throw err;
+            var md5 = require("../public/lib/md5.js").md5;
+            var hash=md5(password);
+            connection.query("SELECT * FROM user WHERE email='"+loginUser+"' AND password='"+hash+"'", function(err, rows, fields) {
+                connection.release();
+                console.log(rows);
+                if (err) return callback(null, null);
+                return callback(null, rows[0]);
+
+                
+            });
+        });
+	
+
+};
+
+	
 
 
 
@@ -118,7 +144,7 @@ var findOrCreateExternalUserById = function(identifier, callback) {
 
 // On exporte les fonctions pouvant être accessibles depuis les autres modules
 module.exports = {
-
+	'findUserSQL'				   : findUserSQL,
 	'findUserByLogin'              : findUserByLogin,
 	'findUserById'                 : findUserById,
 	'findOrCreateExternalUserById' : findOrCreateExternalUserById

@@ -8,13 +8,7 @@ var myPassport = require('./config/passport');
 var myConfig   = require('./config/config');
 var myRoutes   = require('./config/routes');
 var pool       = require('./config/connection_db').initPool();
-var mysql = require('mysql');
-/*var pool = mysql.createPool({
-    user     : 'root',
-    password : 'root',
-    host     : 'localhost',
-    database: 'ieee-cas',
-});*/
+
 
 
 // --------------------------------------------------------------------------
@@ -54,7 +48,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 connection.release();
                 if (err) throw err;
 
-                //console.log('The solution is: ', rows);
+                console.log('The solution is: ', rows);
                 socket.emit('get_user_conferences', {conferences: rows});
             });
         });   

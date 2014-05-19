@@ -11,6 +11,8 @@
 		<button type="button" class="btn btn-default" id="new-conference-btn" style="margin-bottom:20px;">
   			Create new conference
 		</button>
+		<button type="button" class="btn btn-primary" style="margin-bottom:20px;"/><a href="http://localhost:8080/calendar">Calendar</a>
+		</button>
 
 		<div id="conferences-wrap"></div>
 
@@ -81,19 +83,22 @@
 					<div class="modal-body" id="new-conference-modal-body">
 						
 						<label for="new-id-ieee">ID IEEE</label>
-    					<input type="text" class="form-control" id="new-id-ieee">
+    					<input type="text" class="form-control" id="new-id-ieee" onblur="verifID(this)">
 
     					<label for="new-title">Title</label>
     					<input type="text" class="form-control" id="new-title">
 
+    					<label for="new-acronym">Acronym</label>
+    					<input type="text" class="form-control" id="new-acronym">
+
     					<div class="row">
 						  <div class="col-md-6">
-						  	<label for="new-id-ieee">Start Date</label>
-    						<input type="datetime-local" class="form-control" id="new-id-ieee">
+						  	<label for="new-start-date">Start Date</label>
+    						<input type="datetime-local" class="form-control" id="new-start-date">
 						  </div>
 						  <div class="col-md-6">
-						  	<label for="new-title">End Date</label>
-    						<input type="datetime-local" class="form-control" id="new-title">
+						  	<label for="new-end-date">End Date</label>
+    						<input type="datetime-local" class="form-control" id="new-end-date">
 						  </div>
 						</div>
 

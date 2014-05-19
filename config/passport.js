@@ -21,7 +21,7 @@ var init = function(app){
 	var uri    = host + ':' + port;
 
 	// Fonction globale pour l'ajout d'un utilisateur défini via un provider externe
-	var findOrCreateExternalUserById = function (identifier, profile, done) {
+/*	var findOrCreateExternalUserById = function (identifier, profile, done) {
 
 	    process.nextTick(function () {
 
@@ -40,27 +40,26 @@ var init = function(app){
 		    });
 
 	    });
-	}
+	}*/
 
 	// --------------------------------------------------------------------------------------
 	// PASSPORT : Stratégie "local"
 
 	// Déclaration d'une stratégie locale (connexion utilisateur géré en local avec un tableau Javascript pour l'exemple)
-	passport.use(new LocalStrategy(
+
+
+passport.use(new LocalStrategy(
 
 		function(username, password, done) {
 
 	    	process.nextTick(function () {
 
 	    		// Recherche d'un utilisateur en local
-	    		User.findUserByLogin(username, function(err, user) {
+	    		User.findUserSQL(username,password, function(err, user) {
 
 	    			if (err)          return done(err);
 			        if (null == user) return done(null, false);
-			        if (password != user.password) return done(null, false);
-
-			        // Utilisateur trouvé, on indique à Passport l'utilisateur via done(err, user)
-			        ++user.nbConn;
+			        
 			        return done(null, user);
 
 	    		});
@@ -70,6 +69,8 @@ var init = function(app){
 	  	}
 
 	));
+
+
 
 
 	// --------------------------------------------------------------------------------------

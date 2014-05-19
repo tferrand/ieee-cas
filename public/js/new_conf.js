@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+	$('#new-conference-validate').click(function(){
+		alert('ok');
+	})
+
 	function needFix(field, error){
 	   if(erreur){
 			field.style.backgroundColor = "#fba";
