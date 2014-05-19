@@ -4,7 +4,7 @@ var pool=require('../config/connection_db').initPool();
 
 // On stocke les utilisateurs dans un tableau javascript statique pour l'exemple
 
-/*var tabUser = [
+var tabUser = [
 
 	// Utilisateurs internes
 	{ 'id' : '1', 'login' : 'tferrand@isep.fr', 'password'   : 'secret', 'external' : false, 'nbConn' : 0 },
@@ -13,14 +13,16 @@ var pool=require('../config/connection_db').initPool();
 	// utilisateurs externes (identifier unique fournit par le provider)
 	{ 'id' : '3', 'login' : 'Mary', 'identifier' : 'blabla', 'external' : true , 'nbConn' : 0 }
 
-];*/
+];
 
 
 var findUserSQL = function(loginUser,password,callback) {
 
 	pool.getConnection(function (err, connection){
             if (err) throw err;
-            connection.query("SELECT * FROM user WHERE email='"+loginUser+"' AND password='"+password+"'", function(err, rows, fields) {
+            var md5 = require("../public/lib/md5.js").md5;
+            var hash=md5(password);
+            connection.query("SELECT * FROM user WHERE email='"+loginUser+"' AND password='"+hash+"'", function(err, rows, fields) {
                 connection.release();
                 console.log(rows);
                 if (err) return callback(null, null);

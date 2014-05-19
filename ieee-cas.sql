@@ -1,18 +1,26 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Dim 18 Mai 2014 à 00:55
--- Version du serveur: 5.5.25
--- Version de PHP: 5.4.4
+-- Généré le: Lun 19 Mai 2014 à 14:38
+-- Version du serveur: 5.6.12-log
+-- Version de PHP: 5.4.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `ieee-cas`
 --
+CREATE DATABASE IF NOT EXISTS `ieee-cas` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ieee-cas`;
 
 -- --------------------------------------------------------
 
@@ -20,7 +28,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `conference`
 --
 
-CREATE TABLE `conference` (
+CREATE TABLE IF NOT EXISTS `conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
@@ -52,7 +60,7 @@ INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adres
 -- Structure de la table `conference_tc_sponsor`
 --
 
-CREATE TABLE `conference_tc_sponsor` (
+CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tc_sponsor_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -67,7 +75,7 @@ CREATE TABLE `conference_tc_sponsor` (
 -- Structure de la table `model`
 --
 
-CREATE TABLE `model` (
+CREATE TABLE IF NOT EXISTS `model` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -87,7 +95,7 @@ INSERT INTO `model` (`id`, `name`) VALUES
 -- Structure de la table `node`
 --
 
-CREATE TABLE `node` (
+CREATE TABLE IF NOT EXISTS `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `model_id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -113,7 +121,7 @@ INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `created_at`, `updated
 -- Structure de la table `node_conference`
 --
 
-CREATE TABLE `node_conference` (
+CREATE TABLE IF NOT EXISTS `node_conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -128,7 +136,7 @@ CREATE TABLE `node_conference` (
 -- Structure de la table `sponsor`
 --
 
-CREATE TABLE `sponsor` (
+CREATE TABLE IF NOT EXISTS `sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `photo` mediumtext,
@@ -141,7 +149,7 @@ CREATE TABLE `sponsor` (
 -- Structure de la table `tasks_list`
 --
 
-CREATE TABLE `tasks_list` (
+CREATE TABLE IF NOT EXISTS `tasks_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -172,7 +180,7 @@ INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_
 -- Structure de la table `task_validation`
 --
 
-CREATE TABLE `task_validation` (
+CREATE TABLE IF NOT EXISTS `task_validation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `conference_id` int(11) NOT NULL,
   `tasks_list_id` int(11) NOT NULL,
@@ -204,7 +212,7 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 -- Structure de la table `tc_sponsor`
 --
 
-CREATE TABLE `tc_sponsor` (
+CREATE TABLE IF NOT EXISTS `tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `type` enum('tc','sponsor') DEFAULT NULL,
@@ -219,7 +227,7 @@ CREATE TABLE `tc_sponsor` (
 -- Structure de la table `tuto`
 --
 
-CREATE TABLE `tuto` (
+CREATE TABLE IF NOT EXISTS `tuto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -242,7 +250,7 @@ INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`) VALUES
 -- Structure de la table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -255,14 +263,15 @@ CREATE TABLE `user` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `birthday`, `affiliation`, `type`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 'tferrand@isep.fr', 'azerty', 'Thomas', 'Fe', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17');
+(1, 'tferrand@isep.fr', 'ab4f63f9ac65152575886860dde480a1', 'Thomas', 'Fe', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17'),
+(2, 'hvercier@isep.fr', 'a3aca2964e72000eea4c56cb341002a4', 'Hadrien', 'Vercier', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17');
 
 --
 -- Contraintes pour les tables exportées
@@ -307,3 +316,7 @@ ALTER TABLE `tasks_list`
 ALTER TABLE `task_validation`
   ADD CONSTRAINT `fk_task_validation_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_task_validation_tasks_list1` FOREIGN KEY (`tasks_list_id`) REFERENCES `tasks_list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
