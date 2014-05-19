@@ -152,6 +152,18 @@ io.sockets.on('connection', function (socket, pseudo) {
         });
     });
 
+    //get infos création conf
+    socket.on('create_conf', function(dataConf) {
+        pool.getConnection(function (err, connection){
+           connection.query('INSERT ', function(err, rows, fields) {
+               connection.release();
+               if (err) throw err;
+
+           });
+        });
+        console.log(dataConf);
+    });
+
 });
 
 
