@@ -12,7 +12,7 @@ $(document).ready(function(){
     }
 
 
-    //Quand on recoit les conference de l'utilisateur
+    //Quand on recoit les conferences de l'utilisateur
     socket.on('get_user_conferences', function(data){
     	for (var conferenceId in data.conferences){
     		$('#conferences-wrap').append(
@@ -348,7 +348,12 @@ $(document).ready(function(){
     
 	$('#new-adress-geocodify input').removeClass('geocodifyInput');
     $('#new-adress-geocodify input').addClass('form-control');
-	
 
+    
+
+    // $('#new-conference-btn').click(function(){
+    // 	socket.emit('create_tasks', 1);
+    // });
+    
 
 });
