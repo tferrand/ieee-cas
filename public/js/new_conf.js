@@ -4,22 +4,22 @@ $(document).ready(function(){
 	})
 
 	function needFix(field, error){
-	   if(erreur){
-			field.style.backgroundColor = "#fba";
+	   if(error == false){
+			field.css("border","1px solid red");
 		}
 		else{
-  	      	field.style.backgroundColor = "";
+  	      	field.css("background-color","");
   	  	}
 	}
 
-	function verifID(field){
-		if(field.value.length = 8){
-			needFix(field,true);
+	$('#new-id-ieee').blur(function(){
+		if($(this).val().length == 8){
+			needFix($(this),true);
 			return false;
 		}
 		else{
-			needFix(field,false);
+			needFix($(this),false);
 			return true;	
 		}
-	}
+	});
 });
