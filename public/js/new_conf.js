@@ -97,15 +97,15 @@ $(document).ready(function(){
 		//create table
 		var dataConf = new Array();
 		//var tcs = new Array();
-		dataConf['new-id-ieee'] = $('#new-id-ieee').val();
-		dataConf['new-title'] = $('#new-title').val();
-		dataConf['new-adress'] = $('#new-adress').val();
-		dataConf['new-description'] = $('#new-description').val();
+		dataConf['new_id_ieee'] = $('#new-id-ieee').val();
+		dataConf['new_title'] = $('#new-title').val();
+		dataConf['new_adress'] = $('#new-adress').val();
+		dataConf['new_description'] = $('#new-description').val();
 		// for (var i = 0, tab.lenght; )
-		dataConf['new-tcs'] = new Array();
+		dataConf['new_tcs'] = new Array();
 
 		$('#wrap_tc input:checked').each(function(n){
-			dataConf['new-tcs'][n] = $(this).attr('id');
+			dataConf['new_tcs'][n] = $(this).attr('id');
 		});
 
 		console.log(dataConf);
