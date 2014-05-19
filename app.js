@@ -149,7 +149,8 @@ io.sockets.on('connection', function (socket, pseudo) {
     //get infos création conf
     socket.on('create_conf', function(dataConf) {
         pool.getConnection(function (err, connection){
-           connection.query('INSERT ', function(err, rows, fields) {
+            //mettre le tableau en JSON pour que ça marche 
+           connection.query('INSERT INTO conference (id_iee) VALUES ('+dataConf.new_id_ieee+')', function(err, rows, fields) {
                connection.release();
                if (err) throw err;
 

@@ -92,8 +92,7 @@ $(document).ready(function(){
 		}
 	}
 
-
-	$('#new-conference-validate').click(function(){
+ 	$('#new-conference-validate').click(function(){
 		//create table
 		var dataConf = new Array();
 		//var tcs = new Array();
@@ -114,6 +113,7 @@ $(document).ready(function(){
 	    socket.emit('create_conf', dataConf);
 	  
 	});
+	
 
 	
 });
