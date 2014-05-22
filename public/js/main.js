@@ -61,7 +61,7 @@ $(document).ready(function(){
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
-						+'<span class="node-date" data-end_date="'+data.nodes[nodeId].end_date+'">('+data.nodes[nodeId].end_date+')</span>'
+						+'<span class="node-date" data-end_date="'+data.nodes[nodeId].end_date+'">('+calc_days(data.nodes[nodeId].end_date,getDate())+' days)</span>'
 						+'<span class="node-percentage"></span>'
 					+'</a>'
 					+'<ul></ul>'
@@ -272,6 +272,18 @@ $(document).ready(function(){
 	    return date;
 	}
 
+	function str_to_date(str){
+		var dt = new Date(parseInt(str.substring(0,5), 10),        // Year
+                  parseInt(str.substring(6, 8), 10) - 1, // Month (0-11)
+                  parseInt(str.substring(9), 10));    // Day
+		return dt;
+	}
+
+	function calc_days(date1, date2){
+		var distance = str_to_date(date1).getTime() - str_to_date(date2).getTime();
+		distance = Math.ceil(distance / 1000 / 60 / 60 / 24);
+		return distance;
+	}
 
     //Click on a node
 	$('ul.red-wire').on('click', '.node-title', function() {
