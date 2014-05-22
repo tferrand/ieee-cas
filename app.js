@@ -69,10 +69,10 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     //get nodes
-    socket.on('get_nodes', function(model_id) {
+    socket.on('get_nodes', function(model_id, conference_id) {
         pool.getConnection(function (err, connection){
             if (err) throw err;
-            connection.query('SELECT * from node WHERE model_id='+model_id, function(err, rows, fields) {
+            connection.query('SELECT * from node INNER JOIN node_conference ON node.id = node_conference.node_id WHERE node_conference.conference_id = '+conference_id+' AND model_id='+model_id, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
 
@@ -83,9 +83,9 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     //get tasks name and id
-    socket.on('get_tasks', function(node_id) {
+    socket.on('get_tasks', function(node_id, conference_id) {
         pool.getConnection(function (err, connection){
-            connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, task_validation.validation, task_validation.limit_date from tasks_list INNER JOIN task_validation ON tasks_list.id = task_validation.tasks_list_id  WHERE node_id ='+node_id, function(err, rows, fields) {
+            connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, task_validation.validation, task_validation.limit_date from tasks_list INNER JOIN task_validation ON tasks_list.id = task_validation.tasks_list_id  WHERE node_id ='+node_id+' AND task_validation.conference_id='+conference_id, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
 
@@ -148,31 +148,36 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     //get infos création conf
     socket.on('create_conf', function(dataConf) {
+        console.log(dataConf);
+
+        //we have to get the start_date and end_date here to calculate the period to put in node_conference
+        
         pool.getConnection(function (err, connection){
             //mettre le tableau en JSON pour que ça marche 
-           connection.query('INSERT INTO conference (id_iee) VALUES ('+dataConf.new_id_ieee+')', function(err, rows, fields) {
+           connection.query('INSERT INTO conference (id_iee, title, adress, description, user_id, model_id) VALUES ('+dataConf.new_id_ieee+',"'+dataConf.new_title+'","'+dataConf.new_adress+'","'+dataConf.new_description+'", 1, 1)', function(err, rows, fields) {
                connection.release();
                if (err) throw err;
+               console.log(rows.insertId);
 
+               select_tasks_list(rows.insertId); //create tasks for new conference
            });
         });
-        console.log(dataConf);
     });
 
-    //create tasks for new conference
-    socket.on('create_tasks', function(conference_id) {
+
+    function select_tasks_list(conference_id){
         pool.getConnection(function (err, connection){
             connection.query('SELECT tasks_list.id FROM tasks_list INNER JOIN node ON tasks_list.node_id = node.id WHERE node.model_id = 1 ORDER BY tasks_list.node_id', function(err, rows, fields) {
                 //connection.release();
                 if (err) throw err;
 
-                insert_validation(rows, conference_id);
+                create_task_validation(rows, conference_id);
                 
             });
-        });        
-    });
+        });
+    }
 
-    function insert_validation(tasks, conference_id){
+    function create_task_validation(tasks, conference_id){
         pool.getConnection(function (err, connection){
             for (var i = 0; i < tasks.length; i++) {
                 console.log(tasks[i].id);
@@ -184,7 +189,6 @@ io.sockets.on('connection', function (socket, pseudo) {
             }
         });
     }
-
 
 
 });

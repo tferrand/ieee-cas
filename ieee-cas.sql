@@ -1,26 +1,18 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 19 Mai 2014 à 14:38
--- Version du serveur: 5.6.12-log
--- Version de PHP: 5.4.12
+-- Généré le: Jeu 22 Mai 2014 à 23:07
+-- Version du serveur: 5.5.25
+-- Version de PHP: 5.4.4
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `ieee-cas`
 --
-CREATE DATABASE IF NOT EXISTS `ieee-cas` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `ieee-cas`;
 
 -- --------------------------------------------------------
 
@@ -28,13 +20,13 @@ USE `ieee-cas`;
 -- Structure de la table `conference`
 --
 
-CREATE TABLE IF NOT EXISTS `conference` (
+CREATE TABLE `conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
   `id_iee` int(11) NOT NULL,
   `title` varchar(45) DEFAULT NULL,
-  `adress` varchar(90) DEFAULT NULL,
+  `adress` varchar(255) DEFAULT NULL,
   `description` text,
   `start` datetime DEFAULT NULL,
   `end` datetime DEFAULT NULL,
@@ -45,14 +37,14 @@ CREATE TABLE IF NOT EXISTS `conference` (
   PRIMARY KEY (`id`,`user_id`,`model_id`),
   KEY `fk_conference_user1_idx` (`user_id`),
   KEY `fk_conference_model1_idx` (`model_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `conference`
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', 85, NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
+(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', 71, NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
 
 -- --------------------------------------------------------
 
@@ -60,7 +52,7 @@ INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adres
 -- Structure de la table `conference_tc_sponsor`
 --
 
-CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
+CREATE TABLE `conference_tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tc_sponsor_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -75,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
 -- Structure de la table `model`
 --
 
-CREATE TABLE IF NOT EXISTS `model` (
+CREATE TABLE `model` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -95,11 +87,12 @@ INSERT INTO `model` (`id`, `name`) VALUES
 -- Structure de la table `node`
 --
 
-CREATE TABLE IF NOT EXISTS `node` (
+CREATE TABLE `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `model_id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `node_nbr` int(11) DEFAULT NULL,
+  `period` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`model_id`),
@@ -110,10 +103,10 @@ CREATE TABLE IF NOT EXISTS `node` (
 -- Contenu de la table `node`
 --
 
-INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Node 1', 1, '2014-05-05 13:53:28', '2014-05-05 13:53:28'),
-(2, 1, 'Node 2', 2, '2014-05-05 13:53:49', '2014-05-05 13:53:49'),
-(3, 1, 'Node 3', 3, '2014-05-05 13:54:22', '2014-05-05 13:54:22');
+INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `period`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Node 1', 1, 0, '2014-05-05 13:53:28', '2014-05-05 13:53:28'),
+(2, 1, 'Node 2', 2, 0, '2014-05-05 13:53:49', '2014-05-05 13:53:49'),
+(3, 1, 'Node 3', 3, 0, '2014-05-05 13:54:22', '2014-05-05 13:54:22');
 
 -- --------------------------------------------------------
 
@@ -121,14 +114,25 @@ INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `created_at`, `updated
 -- Structure de la table `node_conference`
 --
 
-CREATE TABLE IF NOT EXISTS `node_conference` (
+CREATE TABLE `node_conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   PRIMARY KEY (`id`,`node_id`,`conference_id`),
   KEY `fk_node_conference_node1_idx` (`node_id`),
   KEY `fk_node_conference_conference1_idx` (`conference_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Contenu de la table `node_conference`
+--
+
+INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`) VALUES
+(1, 1, 1, '2014-05-22', '2014-05-31'),
+(2, 2, 1, '2014-05-23', '2014-06-06'),
+(3, 1, 1, '2014-05-24', '2014-06-09');
 
 -- --------------------------------------------------------
 
@@ -136,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `node_conference` (
 -- Structure de la table `sponsor`
 --
 
-CREATE TABLE IF NOT EXISTS `sponsor` (
+CREATE TABLE `sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `photo` mediumtext,
@@ -149,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `sponsor` (
 -- Structure de la table `tasks_list`
 --
 
-CREATE TABLE IF NOT EXISTS `tasks_list` (
+CREATE TABLE `tasks_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -180,7 +184,7 @@ INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_
 -- Structure de la table `task_validation`
 --
 
-CREATE TABLE IF NOT EXISTS `task_validation` (
+CREATE TABLE `task_validation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `conference_id` int(11) NOT NULL,
   `tasks_list_id` int(11) NOT NULL,
@@ -191,20 +195,20 @@ CREATE TABLE IF NOT EXISTS `task_validation` (
   PRIMARY KEY (`id`,`conference_id`,`tasks_list_id`),
   KEY `fk_task_validation_conference1_idx` (`conference_id`),
   KEY `fk_task_validation_tasks_list1_idx` (`tasks_list_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
 
 --
 -- Contenu de la table `task_validation`
 --
 
 INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `limit_date`, `created_at`, `updated_at`) VALUES
-(3, 1, 1, 1, '2014-05-10', '2014-05-08 01:59:34', '2014-05-08 01:59:34'),
-(4, 1, 2, 1, NULL, '2014-05-08 01:59:49', '2014-05-08 01:59:49'),
-(5, 1, 3, 1, NULL, '2014-05-08 01:59:59', '2014-05-08 01:59:59'),
-(6, 1, 4, 1, NULL, '2014-05-08 17:10:30', '2014-05-08 17:10:30'),
-(7, 1, 5, 0, '2014-05-22', '2014-05-08 19:06:41', '2014-05-08 19:06:41'),
-(8, 1, 6, 1, NULL, '2014-05-08 19:10:00', '2014-05-08 19:10:00'),
-(9, 1, 7, 1, NULL, '2014-05-08 19:21:47', '2014-05-08 19:21:47');
+(80, 1, 1, 1, NULL, NULL, NULL),
+(81, 1, 2, 1, NULL, NULL, NULL),
+(82, 1, 3, 0, NULL, NULL, NULL),
+(83, 1, 5, 1, NULL, NULL, NULL),
+(84, 1, 6, 0, NULL, NULL, NULL),
+(85, 1, 4, 1, NULL, NULL, NULL),
+(86, 1, 7, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -212,7 +216,7 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 -- Structure de la table `tc_sponsor`
 --
 
-CREATE TABLE IF NOT EXISTS `tc_sponsor` (
+CREATE TABLE `tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `type` enum('tc','sponsor') DEFAULT NULL,
@@ -227,22 +231,25 @@ CREATE TABLE IF NOT EXISTS `tc_sponsor` (
 -- Structure de la table `tuto`
 --
 
-CREATE TABLE IF NOT EXISTS `tuto` (
+CREATE TABLE `tuto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
+  `type` enum('tuto','tool') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `tuto`
 --
 
-INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`) VALUES
-(1, 1, 'Test tuto', 'http://www.google.com'),
-(2, 1, 'tuto 2', 'http://www.test.com'),
-(3, 3, 'netbeans', 'http://www.google.com');
+INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`, `type`) VALUES
+(1, 1, 'Test tuto', 'http://www.google.com', 'tuto'),
+(2, 1, 'tuto 2', 'http://www.test.com', 'tuto'),
+(3, 3, 'netbeans', 'http://www.google.com', 'tuto'),
+(4, 1, 'Tool 1', 'test', 'tool'),
+(5, 2, 'Eclipse', 'hey.com', 'tool');
 
 -- --------------------------------------------------------
 
@@ -250,7 +257,7 @@ INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`) VALUES
 -- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -271,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `birthday`, `affiliation`, `type`, `photo`, `created_at`, `updated_at`) VALUES
 (1, 'tferrand@isep.fr', 'ab4f63f9ac65152575886860dde480a1', 'Thomas', 'Fe', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17'),
-(2, 'hvercier@isep.fr', 'a3aca2964e72000eea4c56cb341002a4', 'Hadrien', 'Vercier', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17');
+(2, 'vp@isep.fr', 'vp', 'VP', 'VP', NULL, NULL, 'vpConference', NULL, '2014-05-18 15:16:26', '2014-05-18 15:16:26');
 
 --
 -- Contraintes pour les tables exportées
@@ -316,7 +323,3 @@ ALTER TABLE `tasks_list`
 ALTER TABLE `task_validation`
   ADD CONSTRAINT `fk_task_validation_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_task_validation_tasks_list1` FOREIGN KEY (`tasks_list_id`) REFERENCES `tasks_list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

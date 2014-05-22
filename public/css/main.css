@@ -3,7 +3,7 @@ html {
 }
 body {
 	font-family:sans-serif;
-	max-width: 700px;
+	max-width: 730px;
 	margin: 20px auto 50px auto;
 	/*background: #1f1f1f;*/
 	text-align: center;
@@ -16,7 +16,7 @@ ul {
 	margin: 0; padding: 0;
 	text-align: left;
 }
-body > ul.red-wire {
+body  ul.red-wire {
 	margin-bottom: 30px;
 	padding:20px;
 	/*border: 1px solid #222;*/
@@ -26,16 +26,16 @@ body > ul.red-wire {
 	border-radius:3px;
 	box-shadow: inset #f6f6f6 0 -5px 10px;
 }
-body > ul.red-wire > li.node-list{
+body  ul.red-wire > li.node-list{
 	position: relative;
 	padding-bottom: 20px;
 	border-left: 5px solid green;
 }
-body > ul.red-wire > li.node-list:last-child{
+body  ul.red-wire > li.node-list:last-child{
 	padding-bottom:0;
 }
 
-body > ul.red-wire > li.node-list > a.node-a {
+body  ul.red-wire > li.node-list > a.node-a {
 	cursor: default;
 	display: block;
 	outline: 0;
@@ -54,15 +54,15 @@ body > ul.red-wire > li.node-list > a.node-a {
 	@include filter-gradient(#444, #333, horizontal);
 }
 
-body > ul.red-wire > li.node-list:last-child > a.node-a{
+body  ul.red-wire > li.node-list:last-child > a.node-a{
 	padding-bottom:0;
 }
 
-body > ul.red-wire > li.node-list > a.node-a:hover{
+body  ul.red-wire > li.node-list > a.node-a:hover{
 	/*text-decoration:underline;*/
 }
 
-body > ul.red-wire > li.node-list > ul {
+body  ul.red-wire > li.node-list > ul {
 	counter-reset: items;
 	height: 0;
 	overflow: hidden;
@@ -72,7 +72,7 @@ body > ul.red-wire > li.node-list > ul {
 	@include box-shadow(inset 0 0 50px #BBB);
 }
 
-body > ul.red-wire > li.node-list > ul > li.task {
+body  ul.red-wire > li.node-list > ul > li.task {
 	counter-increment: items;
 	padding:7px;
 	margin-left:20px;
@@ -88,18 +88,18 @@ body > ul.red-wire > li.node-list > ul > li.task {
 	box-shadow: inset white 0 -5px 10px;
 }
 
-body > ul.red-wire > li.node-list:last-child > ul > li.task:first-child{
+body  ul.red-wire > li.node-list:last-child > ul > li.task:first-child{
 	margin-top:20px;
 }
 
-body > ul.red-wire > li.node-list > ul > li.task:hover {
+body  ul.red-wire > li.node-list > ul > li.task:hover {
 	background-color:white;
 	border: 1px solid #ccc;
 	border-radius:3px;
 	box-shadow: inset #f6f6f6 0 -5px 10px;
 }
 
-body > ul.red-wire > li.node-list > ul > li.task:active {
+body  ul.red-wire > li.node-list > ul > li.task:active {
 	background: #fafafa;
 	border: 1px solid #ddd;
 	border-radius: 3px;
@@ -125,7 +125,7 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	border: 2px solid;
 }
 
-.node-tuto{
+.node-tuto, .node-tool{
 	margin-left: 10px;
 	border-radius:3px;
 	color:grey;
@@ -136,7 +136,7 @@ body > ul.red-wire > li.node-list > ul > li.task:active {
 	cursor: pointer;
 }
 
-.node-tuto:hover{
+.node-tuto:hover, .node-tool:hover{
 	color:white;
 	background-color: grey;
 }
@@ -304,7 +304,7 @@ li.task span.glyphicon.glyphicon-ok{
 	margin-bottom:0;
 }
 
-.btn a{
+.btn-info a{
 	color:white;
 	text-decoration:none;
 }

@@ -1,6 +1,4 @@
 $(document).ready(function(){
-	// Connexion à socket.io
-    var socket = io.connect('http://localhost:8080');
 	
 
     var location_url = $(location).attr('href');
@@ -49,7 +47,7 @@ $(document).ready(function(){
     	$model_id=data.conference[0].model_id;
 
     	//On fait une demande au serveur pour récupérer les noeuds
-    	socket.emit('get_nodes', $model_id);
+    	socket.emit('get_nodes', $model_id, $('#conf-id').data('conference_id'));
     });
 
     // Quand on reçoit les noeuds
@@ -63,30 +61,38 @@ $(document).ready(function(){
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
+						+'<span class="node-date" data-end_date="'+data.nodes[nodeId].end_date+'">('+data.nodes[nodeId].end_date+')</span>'
 						+'<span class="node-percentage"></span>'
 					+'</a>'
 					+'<ul></ul>'
 				+'</li>');
 
-    		//Add tooltip to nodes
-    		$(".node-title").each(function(n){
-				if($(this).parent().data("openable") == "yes"){
-					$(this).attr("data-toggle","tooltip");
-					$(this).attr("data-original-title","View the tasks of this node");
-				} else {
-					$(this).attr("data-toggle","tooltip");
-					$(this).attr("data-original-title","This node is blocked for now");
-				}
-			});
-
-			//Task tooltip
-			$('.node-title').tooltip({
-				placement:'left'
-			});
-
-    		socket.emit('get_tasks', data.nodes[nodeId].id);
+    		socket.emit('get_tasks', data.nodes[nodeId].id, $('#conf-id').data('conference_id'));
     		socket.emit('get_tutos', data.nodes[nodeId].id);
     	}
+
+    	//Add tooltip to nodes
+		$(".node-title").each(function(n){
+			if($(this).parent().data("openable") == "yes"){
+				$(this).attr("data-toggle","tooltip");
+				$(this).attr("data-original-title","View the tasks of this node");
+			} else {
+				$(this).attr("data-toggle","tooltip");
+				$(this).attr("data-original-title","This node is blocked for now");
+			}
+		});
+
+		//Si la date de fin du noeud est dépassée on l'affiche en rouge
+		$('.node-date').each(function(n){
+			if($(this).data('end_date') < getDate()){
+				$(this).addClass('red');
+			}
+		});
+
+		//Task tooltip
+		$('.node-title').tooltip({
+			placement:'left'
+		});
 
     });
 
@@ -171,36 +177,82 @@ $(document).ready(function(){
     //Quand on recoit les tutos
     socket.on('get_tutos', function(data){
     	//console.log(data.tutos.length);
+    	console.log("length : "+data.tutos[0].name);
     	if(data.tutos.length != 0){
-    		$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials available</span>');
+    		typeTuto = false;
+    		tutoPos = 0;
+    		typeTool = false;
+    		toolPos = 0;
+
+    		for (var pos in data.tutos){
+    			if(data.tutos[pos].type == 'tuto'){
+    				typeTuto = true;
+    				tutoPos = pos;
+    			} else {
+    				typeTool = true;
+    				toolPos = pos;
+    			}
+    		}
+
+    		if(typeTuto){
+    			$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tuto" data-node_id="'+data.tutos[0].node_id+'">Tutorials available</span>');
+    		} 
+    		if(typeTool){
+    			$('#node_id_'+data.tutos[0].node_id+' .node-a').append('<span class="node-tool" data-node_id="'+data.tutos[0].node_id+'">Tools available</span>');
+    		}
+    		
     	}
 
     	for (var position in data.tutos){
-    		$('#tuto-modal #tuto-modal-body').append(
-    			'<div class="panel panel-default" data-node_id="'+data.tutos[position].node_id+'">'
-					+'<div class="panel-heading">'
-						+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
+    		if(data.tutos[position].type == 'tuto'){
+    			$('#tuto-modal #tuto-modal-body').append(
+	    			'<div class="panel panel-default" data-node_id="'+data.tutos[position].node_id+'">'
+						+'<div class="panel-heading">'
+							+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
+						+'</div>'
+						+'<div class="panel-body">'
+							+'<a href="#">'+data.tutos[position].link+'</a>'
+						+'</div>'
 					+'</div>'
-					+'<div class="panel-body">'
-						+'<a href="#">'+data.tutos[position].link+'</a>'
+	    		);
+    		} else {
+    			$('#tool-modal #tool-modal-body').append(
+	    			'<div class="panel panel-default" data-node_id="'+data.tutos[position].node_id+'">'
+						+'<div class="panel-heading">'
+							+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
+						+'</div>'
+						+'<div class="panel-body">'
+							+'<a href="#">'+data.tutos[position].link+'</a>'
+						+'</div>'
 					+'</div>'
-				+'</div>'
-    		);
+	    		);
+    		}
     	}
     });
 
     //Dynamic click on a tutorial button
-    $('ul.red-wire').on('click', '.node-tuto',function(){
+    $('ul.red-wire').on('click', '.node-tuto, .node-tool',function(){
     	$cliked_node_id = $(this).data('node_id');
-    	$('#tuto-modal #tuto-modal-body .panel.panel-default').each(function(n){
-    		if($(this).data('node_id') == $cliked_node_id){
-    			$(this).show();
-    		} else {
-    			$(this).hide();
-    		}
-    	});
 
-    	$('#tuto-modal').modal("show");
+    	if($(this).hasClass('node-tuto')){
+    		$('#tuto-modal #tuto-modal-body .panel.panel-default').each(function(n){
+	    		if($(this).data('node_id') == $cliked_node_id){
+	    			$(this).show();
+	    		} else {
+	    			$(this).hide();
+	    		}
+	    	});
+	    	$('#tuto-modal').modal("show");
+    	} else if ($(this).hasClass('node-tool')){
+    		$('#tool-modal #tool-modal-body .panel.panel-default').each(function(n){
+	    		if($(this).data('node_id') == $cliked_node_id){
+	    			$(this).show();
+	    		} else {
+	    			$(this).hide();
+	    		}
+	    	});
+	    	$('#tool-modal').modal("show");
+    	}
     });
 
 
@@ -349,12 +401,5 @@ $(document).ready(function(){
 	$('#new-adress-geocodify input').removeClass('geocodifyInput');
     $('#new-adress-geocodify input').addClass('form-control');
 
-    
-
-    // $('#new-conference-btn').click(function(){
-    // 	socket.emit('create_tasks', 1);
-    // });
-    
-   
 
 });
