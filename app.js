@@ -16,13 +16,11 @@ var nodemailer = require("nodemailer");
 
 var cronJob = require('cron').CronJob;
 var job = new cronJob({
-  cronTime: '00 30 01 * * 0-6',
+  cronTime: '45 12 10 * * 0-6',
   onTick: function() {
     // Runs every weekday (Monday through Friday)
     // at 11:30:00 AM. It does not run on Saturday
     // or Sunday.
-    console.log('hey bo gosse !');
-
     pool.getConnection(function (err, connection){
         if (err) throw err;
         connection.query('SELECT user.email, node.name, node_conference.end_date, conference.title from node INNER JOIN node_conference ON node.id=node_conference.node_id INNER JOIN conference ON node_conference.conference_id=conference.id INNER JOIN user ON conference.user_id=user.id WHERE NOW() >= date_sub(node_conference.end_date,interval 5 day)', function(err, rows, fields) {
@@ -35,16 +33,27 @@ var job = new cronJob({
                 console.log('Vous avez jusqu\'au '+rows[cronPos].end_date+' pour valider le noeud "'+rows[cronPos].name+'".');
                 console.log('');
 
-                var transport = nodemailer.createTransport("Sendmail");
+                var transport = nodemailer.createTransport("SMTP", {
+                    service: "Gmail",
+                    auth: {
+                        user: "reminder.ieee.cas@gmail.com",
+                        pass: "passieee"
+                    }
+                });
 
                 var mailOptions = {
-                    from: "notif@ieeecas.com",
+                    from: "tomscoop91@gmail.com",
                     to: rows[cronPos].email,
                     subject: "Reminder IEEE-CAS",
-                    text: "You have til "+rows[cronPos].end_date+" to validate node "+rows[cronPos].name+"."
+                    text: "Conference "+rows[cronPos].title+" : You have til "+rows[cronPos].end_date+" to validate node "+rows[cronPos].name+"."
                 }
 
-                transport.sendMail(mailOptions);
+                transport.sendMail(mailOptions, function(error, responseStatus){
+                    if(!error){
+                        console.log(responseStatus.message); // response from the server
+                        console.log(responseStatus.messageId); // Message-ID value used
+                    }
+                });
                 
             }
         });
