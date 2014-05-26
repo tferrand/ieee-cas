@@ -130,6 +130,17 @@ $(document).ready(function(){
 		}
 	}
 
+	//Verification of dates
+	function verifDates(){
+		var start_date = $('new-start-date').value;
+		var end_date = $('new-end-date').val();
+	    
+	    if (start_date.toISOString() == "") {
+	        alert('gj');
+	    } else {
+	        alert(start_date.toISOString());
+    	}
+    }
 
 
 	//Verification of adress

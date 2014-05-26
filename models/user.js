@@ -4,16 +4,7 @@ var pool=require('../config/connection_db').initPool();
 
 // On stocke les utilisateurs dans un tableau javascript statique pour l'exemple
 
-var tabUser = [
 
-	// Utilisateurs internes
-	{ 'id' : '1', 'login' : 'tferrand@isep.fr', 'password'   : 'secret', 'external' : false, 'nbConn' : 0 },
-	{ 'id' : '2', 'login' : 'tferrand2@isep.fr', 'password'   : 'Doe'   , 'external' : false, 'nbConn' : 0 },
-
-	// utilisateurs externes (identifier unique fournit par le provider)
-	{ 'id' : '3', 'login' : 'Mary', 'identifier' : 'blabla', 'external' : true , 'nbConn' : 0 }
-
-];
 
 
 var findUserSQL = function(loginUser,password,callback) {
@@ -25,8 +16,25 @@ var findUserSQL = function(loginUser,password,callback) {
             connection.query("SELECT * FROM user WHERE email='"+loginUser+"' AND password='"+hash+"'", function(err, rows, fields) {
                 connection.release();
                 console.log(rows);
-                if (err) return callback(null, null);
                 return callback(null, rows[0]);
+
+                
+            });
+        });
+	
+
+};
+
+var findUserSQLById = function(id,callback) {
+
+	pool.getConnection(function (err, connection){
+            if (err) throw err;
+            
+            connection.query("SELECT * FROM user WHERE id="+id, function(err, rows, fields) {
+                connection.release();
+                if (err) return callback(null, null);
+                callback(null, rows[0]);
+                return;
 
                 
             });
@@ -39,114 +47,10 @@ var findUserSQL = function(loginUser,password,callback) {
 
 
 
-/**
- * Retourne l'utilisateur interne possédant le login spécifié
- * @param {string}              loginUser Login à rechercher
- * @param {function(*, object)} callback  Méthode à appeler en retour => (erreur, utilisateur)
- */
-var findUserByLogin = function(loginUser, callback) {
-
-	for(idx in tabUser){
-
-		// Utilisateur identifié depuis un service externe
-		if(tabUser[idx].external) continue;
-
-		// Utilisateur interne
-		if(tabUser[idx].login == loginUser){
-			callback(null, tabUser[idx]);
-			return;
-		}
-
-	}
-
-	// Login indiqué inexistant
-	callback(null, null);
-
-};
-
-/**
- * Retourne l'utilisateur possédant l'identifiant spécifié 
- * @param {number}              idUser   ID à rechercher
- * @param {function(*, object)} callback Méthode à appeler en retour => (erreur, utilisateur)
- */
-var findUserById = function(idUser, callback) {
-
-	for(idx in tabUser){
-
-		// Utilisateur interne
-		if(tabUser[idx].id == idUser){
-			callback(null, tabUser[idx]);
-			return;
-		}
-
-	}
-
-	callback('findUserById | Utilisateur introuvable : ' + idUser, null);
-
-};
-
-/**
- * Retourne l'utilisateur externe possédant l'indentifiant spécifié 
- * On se base sur le champ IDENTIFIER
- * @param {string}              identifier ID à rechercher
- * @param {function(*, object)} callback   Méthode à appeler en retour => (erreur, utilisateur)
- */
-var findExternalUserById = function(identifier, callback) {
-
-	for(idx in tabUser){
-
-		// Utilisateur interne
-		if(tabUser[idx].internal) continue;
-
-		// Utilisateur externe
-		if(tabUser[idx].identifier == identifier){
-			callback(null, tabUser[idx]);
-			return;
-		}
-
-	}
-
-	// Pas d'user correspondant, il sera créé.
-	callback(null, null);
-
-};
-
-
-/**
- * Retourne l'utilisateur possédant l'indentifiant spécifié
- * Si l'utilisateur externe n'existe pas, on le crée avant de le retourner.
- * Utilisateur externe : Utilisateur authentifié via un service externe
- * @param {string}              identifier ID à rechercher
- * @param {function(*, object)} callback   Méthode à appeler en retour => (erreur, utilisateur)
- */
-var findOrCreateExternalUserById = function(identifier, callback) {
-	
-	findExternalUserById(identifier, function(err, user){
-
-		if(err)  { callback(err, null); return; };
-		if(user) { callback(err, user); return; };
-
-		var newUser = {
-			'id'         : tabUser.length + 1, 
-			'login'      : 'Utilisateur externe', // A adapter selon le provider
-			'identifier' : identifier, 
-			'external'   : true,
-			'nbConn'     : 0
-		};
-
-		tabUser.push(newUser);
-		callback(null, newUser);
-		
-	});
-
-};
-
 
 // On exporte les fonctions pouvant être accessibles depuis les autres modules
 module.exports = {
 	'findUserSQL'				   : findUserSQL,
-	'findUserByLogin'              : findUserByLogin,
-	'findUserById'                 : findUserById,
-	'findOrCreateExternalUserById' : findOrCreateExternalUserById
+	'findUserSQLById'			   : findUserSQLById
 
 }
