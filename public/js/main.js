@@ -6,7 +6,7 @@ $(document).ready(function(){
     if(location_url.indexOf("conference") >= 0){
     	socket.emit('get_conference', $("#conf-id").data('conference_id_ieee'));
     } else {
-    	socket.emit('get_user_conferences', $('#user_id').data('user_id'));
+    	socket.emit('get_user_conferences', $('#user_id').data('user_id'),$('#user_type').data('user_type'));
     }
 
 
@@ -29,7 +29,7 @@ $(document).ready(function(){
 				            +'</div>'
 				            +'<span class="progress-completed">'+data.conferences[conferenceId].progression+'%</span>'
 				        +'</div>'
-						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">Voir le fil rouge</a></button>'
+						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">See the red wire</a></button>'
 					+'</div>'
 				+'</div>'
     		);
@@ -350,6 +350,7 @@ $(document).ready(function(){
 		percentage = parseInt((percentage/nbr_tasks)*100);
 
 		$('li#node_id_'+node_id+' .node-percentage').text(percentage+'%');
+		socket.emit('update_node_progression',$('#conf-id').data('conference_id'),node_id,percentage);
 		
 		if(percentage == 100){
 			updateColor(node_id, 'green');

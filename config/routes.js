@@ -30,7 +30,7 @@ module.exports = function(app){
 	app.get('/home', myPassport.ensureAuthenticated, function(req, res, next){
 
 		// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
-		res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.login, 'nbConn' : req.user.nbConn, 'type' : req.user.external ? 'externe' : 'interne' } };
+		res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type  } };
 		return res.render('home');
 
 	});
@@ -44,12 +44,12 @@ module.exports = function(app){
                 connection.release();
                 if (err) throw err;
 
-                if(req.params.login == req.user.login && rows[0].user_id == req.user.id){
+                if((req.params.email == req.user.login && rows[0].user_id == req.user.id)||req.user.type=="vpConference"){
 					// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
-					res.locals = { 'conference' : {'id' : req.params.id}, 'user' : { 'id' : req.user.id, 'login' : req.user.login, 'nbConn' : req.user.nbConn, 'type' : req.user.external ? 'externe' : 'interne' } };
+					res.locals = { 'conference' : {'id' : req.params.id}, 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type } };
 					return res.render('filrouge');
 				} else {
-					res.locals = { 'owner' : {'id' : rows[0].user_id}, 'user' : { 'id' : req.user.id, 'login' : req.user.login,  'type' : req.user.external ? 'externe' : 'interne'} };
+					res.locals = { 'owner' : {'id' : rows[0].user_id}, 'user' : { 'id' : req.user.id, 'login' : req.user.email,  'type' : req.user.type} };
 					return res.render('private');
 				}
             });
