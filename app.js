@@ -95,10 +95,14 @@ console.log('');
 io.sockets.on('connection', function (socket, pseudo) {
 
     //get conf of user
-    socket.on('get_user_conferences', function(user_id) {
+    socket.on('get_user_conferences', function(user_id,user_type) {
         pool.getConnection(function (err, connection){
             if (err) throw err;
-            connection.query('SELECT * from conference WHERE user_id = '+user_id, function(err, rows, fields) {
+            var request='SELECT * from conference WHERE user_id = '+user_id;
+            if(user_type="vpConference"){
+                request='SELECT * from conference ';
+            }
+            connection.query(request, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
 

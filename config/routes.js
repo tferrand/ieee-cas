@@ -44,7 +44,7 @@ module.exports = function(app){
                 connection.release();
                 if (err) throw err;
 
-                if(req.params.email == req.user.login && rows[0].user_id == req.user.id){
+                if((req.params.email == req.user.login && rows[0].user_id == req.user.id)||req.user.type=="vpConference"){
 					// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
 					res.locals = { 'conference' : {'id' : req.params.id}, 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type } };
 					return res.render('filrouge');
