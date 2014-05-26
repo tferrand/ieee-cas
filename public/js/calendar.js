@@ -5,6 +5,28 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
+	socket.emit('get_user_conferences', 1);
+	
+	socket.on('get_user_conferences', function(data){
+    	console.log(data);
+		for (var conferenceId in data.conferences){
+    		$('#conf-list').append(
+    			'<div class="conference-header accueil">'
+					+'<div class="conference-header-left">'
+						+'<h1>'+data.conferences[conferenceId].title+'</h1>'
+						+'<h2><b>ID : </b>'+data.conferences[conferenceId].id_iee+'</h2>'
+						+'<p><b>Lieu : </b>'+data.conferences[conferenceId].adress+'</p>'
+						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start.substr(0,10)+' to '+data.conferences[conferenceId].end.substr(0,10)+'</p>'
+					+'</div>'
+					+'<div class="conference-header-right">'
+				            +'</div>'
+				        +'</div>'
+					+'</div>'
+				+'</div>'
+    		);
+    	}
+    });
+	
 	$('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
