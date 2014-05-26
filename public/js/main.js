@@ -350,6 +350,7 @@ $(document).ready(function(){
 		percentage = parseInt((percentage/nbr_tasks)*100);
 
 		$('li#node_id_'+node_id+' .node-percentage').text(percentage+'%');
+		socket.emit('update_node_progression',$('#conf-id').data('conference_id'),node_id,percentage);
 		
 		if(percentage == 100){
 			updateColor(node_id, 'green');

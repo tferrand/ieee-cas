@@ -371,3 +371,7 @@ li.task span.glyphicon.glyphicon-ok{
 	width:auto;
 }
 
+#task-modal-link{
+	margin-top: 20px;
+	margin-bottom: 0px;
+}
