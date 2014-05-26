@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 22 Mai 2014 à 23:07
+-- Généré le: Lun 26 Mai 2014 à 13:54
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -37,14 +37,14 @@ CREATE TABLE `conference` (
   PRIMARY KEY (`id`,`user_id`,`model_id`),
   KEY `fk_conference_user1_idx` (`user_id`),
   KEY `fk_conference_model1_idx` (`model_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `conference`
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', 71, NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
+(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', 85, NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
 
 -- --------------------------------------------------------
 
@@ -120,6 +120,7 @@ CREATE TABLE `node_conference` (
   `conference_id` int(11) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
+  `progression` int(11) NOT NULL,
   PRIMARY KEY (`id`,`node_id`,`conference_id`),
   KEY `fk_node_conference_node1_idx` (`node_id`),
   KEY `fk_node_conference_conference1_idx` (`conference_id`)
@@ -129,10 +130,10 @@ CREATE TABLE `node_conference` (
 -- Contenu de la table `node_conference`
 --
 
-INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`) VALUES
-(1, 1, 1, '2014-05-22', '2014-05-31'),
-(2, 2, 1, '2014-05-23', '2014-06-06'),
-(3, 1, 1, '2014-05-24', '2014-06-09');
+INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`, `progression`) VALUES
+(1, 1, 1, '2014-05-22', '2014-05-28', 100),
+(2, 2, 1, '2014-05-23', '2014-05-25', 66),
+(3, 3, 1, '2014-05-24', '2014-06-09', 100);
 
 -- --------------------------------------------------------
 
@@ -195,7 +196,7 @@ CREATE TABLE `task_validation` (
   PRIMARY KEY (`id`,`conference_id`,`tasks_list_id`),
   KEY `fk_task_validation_conference1_idx` (`conference_id`),
   KEY `fk_task_validation_tasks_list1_idx` (`tasks_list_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 --
 -- Contenu de la table `task_validation`
@@ -204,7 +205,7 @@ CREATE TABLE `task_validation` (
 INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `limit_date`, `created_at`, `updated_at`) VALUES
 (80, 1, 1, 1, NULL, NULL, NULL),
 (81, 1, 2, 1, NULL, NULL, NULL),
-(82, 1, 3, 0, NULL, NULL, NULL),
+(82, 1, 3, 1, NULL, NULL, NULL),
 (83, 1, 5, 1, NULL, NULL, NULL),
 (84, 1, 6, 0, NULL, NULL, NULL),
 (85, 1, 4, 1, NULL, NULL, NULL),

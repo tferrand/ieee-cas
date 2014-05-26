@@ -1,14 +1,16 @@
 $(document).ready(function(){
 
 	$('#new-conference-validate').click(function(){
-		var tcOk = verifTC();
+		/*var tcOk = verifTC();
 		var idOk = verifID($('#new-id-ieee'));
 		var titleOk= verifTitle($('#new-title'));
 		var acronymOk = verifAcronym($('#new-acronym'));
+		var adressOk = verifAdress($('#new-adress-geocodify-input'));
+		var descriptionOk = verifDescription($('#new-description'));
 				 
 		if(tcOk && idOk && titleOk && acronymOk)
 		   return true;
-		else if(tcOk == false && idOk && titleOk && acronymOk){
+		else if(tcOk == false && idOk && titleOk && acronymOk && adressOk && descriptionOk){
 			alert("Vous n'avez pas selectionné assez de Technical Committees.")
 			return false;
 		}
@@ -16,7 +18,8 @@ $(document).ready(function(){
 		{
 		   alert("Veuillez remplir correctement tous les champs.");
 		   return false;
-		}
+		}*/
+		verifDates();
 	});
 
 	function needFix(field, error){
@@ -33,7 +36,6 @@ $(document).ready(function(){
 	$('#new-id-ieee').blur(function(){
 		verifID($(this));
 	});
-
 	function verifID(field){
 		if(field.val().length == 8){
 			needFix(field,true);
@@ -50,7 +52,6 @@ $(document).ready(function(){
 	$('#new-title').blur(function(){
 		verifTitle($(this));
 	});
-
 	function verifTitle(field){
 		if(field.val().length <= 45 && field.val().length>=4){
 			needFix(field,true);
@@ -67,7 +68,6 @@ $(document).ready(function(){
 	$('#new-acronym').blur(function(){
 		verifAcronym($(this))
 	});
-
 	function verifAcronym(field){
 		if(field.val().length <= 12 && field.val().length>=1){ //need to check acronym.length with Amara
 			needFix(field,true);
@@ -78,6 +78,52 @@ $(document).ready(function(){
 			return false;	
 		}
 	};	
+
+
+	//Verification of dates
+	function verifDates(){
+		var start_date = $('new-start-date').value;
+		var end_date = $('new-end-date').val();
+	    
+	    if (start_date.toISOString() == "") {
+	        alert('gj')
+	    } else {
+	        alert(start_date.toISOString())
+	    	}
+	    }
+
+
+	//Verification of adress
+	$('#new-adress-geocodify-input').blur(function(){
+		verifAdress($(this));
+	});
+	function verifAdress(field){
+		if(field.val().length > 0){
+			needFix(field,true);
+			return true;
+		}
+		else{
+			needFix(field,false);
+			return false;	
+		}
+	}
+
+
+	//Verification of description
+	$('#new-description').blur(function(){
+		verifDescription($(this));
+	});
+
+	function verifDescription(field){
+		if(field.val().length > 0){
+			needFix(field,true);
+			return true;
+		}
+		else{
+			needFix(field,false);
+			return false;	
+		}
+	}
 
 
 	//Verification checkbox TC
