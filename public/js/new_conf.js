@@ -1,25 +1,28 @@
 $(document).ready(function(){
 
 	$('#new-conference-validate').click(function(){
-		/*var tcOk = verifTC();
+		var tcOk = verifTC();
 		var idOk = verifID($('#new-id-ieee'));
 		var titleOk= verifTitle($('#new-title'));
 		var acronymOk = verifAcronym($('#new-acronym'));
+		var startDateOk = verifStartDate($('#new-start-date'));
+		var endDateOk = verifEndDate($('#new-end-date'));
+		var comparingDatesOk = comapringDates();
 		var adressOk = verifAdress($('#new-adress-geocodify-input'));
 		var descriptionOk = verifDescription($('#new-description'));
+		
 				 
-		if(tcOk && idOk && titleOk && acronymOk)
+		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk)
 		   return true;
-		else if(tcOk == false && idOk && titleOk && acronymOk && adressOk && descriptionOk){
-			alert("Vous n'avez pas selectionné assez de Technical Committees.")
+		else if(tcOk == false && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk &&  adressOk && descriptionOk){
+			alert("You didn't select enough Technical Committees.")
 			return false;
-		}
-		else
-		{
-		   alert("Veuillez remplir correctement tous les champs.");
+		} 
+		else {
+		   alert("Fill in all the fields.");
 		   return false;
-		}*/
-		verifDates();
+		}
+		comparingDates();
 	});
 
 	function needFix(field, error){
@@ -80,17 +83,64 @@ $(document).ready(function(){
 	};	
 
 
+	//Verification of starting date
+	$('#new-start-date').blur(function(){
+		verifStartDate($(this))
+	});
+	function verifStartDate(field){
+		var start_date = field.val();
+		console.log(start_date);
+
+	    if (start_date == "") {
+	        needFix(field,false);
+			return false;
+	    } else {
+	   		needFix(field,true);
+			return true;	
+	   	}
+	}
+
+	//Verification of ending date
+	$('#new-end-date').blur(function(){
+		verifEndDate($(this))
+	});
+	function verifEndDate(field){
+		var end_date = field.val();
+		console.log(end_date);
+
+	    if (end_date == "") {
+	        needFix(field,false);
+			return false;
+	    } else {
+	   		needFix(field,true);
+			return true;	
+	   	}
+	}
+
+	//Compare dates
+	function comparingDates(){
+		var start_date = $('#new-start-date').val();
+		var end_date = $('#new-end-date').val();
+		if (new Date(end_date) < new Date(start_date)) {
+			alert('Wrong dates.');
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	//Verification of dates
 	function verifDates(){
 		var start_date = $('new-start-date').value;
 		var end_date = $('new-end-date').val();
 	    
 	    if (start_date.toISOString() == "") {
-	        alert('gj')
+	        alert('gj');
 	    } else {
-	        alert(start_date.toISOString())
-	    	}
-	    }
+	        alert(start_date.toISOString());
+    	}
+    }
 
 
 	//Verification of adress

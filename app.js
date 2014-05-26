@@ -115,7 +115,6 @@ io.sockets.on('connection', function (socket, pseudo) {
     //get conf
     socket.on('get_conference', function(conference_id) {
         pool.getConnection(function (err, connection){
-            if (err) throw err;
             connection.query('SELECT * from conference WHERE id_iee = '+conference_id, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
@@ -129,7 +128,6 @@ io.sockets.on('connection', function (socket, pseudo) {
     //get nodes
     socket.on('get_nodes', function(model_id, conference_id) {
         pool.getConnection(function (err, connection){
-            if (err) throw err;
             connection.query('SELECT * from node INNER JOIN node_conference ON node.id = node_conference.node_id WHERE node_conference.conference_id = '+conference_id+' AND model_id='+model_id, function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
@@ -220,43 +218,58 @@ io.sockets.on('connection', function (socket, pseudo) {
         console.log(dataConf);
 
         //we have to get the start_date and end_date here to calculate the period to put in node_conference
-        
         pool.getConnection(function (err, connection){
-            //mettre le tableau en JSON pour que ça marche 
-           connection.query('INSERT INTO conference (id_iee, title, adress, description, user_id, model_id) VALUES ('+dataConf.new_id_ieee+',"'+dataConf.new_title+'","'+dataConf.new_adress+'","'+dataConf.new_description+'", 1, 1)', function(err, rows, fields) {
-               connection.release();
-               if (err) throw err;
-               console.log(rows.insertId);
+            
+            connection.query('INSERT INTO conference (id_iee, title, adress, description, user_id, model_id) VALUES ('+dataConf.new_id_ieee+',"'+dataConf.new_title+'","'+dataConf.new_adress+'","'+dataConf.new_description+'", 1, 1)', function(err, rows, fields) {
+               
+                if (err) throw err;
+               
+                select_node_list(connection, rows.insertId); //create node for new conference
+                select_tasks_list(connection, rows.insertId); //create tasks for new conference
 
-               select_tasks_list(rows.insertId); //create tasks for new conference
-           });
+                connection.release();
+            });
         });
     });
 
 
-    function select_tasks_list(conference_id){
-        pool.getConnection(function (err, connection){
-            connection.query('SELECT tasks_list.id FROM tasks_list INNER JOIN node ON tasks_list.node_id = node.id WHERE node.model_id = 1 ORDER BY tasks_list.node_id', function(err, rows, fields) {
-                //connection.release();
-                if (err) throw err;
+    function select_tasks_list(connection, conference_id){
+        connection.query('SELECT tasks_list.id FROM tasks_list INNER JOIN node ON tasks_list.node_id = node.id WHERE node.model_id = 1 ORDER BY tasks_list.node_id', function(err, rows, fields) {
+            if (err) throw err;
 
-                create_task_validation(rows, conference_id);
-                
-            });
+            create_task_validation(rows, conference_id);
+            
         });
     }
 
-    function create_task_validation(tasks, conference_id){
-        pool.getConnection(function (err, connection){
-            for (var i = 0; i < tasks.length; i++) {
-                console.log(tasks[i].id);
-                connection.query('INSERT INTO task_validation (conference_id, tasks_list_id) VALUES ('+conference_id+', '+tasks[i].id+')', function(err, rows, fields) {
-                    connection.release();
-                    if (err) throw err;
+    function create_task_validation(connection, tasks, conference_id){
+        for (var i = 0; i < tasks.length; i++) {
+            console.log(tasks[i].id);
+            connection.query('INSERT INTO task_validation (conference_id, tasks_list_id) VALUES ('+conference_id+', '+tasks[i].id+')', function(err, rows, fields) {
+                if (err) throw err;
 
-                });
-            }
+            });
+        }
+    }
+
+    function select_node_list(connection, conference_id){
+        connection.query('SELECT id FROM node WHERE model_id = 1 ORDER BY node_nbr', function(err, rows, fields) {
+            if (err) throw err;
+
+            create_node_conference(rows, conference_id);
+            
         });
+    }
+
+    function create_node_conference(connection, nodes, conference_id){
+        for (var i = 0; i < nodes.length; i++) {
+            console.log(nodes[i].id);
+            connection.query('INSERT INTO node_conference (node_id, conference_id, progression) VALUES ('+nodes[i].id+', '+conference_id+', 0)', function(err, rows, fields) {
+                connection.release();
+                if (err) throw err;
+
+            });
+        }
     }
 
 
