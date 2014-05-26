@@ -4,6 +4,7 @@ var pool = mysql.createPool({
     password : '',
     host     : 'localhost',
     database: 'ieee-cas',
+    port : '8889',
     dateStrings : true,
 });
 
