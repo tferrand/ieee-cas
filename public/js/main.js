@@ -16,10 +16,10 @@ $(document).ready(function(){
     		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
 					+'<div class="conference-header-left">'
-						+'<h1>'+data.conferences[conferenceId].title+'</h1>'
+						+'<h1>'+data.conferences[conferenceId].title+'('+data.conferences[conferenceId].acronym+')</h1>'
 						+'<h2><b>ID : </b>'+data.conferences[conferenceId].id_iee+'</h2>'
 						+'<p><b>Lieu : </b>'+data.conferences[conferenceId].adress+'</p>'
-						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start.substr(0,10)+' to '+data.conferences[conferenceId].end.substr(0,10)+'</p>'
+						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start+' to '+data.conferences[conferenceId].end+'</p>'
 					+'</div>'
 					+'<div class="conference-header-right">'
 						+'<h3>Progression :</h3>'
@@ -41,9 +41,9 @@ $(document).ready(function(){
     socket.on('get_conference', function(data){
 
     	$('#conf-id').data('conference_id',data.conference[0].id);
-    	$('.conf-title').text(data.conference[0].title);
+    	$('.conf-title').text(data.conference[0].title+' ('+data.conference[0].acronym+')');
     	$('#conf-location').append(data.conference[0].adress);
-    	$('#conf-date').append('from '+data.conference[0].start.substr(0,10)+' to '+data.conference[0].end.substr(0,10));
+    	$('#conf-date').append('from '+data.conference[0].start+' to '+data.conference[0].end);
     	$model_id=data.conference[0].model_id;
 
     	//On fait une demande au serveur pour récupérer les noeuds
@@ -57,7 +57,7 @@ $(document).ready(function(){
     		//console.log(data.nodes[nodeId].name+' - '+data.nodes[nodeId].node_nbr);
 
     		$('.red-wire').append(
-    			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_nbr+'" data-node_id="'+data.nodes[nodeId].node_nbr+'"">'
+    			'<li class="node-list" id="node_id_'+data.nodes[nodeId].node_id+'" data-node_id="'+data.nodes[nodeId].node_id+'"">'
 					+'<a class="node-a" data-openable="yes" href="#">'
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
@@ -67,8 +67,8 @@ $(document).ready(function(){
 					+'<ul></ul>'
 				+'</li>');
 
-    		socket.emit('get_tasks', data.nodes[nodeId].id, $('#conf-id').data('conference_id'));
-    		socket.emit('get_tutos', data.nodes[nodeId].id);
+    		socket.emit('get_tasks', data.nodes[nodeId].node_id, $('#conf-id').data('conference_id'));
+    		socket.emit('get_tutos', data.nodes[nodeId].node_id);
     	}
 
     	//Add tooltip to nodes
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
 
     		if(data.tasks[taskId].limit_date != null){
-    			var limit_date = data.tasks[taskId].limit_date.substr(0,10);
+    			var limit_date = data.tasks[taskId].limit_date;
     		} else {
     			var limit_date = 'none';
     		}
@@ -148,8 +148,8 @@ $(document).ready(function(){
     // Quand on reçoit les infos d'une tache
     socket.on('get_task_infos', function(data) {
     	//console.log(data.task_infos);
-    	$("#task-modal-title").text("Task n°"+data.task_infos[0].id+" - "+data.task_infos[0].name);
-    	$("#task-modal-body-p").text(data.task_infos[0].description);
+    	$("#task-modal-title").text(data.task_infos[0].node_name+" - Task n°"+data.task_infos[0].id);
+    	$("#task-modal-body-p").text(data.task_infos[0].name);
     	
     	if(data.task_infos[0].link_name != null){
     		$("#task-modal-link .panel-title").text(data.task_infos[0].link_name);
@@ -176,8 +176,6 @@ $(document).ready(function(){
 
     //Quand on recoit les tutos
     socket.on('get_tutos', function(data){
-    	//console.log(data.tutos.length);
-    	console.log("length : "+data.tutos[0].name);
     	if(data.tutos.length != 0){
     		typeTuto = false;
     		tutoPos = 0;

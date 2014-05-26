@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 26 Mai 2014 à 13:54
+-- Généré le: Lun 26 Mai 2014 à 22:54
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -25,7 +25,8 @@ CREATE TABLE `conference` (
   `user_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
   `id_iee` int(11) NOT NULL,
-  `title` varchar(45) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `acronym` varchar(255) DEFAULT NULL,
   `adress` varchar(255) DEFAULT NULL,
   `description` text,
   `start` datetime DEFAULT NULL,
@@ -37,14 +38,14 @@ CREATE TABLE `conference` (
   PRIMARY KEY (`id`,`user_id`,`model_id`),
   KEY `fk_conference_user1_idx` (`user_id`),
   KEY `fk_conference_model1_idx` (`model_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `conference`
 --
 
-INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 84787483, 'Conference test number 1', '46 rue de tolbiac, Paris', 'Test description conference 1', '2014-06-04 00:00:00', '2014-06-12 00:00:00', 85, NULL, '2014-05-08 01:58:57', '2014-05-08 01:58:57');
+INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acronym`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
+(6, 1, 1, 87645342, 'International Conference on ReConFigurable', 'ReConFig', 'Cancún, Quintana Roo, Mexique', 'ReConFig promotes the use of reconfigurable computing and FPGA technology for research, education, and applications, covering from hardware architectures and devices to custom computers and high performance systems.', '2016-12-10 08:00:00', '2016-12-12 20:00:00', 10, NULL, '2014-05-26 21:58:59', '2014-05-26 21:58:59');
 
 -- --------------------------------------------------------
 
@@ -97,16 +98,29 @@ CREATE TABLE `node` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`model_id`),
   KEY `fk_node_model1_idx` (`model_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `node`
 --
 
 INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `period`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Node 1', 1, 0, '2014-05-05 13:53:28', '2014-05-05 13:53:28'),
-(2, 1, 'Node 2', 2, 0, '2014-05-05 13:53:49', '2014-05-05 13:53:49'),
-(3, 1, 'Node 3', 3, 0, '2014-05-05 13:54:22', '2014-05-05 13:54:22');
+(1, 1, 'Node 1', 1, NULL, '2014-05-05 13:53:28', '2014-05-05 13:53:28'),
+(2, 1, 'Node 2', 2, NULL, '2014-05-05 13:53:49', '2014-05-05 13:53:49'),
+(3, 1, 'Node 3', 3, NULL, '2014-05-05 13:54:22', '2014-05-05 13:54:22'),
+(4, 1, 'Node 4', 4, NULL, '2014-05-26 15:14:51', '2014-05-26 15:14:51'),
+(5, 1, 'Node 5', 5, NULL, '2014-05-26 15:18:54', '2014-05-26 15:18:54'),
+(6, 1, 'Node 6', 6, NULL, '2014-05-26 15:20:09', '2014-05-26 15:20:09'),
+(7, 1, 'Node 7', 7, NULL, '2014-05-26 15:21:14', '2014-05-26 15:21:14'),
+(8, 1, 'Node 8', 8, NULL, '2014-05-26 15:22:38', '2014-05-26 15:22:38'),
+(9, 1, 'Node 9', 9, NULL, '2014-05-26 15:22:50', '2014-05-26 15:22:50'),
+(10, 1, 'Node 10', 10, NULL, '2014-05-26 15:23:01', '2014-05-26 15:23:01'),
+(11, 1, 'Node 11', 11, NULL, '2014-05-26 15:25:17', '2014-05-26 15:25:17'),
+(12, 1, 'Node 12', 12, NULL, '2014-05-26 15:26:25', '2014-05-26 15:26:25'),
+(13, 1, 'Node 13', 13, NULL, '2014-05-26 15:27:07', '2014-05-26 15:27:07'),
+(14, 1, 'Node 14', 14, NULL, '2014-05-26 15:27:51', '2014-05-26 15:27:51'),
+(15, 1, 'Node 15', 15, NULL, '2014-05-26 15:29:18', '2014-05-26 15:29:18'),
+(16, 1, 'Node 16', 16, NULL, '2014-05-26 15:29:58', '2014-05-26 15:29:58');
 
 -- --------------------------------------------------------
 
@@ -124,16 +138,29 @@ CREATE TABLE `node_conference` (
   PRIMARY KEY (`id`,`node_id`,`conference_id`),
   KEY `fk_node_conference_node1_idx` (`node_id`),
   KEY `fk_node_conference_conference1_idx` (`conference_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
 
 --
 -- Contenu de la table `node_conference`
 --
 
 INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`, `progression`) VALUES
-(1, 1, 1, '2014-05-22', '2014-05-28', 100),
-(2, 2, 1, '2014-05-23', '2014-05-25', 66),
-(3, 3, 1, '2014-05-24', '2014-06-09', 100);
+(33, 1, 6, '0000-00-00', '2014-05-26', 100),
+(34, 2, 6, '0000-00-00', '2014-05-26', 40),
+(35, 3, 6, '0000-00-00', '2014-05-26', 0),
+(36, 4, 6, '0000-00-00', '2014-05-26', 0),
+(37, 5, 6, '0000-00-00', '2014-05-26', 0),
+(38, 6, 6, '0000-00-00', '2014-05-26', 0),
+(39, 7, 6, '0000-00-00', '2014-05-26', 0),
+(40, 8, 6, '0000-00-00', '2014-05-26', 0),
+(41, 9, 6, '0000-00-00', '2014-05-26', 0),
+(42, 10, 6, '0000-00-00', '2014-05-26', 0),
+(43, 11, 6, '0000-00-00', '2014-05-26', 0),
+(44, 12, 6, '0000-00-00', '2014-05-26', 0),
+(45, 13, 6, '0000-00-00', '2014-05-26', 0),
+(46, 14, 6, '0000-00-00', '2014-05-26', 0),
+(47, 15, 6, '0000-00-00', '2014-05-26', 0),
+(48, 16, 6, '0000-00-00', '2014-05-26', 0);
 
 -- --------------------------------------------------------
 
@@ -164,20 +191,79 @@ CREATE TABLE `tasks_list` (
   `date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`,`node_id`),
   KEY `fk_tasks_list_node1_idx` (`node_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=75 ;
 
 --
 -- Contenu de la table `tasks_list`
 --
 
 INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_name`, `date`) VALUES
-(1, 1, 'submit Memorandum of Understanding(MOU), if applicable', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at mauris nec arcu sagittis gravida nec non ipsum. Nam rutrum nisi magna, et gravida diam pharetra vitae. Vivamus dictum ultricies tellus, sit amet auctor turpis malesuada eget. Nam cursus nulla quis euismod rhoncus. Donec ultrices tellus nulla, sed molestie dolor sodales quis. In in dui quis dui eleifend interdum quis in eros. Nullam cursus tempor suscipit. In at dolor eu arcu varius bibendum eget eget lorem.\n\nQuisque at leo lacinia, vestibulum nisl et, auctor dolor. Proin commodo sed ante quis bibendum. Integer vulputate vitae mauris et congue. Cras eleifend magna lorem. Phasellus lobortis commodo purus vitae sagittis. Nulla facilisi. Etiam diam diam, tristique et auctor eu, tristique non enim. Etiam massa mi, condimentum pellentesque dui at, volutpat ultrices justo. Maecenas faucibus nunc vitae quam rhoncus luctus. In cursus, dolor in vestibulum volutpat, ante dolor malesuada velit, eget pharetra sapien tellus at dolor. Nunc sit amet interdum quam.', 'http://ieee-cas.org/', 'Link to IEEE-CAS', NULL),
-(2, 1, 'contract conference management company, if applicable', 'description 2', 'azaz', 'Link to subscription', NULL),
-(3, 2, 'Task test', 'Put Your Best Face Forward: Getting to the Basics.This may sound cliché but the face truly is a passport to the world. Whether you''re at an interview, holding a meeting, or courting someone at your local bar, your face acts as an ambassador for your personality – giving those you interact with ...', NULL, NULL, NULL),
-(4, 3, 'Fill the form on IEEE', 'Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l''imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n''a pas fait que survivre cinq siècles, mais s''est aussi adapté à la bureautique informatique, sans que son contenu n''en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.', 'http://fr.lipsum.com/', 'Site de Lorem Ipsum', NULL),
-(5, 2, 'Send papers', 'Pellentesque blandit est eu eleifend faucibus. Vivamus in posuere felis. Cras ipsum nisl, elementum sit amet mauris vitae, bibendum posuere purus. Vestibulum sed nibh posuere leo semper tincidunt vitae eu metus. Integer vitae sapien placerat dolor sollicitudin lobortis et ut nibh. Mauris euismod tortor eleifend odio adipiscing dapibus. Sed ullamcorper risus non tortor venenatis, ut scelerisque quam interdum. Etiam ullamcorper nisi ipsum, bibendum vestibulum tortor convallis bibendum. Donec sit amet posuere nibh, sit amet cursus nulla. Nulla a malesuada massa. Quisque sed posuere enim. Sed pretium arcu quam, non tincidunt nisi accumsan nec. Nullam tempus vehicula metus, id convallis diam feugiat ac. Nam at molestie libero. In egestas convallis arcu, sit amet dapibus leo porta sed. Aenean convallis hendrerit turpis id vulputate.', NULL, NULL, NULL),
-(6, 2, 'Sign papers', 'Aenean venenatis lacus eu accumsan posuere. Vestibulum lorem diam, varius eget varius id, tempor quis libero. Proin gravida sagittis turpis nec luctus. Cras volutpat ultricies tortor, at hendrerit orci tincidunt vitae. Nullam sit amet pellentesque metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed dignissim sapien a purus bibendum dictum. Vivamus ut vehicula ipsum. Morbi rutrum nunc tincidunt lobortis consequat. Ut malesuada orci at consectetur dapibus. Vivamus tempus eu odio vitae ultricies. Curabitur luctus euismod eros nec suscipit. Pellentesque sit amet magna id mauris accumsan mollis. Ut volutpat neque varius risus pulvinar, sed commodo metus sagittis.', 'http://fr.lipsum.com/feed/html', 'Lorem Ipsum Site', NULL),
-(7, 3, 'Task force', 'nnd nkndsk sjd kjsdksjdksj ldskd', NULL, NULL, NULL);
+(1, 1, 'submit Memorandum of Understanding(MOU), if applicable', NULL, NULL, NULL, NULL),
+(2, 1, 'contract conference management company, if applicable', NULL, NULL, NULL, NULL),
+(9, 1, 'Site selection and contract review, if applicable', NULL, NULL, NULL, NULL),
+(11, 1, 'Review IEEE Insurance coverage and determine if additional coverage is required', NULL, NULL, NULL, NULL),
+(12, 1, 'Review tax information to ensure IRS and international compliance VAT and GST', NULL, NULL, NULL, NULL),
+(13, 2, 'Develop communications plan, marketing materials and conference website', NULL, NULL, NULL, NULL),
+(14, 2, 'Send request for proposal (RFP) to exhibit decorators and develop exhibitor prospectus, if applicable', NULL, NULL, NULL, NULL),
+(15, 2, 'Begin outreach to educational institutions, corporations, government and industry for support and patronage', NULL, NULL, NULL, NULL),
+(16, 2, 'Apply for grants for conference support', NULL, NULL, NULL, NULL),
+(17, 2, 'Secure W-8 and/ or W-9 forms for tax compliance', NULL, NULL, NULL, NULL),
+(18, 3, 'Develop process/ identity system for paper management', NULL, NULL, NULL, NULL),
+(19, 3, 'Develop technical program, establish paper submission process and deadlines', NULL, NULL, NULL, NULL),
+(20, 3, 'Establish a call for paper (CFP)', NULL, NULL, NULL, NULL),
+(21, 3, 'Establish a visa process for international attendees and post on conference website', NULL, NULL, NULL, NULL),
+(22, 3, 'Submit conference budget with written IEEE OU approval(s) for headquarter review', NULL, NULL, NULL, NULL),
+(23, 3, 'Submit Principles of Business Conduct Compliance Certificate and Conflict of Interests Disclosure Statement (POBC/COI) forms', NULL, NULL, NULL, NULL),
+(24, 3, 'Submit updated committee lists', NULL, NULL, NULL, NULL),
+(25, 3, 'Establish conference bank account(s)', NULL, NULL, NULL, NULL),
+(26, 3, 'Request and obtain loan from OU, if needed', NULL, NULL, NULL, NULL),
+(27, 3, 'Pre-and Post conference forecasts [submit Pre-and Post conference forecasts by November 30th of each calendar year for accrual purposes] ', NULL, NULL, NULL, NULL),
+(28, 3, '1099 & 1042 Schedule of Payments [no later than January 10th of each year for all payments made in the previous calendar year]', NULL, NULL, NULL, NULL),
+(29, 3, 'Submit annual report on foreign bank accounts To IEEE tax Dept [no later than January 10th of each year for all payments made in the previous calendar year]', NULL, NULL, NULL, NULL),
+(30, 3, 'Promote CFP and exhibit prospectus at current year’s conference, if applicable', NULL, NULL, NULL, NULL),
+(31, 3, 'Review and reconfirm hotel, meeting space and room block', NULL, NULL, NULL, NULL),
+(32, 3, 'Meeting with previous year’s committee to discuss best practices', NULL, NULL, NULL, NULL),
+(33, 4, 'Submit Conference Publication Form to obtain Letter Of Acquisition(LOA)', NULL, NULL, NULL, NULL),
+(34, 4, 'Register for PDF eXpress (optional)', NULL, NULL, NULL, NULL),
+(35, 4, 'Register for Electronic IEEE Copyright Form (eCF) if proceedings are acquired by IEEE', NULL, NULL, NULL, NULL),
+(37, 4, 'Create website for paper submissions, work with paper management company, if applicable', NULL, NULL, NULL, NULL),
+(38, 4, 'Secure permission from related IEEE OUs to market to their members using e-Notice', NULL, NULL, NULL, NULL),
+(39, 5, 'Create registration formand ensure registration service is Payment Card Industry (PCI) compliant', NULL, NULL, NULL, NULL),
+(40, 5, 'Plan social activities and tour program if applicable', NULL, NULL, NULL, NULL),
+(41, 5, 'Send out RFPs for ground transportation and finalize contract, if applicable', NULL, NULL, NULL, NULL),
+(42, 6, 'Launch registration site', NULL, NULL, NULL, NULL),
+(43, 6, 'Complete paper review process. Finalize technical program. Notify speakers', NULL, NULL, NULL, NULL),
+(44, 6, 'Create and publish advanced program', NULL, NULL, NULL, NULL),
+(45, 7, 'Solicit bids from printers and/or CD manufacturers based on accepted papers', NULL, NULL, NULL, NULL),
+(46, 7, 'Organize and prepare for production of conference publications per Letter of Acquisition (LOA)', NULL, NULL, NULL, NULL),
+(47, 7, 'Order attendee giveaways, speaker gifts, and/or conference shirts', NULL, NULL, NULL, NULL),
+(48, 7, 'Determine preliminary exhibitor space assignments, if applicable', NULL, NULL, NULL, NULL),
+(49, 7, 'Request weekly reports from hotel(s) regarding rooms', NULL, NULL, NULL, NULL),
+(50, 8, 'Review room block with hotel(s) against attendance and contract(s)', NULL, NULL, NULL, NULL),
+(51, 8, 'Complete & print final program, advertising/publicity and registration reminders', NULL, NULL, NULL, NULL),
+(52, 8, 'Develop & finalize volunteer job functions/onsite needs', NULL, NULL, NULL, NULL),
+(53, 9, 'Deadline for early registration (predetermined date)', NULL, NULL, NULL, NULL),
+(54, 9, 'Send prelim specifications [set up, catering, audio visual (AV) ] to conference site. Order signage and recognition products (plaques, certificates and awards).', NULL, NULL, NULL, NULL),
+(55, 9, 'Ship final program to conference site', NULL, NULL, NULL, NULL),
+(56, 9, 'Submit Pre-Conference forecast', NULL, NULL, NULL, NULL),
+(57, 10, 'Confirm onsite logistics with venue (registration, exhibits, meeting rooms, food & beverage)', NULL, NULL, NULL, NULL),
+(58, 10, 'Set-up registration area, exhibit space, information booth, office area', NULL, NULL, NULL, NULL),
+(59, 11, 'Onsite registration', NULL, NULL, NULL, NULL),
+(60, 11, 'Monitor budget', NULL, NULL, NULL, NULL),
+(61, 11, 'Monitor daily activities and adjust onsite logistics as needed', NULL, NULL, NULL, NULL),
+(62, 11, 'Hold Post-Conference Wrap Up Meeting', NULL, NULL, NULL, NULL),
+(63, 12, 'Submit Conference Proceedings/Content (Xplore CD and other media types) per Letter of Acquisition (LOA)', NULL, NULL, NULL, NULL),
+(64, 12, 'Committee members submit final statistics and lessons learned to sponsoring IEEE OU', NULL, NULL, NULL, NULL),
+(65, 13, 'Submit Conference Proceedings/Content (Xplore CD and other media types) per Letter of Acquisition (LOA) » (même tâche de 12ème nœud)', NULL, NULL, NULL, NULL),
+(66, 13, 'Registration clean up (process refunds, receipts and balances due)', NULL, NULL, NULL, NULL),
+(67, 14, 'Submit Conference Proceedings/Content (Xplore CD and other media types) per Letter of Acquisition (LOA) » (même tâche que 12ème noeud)', NULL, NULL, NULL, NULL),
+(68, 14, 'Process outstanding bills', NULL, NULL, NULL, NULL),
+(69, 14, 'Repay all loans', NULL, NULL, NULL, NULL),
+(70, 14, 'Submit post-conference forecast', NULL, NULL, NULL, NULL),
+(71, 15, 'Distribute surplus» Cette tâche est à valider par GC * « Close conference bank account & submit proof of account closure', NULL, NULL, NULL, NULL),
+(72, 15, 'Submit final financial report with Certification of Accuracy', NULL, NULL, NULL, NULL),
+(73, 16, 'Prepare and submit all audit material to independent auditor audit report for >$100K and/or IEEE OU total is 51% + co-sponsor', NULL, NULL, NULL, NULL),
+(74, 16, 'Submit final financial report with Certification of Accuracy', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -196,20 +282,79 @@ CREATE TABLE `task_validation` (
   PRIMARY KEY (`id`,`conference_id`,`tasks_list_id`),
   KEY `fk_task_validation_conference1_idx` (`conference_id`),
   KEY `fk_task_validation_tasks_list1_idx` (`tasks_list_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=199 ;
 
 --
 -- Contenu de la table `task_validation`
 --
 
 INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `limit_date`, `created_at`, `updated_at`) VALUES
-(80, 1, 1, 1, NULL, NULL, NULL),
-(81, 1, 2, 1, NULL, NULL, NULL),
-(82, 1, 3, 1, NULL, NULL, NULL),
-(83, 1, 5, 1, NULL, NULL, NULL),
-(84, 1, 6, 0, NULL, NULL, NULL),
-(85, 1, 4, 1, NULL, NULL, NULL),
-(86, 1, 7, 1, NULL, NULL, NULL);
+(133, 6, 1, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(134, 6, 2, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(135, 6, 9, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(136, 6, 11, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(137, 6, 12, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(138, 6, 13, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(139, 6, 14, 1, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(140, 6, 15, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(141, 6, 16, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(142, 6, 17, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(143, 6, 24, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(144, 6, 25, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(145, 6, 26, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(146, 6, 27, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(147, 6, 28, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(148, 6, 29, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(149, 6, 30, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(150, 6, 31, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(151, 6, 32, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(152, 6, 18, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(153, 6, 19, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(154, 6, 20, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(155, 6, 21, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(156, 6, 22, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(157, 6, 23, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(158, 6, 33, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(159, 6, 34, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(160, 6, 35, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(161, 6, 37, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(162, 6, 38, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(163, 6, 41, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(164, 6, 39, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(165, 6, 40, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(166, 6, 42, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(167, 6, 43, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(168, 6, 44, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(169, 6, 45, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(170, 6, 46, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(171, 6, 47, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(172, 6, 48, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(173, 6, 49, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(174, 6, 50, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(175, 6, 51, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(176, 6, 52, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(177, 6, 53, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(178, 6, 54, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(179, 6, 55, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(180, 6, 56, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(181, 6, 57, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(182, 6, 58, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(183, 6, 59, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(184, 6, 60, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(185, 6, 61, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(186, 6, 62, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(187, 6, 63, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(188, 6, 64, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(189, 6, 65, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(190, 6, 66, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(191, 6, 67, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(192, 6, 68, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(193, 6, 69, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(194, 6, 70, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(195, 6, 71, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(196, 6, 72, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(197, 6, 73, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00'),
+(198, 6, 74, 0, NULL, '2014-05-26 21:59:00', '2014-05-26 21:59:00');
 
 -- --------------------------------------------------------
 

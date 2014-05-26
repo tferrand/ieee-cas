@@ -366,6 +366,10 @@ li.task span.glyphicon.glyphicon-ok{
 	margin-top:0px;
 }
 
+.modal-footer{
+	margin-top: 0px;
+}
+
 #new-adress-geocodify-dropdown{
 	position:relative;
 	width:auto;
@@ -374,4 +378,8 @@ li.task span.glyphicon.glyphicon-ok{
 #task-modal-link{
 	margin-top: 20px;
 	margin-bottom: 0px;
+}
+
+h1.conf-title{
+	font-size: 19px;
 }

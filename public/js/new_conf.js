@@ -7,13 +7,13 @@ $(document).ready(function(){
 		var acronymOk = verifAcronym($('#new-acronym'));
 		var startDateOk = verifStartDate($('#new-start-date'));
 		var endDateOk = verifEndDate($('#new-end-date'));
-		var comparingDatesOk = comapringDates();
+		var comparingDatesOk = comparingDates();
 		var adressOk = verifAdress($('#new-adress-geocodify-input'));
 		var descriptionOk = verifDescription($('#new-description'));
 		
 				 
 		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk){
-			return true;
+			//return true;
 
 			var datatcs = {};
 			$('#wrap_tc input:checked').each(function(n){
@@ -22,10 +22,15 @@ $(document).ready(function(){
 			console.log(datatcs);
 
 	 		var dataConf = {
+	 			user_id : $('#user_id').data('user_id'),
+	 			model_id : 1,
 	 			new_id_ieee : $('#new-id-ieee').val(),
 	 			new_title : $('#new-title').val(),
+	 			new_acronym : $('#new-acronym').val(),
 	 			new_adress : $('#new-adress-geocodify-input').val(),
 	 			new_description : $('#new-description').val(),
+	 			new_start : $('#new-start-date').val(),
+	 			new_end : $('#new-end-date').val(),
 	 			new_tcs : datatcs
 	 		};
 	 		console.log(dataConf);
@@ -73,7 +78,7 @@ $(document).ready(function(){
 		verifTitle($(this));
 	});
 	function verifTitle(field){
-		if(field.val().length <= 45 && field.val().length>=4){
+		if(field.val().length <= 150 && field.val().length>=4){
 			needFix(field,true);
 			return true;
 		}
@@ -205,6 +210,9 @@ $(document).ready(function(){
 		}
 	}
 
+	socket.on('create_conf_ok', function(){
+		location.reload();
+	});
  	
  // 	$('#new-conference-validate').click(function(){
 	// 	//create table
