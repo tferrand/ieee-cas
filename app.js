@@ -99,7 +99,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         pool.getConnection(function (err, connection){
             if (err) throw err;
             var request='SELECT * from conference WHERE user_id = '+user_id;
-            if(user_type="vpConference"){
+            console.log(user_type);
+            if(user_type=="vpConference"){
                 request='SELECT * from conference ';
             }
             connection.query(request, function(err, rows, fields) {
