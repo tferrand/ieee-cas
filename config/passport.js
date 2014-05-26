@@ -87,7 +87,7 @@ passport.use(new LocalStrategy(
 	// On gère les sessions via l'ID de l'utilisateur
 	passport.deserializeUser(function(id, done) {
 
-		User.findUserById(id, function(err, user) {
+		User.findUserSQLById(id, function(err, user) {
 			done(err, user);
 		});
 	});
