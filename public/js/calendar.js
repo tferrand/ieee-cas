@@ -5,7 +5,7 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	socket.emit('get_user_conferences', 1);
+	//socket.emit('get_user_conferences', 1);
 	
 	socket.on('get_user_conferences', function(data){
 				test = [];
