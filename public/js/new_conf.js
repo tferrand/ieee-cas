@@ -12,9 +12,26 @@ $(document).ready(function(){
 		var descriptionOk = verifDescription($('#new-description'));
 		
 				 
-		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk)
-		   return true;
-		else if(tcOk == false && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk &&  adressOk && descriptionOk){
+		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk){
+			return true;
+
+			var datatcs = {};
+			$('#wrap_tc input:checked').each(function(n){
+				datatcs[n] = $(this).attr('id');
+			});
+			console.log(datatcs);
+
+	 		var dataConf = {
+	 			new_id_ieee : $('#new-id-ieee').val(),
+	 			new_title : $('#new-title').val(),
+	 			new_adress : $('#new-adress-geocodify-input').val(),
+	 			new_description : $('#new-description').val(),
+	 			new_tcs : datatcs
+	 		};
+	 		console.log(dataConf);
+		    socket.emit('create_conf',  dataConf);
+		    
+		} else if(tcOk == false && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk &&  adressOk && descriptionOk){
 			alert("You didn't select enough Technical Committees.")
 			return false;
 		} 
@@ -189,43 +206,43 @@ $(document).ready(function(){
 	}
 
  	
- 	$('#new-conference-validate').click(function(){
-		//create table
-		// var dataConf = [];
-		// //var tcs = new Array();
-		// dataConf['new_id_ieee'] = $('#new-id-ieee').val();
-		// dataConf['new_title'] = $('#new-title').val();
-		// dataConf['new_adress'] = $('#new-adress-geocodify-input').val();
-		// dataConf['new_description'] = $('#new-description').val();
-		// // for (var i = 0, tab.lenght; )
-		// dataConf['new_tcs'] = [];
+ // 	$('#new-conference-validate').click(function(){
+	// 	//create table
+	// 	// var dataConf = [];
+	// 	// //var tcs = new Array();
+	// 	// dataConf['new_id_ieee'] = $('#new-id-ieee').val();
+	// 	// dataConf['new_title'] = $('#new-title').val();
+	// 	// dataConf['new_adress'] = $('#new-adress-geocodify-input').val();
+	// 	// dataConf['new_description'] = $('#new-description').val();
+	// 	// // for (var i = 0, tab.lenght; )
+	// 	// dataConf['new_tcs'] = [];
 
-		// $('#wrap_tc input:checked').each(function(n){
-		// 	dataConf['new_tcs'][n] = $(this).attr('id');
-		// });
+	// 	// $('#wrap_tc input:checked').each(function(n){
+	// 	// 	dataConf['new_tcs'][n] = $(this).attr('id');
+	// 	// });
 
- 		var datatcs = {};
-		$('#wrap_tc input:checked').each(function(n){
-			datatcs[n] = $(this).attr('id');
-		});
-		console.log(datatcs);
+ // 		var datatcs = {};
+	// 	$('#wrap_tc input:checked').each(function(n){
+	// 		datatcs[n] = $(this).attr('id');
+	// 	});
+	// 	console.log(datatcs);
 
- 		var dataConf = {
- 			new_id_ieee : $('#new-id-ieee').val(),
- 			new_title : $('#new-title').val(),
- 			new_adress : $('#new-adress-geocodify-input').val(),
- 			new_description : $('#new-description').val(),
- 			new_tcs : datatcs
- 		};
- 		console.log(dataConf);
+ // 		var dataConf = {
+ // 			new_id_ieee : $('#new-id-ieee').val(),
+ // 			new_title : $('#new-title').val(),
+ // 			new_adress : $('#new-adress-geocodify-input').val(),
+ // 			new_description : $('#new-description').val(),
+ // 			new_tcs : datatcs
+ // 		};
+ // 		console.log(dataConf);
 
-		//test = JSON.stringify({"new_id_ieee":"heho"});
-		//test = JSON.stringify(dataConf);
-		//console.log(test);
-		// émission des données de création de conf
-	    socket.emit('create_conf',  dataConf);
+	// 	//test = JSON.stringify({"new_id_ieee":"heho"});
+	// 	//test = JSON.stringify(dataConf);
+	// 	//console.log(test);
+	// 	// émission des données de création de conf
+	//     socket.emit('create_conf',  dataConf);
 	  
-	});
+	// });
 	
 
 	
