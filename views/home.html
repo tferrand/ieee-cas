@@ -8,11 +8,15 @@
 			<small>Utilisateur {{user.type}} : <cite title="user" id="user_login" data-user_login="{{user.login}}">{{user.login}}</cite> | Nombre de connexions : <cite title="conn">{{user.nbConn}}</cite> | User ID : <cite id="user_id" data-user_id="{{user.id}}">{{user.id}}</cite> </small>
 		</blockquote>
 
-		<button type="button" class="btn btn-default" id="new-conference-btn" style="margin-bottom:20px;">
+		<!-- <button type="button" class="btn btn-default" id="new-conference-btn" style="margin-bottom:20px;">
   			Create new conference
-		</button>
-		<button type="button" class="btn btn-primary" style="margin-bottom:20px;"/><a href="http://localhost:8080/calendar">Calendar</a>
-		</button>
+		</button> -->
+		<!-- <button type="button" class="btn btn-primary" style="margin-bottom:20px;"/><a href="http://localhost:8080/calendar">Calendar</a>
+		</button> -->
+		<div class="btn-group" style="margin-bottom:20px;">
+			<button type="button" class="btn btn-default active">List View</button>
+			<button type="button" class="btn btn-default"><a href="/calendar">Calendar View</a></button>
+		</div>
 
 		<div id="conferences-wrap"></div>
 
@@ -216,3 +220,4 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+		

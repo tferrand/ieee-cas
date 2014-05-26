@@ -6,8 +6,14 @@
 		</div>
 		{{/error}}
 
-		<form id="formLogin" action="/auth/local" method="POST" class="form-horizontal">
-			<input value="tferrand@isep.fr" id="username" name="username" type="text" placeholder="Username" class="input-xlarge span4">
-			<input value="azerty" id="password" name="password" type="password" placeholder="Password" class="password input-xlarge span4">
-			<button id="buttonSubmit" type="submit" class="btn btn-large btn-primary span2">Sign in</button>
-		</form>
+		<div class="wrap-login">
+			<form id="formLogin" action="/auth/local" method="POST" class="form-signin">
+				<h2 class="form-signin-heading">Please sign in to IEEE-CAS</h2>
+				<input value="tferrand@isep.fr" id="username" name="username" type="email" class="form-control" placeholder="Email address" required autofocus>
+				<input value="azerty" id="password" name="password" type="password" class="form-control" placeholder="Password" required><br/>
+				<!-- <label class="checkbox">
+					<input type="checkbox" value="remember-me"> Remember me
+				</label> -->
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</form>
+	    </div> <!-- /container -->
