@@ -7,14 +7,36 @@ $(document).ready(function(){
 		var acronymOk = verifAcronym($('#new-acronym'));
 		var startDateOk = verifStartDate($('#new-start-date'));
 		var endDateOk = verifEndDate($('#new-end-date'));
-		var comparingDatesOk = comapringDates();
+		var comparingDatesOk = comparingDates();
 		var adressOk = verifAdress($('#new-adress-geocodify-input'));
 		var descriptionOk = verifDescription($('#new-description'));
 		
 				 
-		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk)
-		   return true;
-		else if(tcOk == false && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk &&  adressOk && descriptionOk){
+		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk){
+			//return true;
+
+			var datatcs = {};
+			$('#wrap_tc input:checked').each(function(n){
+				datatcs[n] = $(this).attr('id');
+			});
+			console.log(datatcs);
+
+	 		var dataConf = {
+	 			user_id : $('#user_id').data('user_id'),
+	 			model_id : 1,
+	 			new_id_ieee : $('#new-id-ieee').val(),
+	 			new_title : $('#new-title').val(),
+	 			new_acronym : $('#new-acronym').val(),
+	 			new_adress : $('#new-adress-geocodify-input').val(),
+	 			new_description : $('#new-description').val(),
+	 			new_start : $('#new-start-date').val(),
+	 			new_end : $('#new-end-date').val(),
+	 			new_tcs : datatcs
+	 		};
+	 		console.log(dataConf);
+		    socket.emit('create_conf',  dataConf);
+		    
+		} else if(tcOk == false && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk &&  adressOk && descriptionOk){
 			alert("You didn't select enough Technical Committees.")
 			return false;
 		} 
@@ -56,7 +78,7 @@ $(document).ready(function(){
 		verifTitle($(this));
 	});
 	function verifTitle(field){
-		if(field.val().length <= 45 && field.val().length>=4){
+		if(field.val().length <= 150 && field.val().length>=4){
 			needFix(field,true);
 			return true;
 		}
@@ -184,44 +206,47 @@ $(document).ready(function(){
 		}
 	}
 
- 	
- 	$('#new-conference-validate').click(function(){
-		//create table
-		// var dataConf = [];
-		// //var tcs = new Array();
-		// dataConf['new_id_ieee'] = $('#new-id-ieee').val();
-		// dataConf['new_title'] = $('#new-title').val();
-		// dataConf['new_adress'] = $('#new-adress-geocodify-input').val();
-		// dataConf['new_description'] = $('#new-description').val();
-		// // for (var i = 0, tab.lenght; )
-		// dataConf['new_tcs'] = [];
-
-		// $('#wrap_tc input:checked').each(function(n){
-		// 	dataConf['new_tcs'][n] = $(this).attr('id');
-		// });
-
- 		var datatcs = {};
-		$('#wrap_tc input:checked').each(function(n){
-			datatcs[n] = $(this).attr('id');
-		});
-		console.log(datatcs);
-
- 		var dataConf = {
- 			new_id_ieee : $('#new-id-ieee').val(),
- 			new_title : $('#new-title').val(),
- 			new_adress : $('#new-adress-geocodify-input').val(),
- 			new_description : $('#new-description').val(),
- 			new_tcs : datatcs
- 		};
- 		console.log(dataConf);
-
-		//test = JSON.stringify({"new_id_ieee":"heho"});
-		//test = JSON.stringify(dataConf);
-		//console.log(test);
-		// émission des données de création de conf
-	    socket.emit('create_conf',  dataConf);
-	  
+	socket.on('create_conf_ok', function(){
+		location.reload();
 	});
+ 	
+ // 	$('#new-conference-validate').click(function(){
+	// 	//create table
+	// 	// var dataConf = [];
+	// 	// //var tcs = new Array();
+	// 	// dataConf['new_id_ieee'] = $('#new-id-ieee').val();
+	// 	// dataConf['new_title'] = $('#new-title').val();
+	// 	// dataConf['new_adress'] = $('#new-adress-geocodify-input').val();
+	// 	// dataConf['new_description'] = $('#new-description').val();
+	// 	// // for (var i = 0, tab.lenght; )
+	// 	// dataConf['new_tcs'] = [];
+
+	// 	// $('#wrap_tc input:checked').each(function(n){
+	// 	// 	dataConf['new_tcs'][n] = $(this).attr('id');
+	// 	// });
+
+ // 		var datatcs = {};
+	// 	$('#wrap_tc input:checked').each(function(n){
+	// 		datatcs[n] = $(this).attr('id');
+	// 	});
+	// 	console.log(datatcs);
+
+ // 		var dataConf = {
+ // 			new_id_ieee : $('#new-id-ieee').val(),
+ // 			new_title : $('#new-title').val(),
+ // 			new_adress : $('#new-adress-geocodify-input').val(),
+ // 			new_description : $('#new-description').val(),
+ // 			new_tcs : datatcs
+ // 		};
+ // 		console.log(dataConf);
+
+	// 	//test = JSON.stringify({"new_id_ieee":"heho"});
+	// 	//test = JSON.stringify(dataConf);
+	// 	//console.log(test);
+	// 	// émission des données de création de conf
+	//     socket.emit('create_conf',  dataConf);
+	  
+	// });
 	
 
 	
