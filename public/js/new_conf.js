@@ -121,26 +121,22 @@ $(document).ready(function(){
 	function comparingDates(){
 		var start_date = $('#new-start-date').val();
 		var end_date = $('#new-end-date').val();
+
+		var dNow = new Date();
+		var utc = new Date(dNow.getTime() + dNow.getTimezoneOffset() * 60000);
+		var utcdate= (utc.getMonth()+1) + '/' + utc.getDate() + '/' + utc.getFullYear() + ' ' + utc.getHours() + ':' + utc.getMinutes();;
+		console.log(utcdate);
+
 		if (new Date(end_date) < new Date(start_date)) {
-			alert('Wrong dates.');
+			alert('Wrong date order.');
 			return false;
-		}
+		} /*else if {
+			return false;
+		}*/
 		else {
 			return true;
 		}
 	}
-
-	//Verification of dates
-	function verifDates(){
-		var start_date = $('new-start-date').value;
-		var end_date = $('new-end-date').val();
-	    
-	    if (start_date.toISOString() == "") {
-	        alert('gj');
-	    } else {
-	        alert(start_date.toISOString());
-    	}
-    }
 
 
 	//Verification of adress
