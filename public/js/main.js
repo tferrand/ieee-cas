@@ -44,6 +44,8 @@ $(document).ready(function(){
     	$('.conf-title').text(data.conference[0].title+' ('+data.conference[0].acronym+')');
     	$('#conf-location').append(data.conference[0].adress);
     	$('#conf-date').append('from '+data.conference[0].start+' to '+data.conference[0].end);
+    	$('#conf-date').data('start_date', data.conference[0].start.substr(0,10));
+    	$('#conf-date').data('end_date', data.conference[0].end.substr(0,10));
     	$model_id=data.conference[0].model_id;
 
     	//On fait une demande au serveur pour récupérer les noeuds
@@ -70,6 +72,12 @@ $(document).ready(function(){
     		socket.emit('get_tasks', data.nodes[nodeId].node_id, $('#conf-id').data('conference_id'));
     		socket.emit('get_tutos', data.nodes[nodeId].node_id);
     	}
+
+    	$(".node-date").each(function(n){
+    		if($(this).data('end_date') > $("#conf-date").data('start_date')){
+    			$(this).parent().data('openable', "no");
+    		}
+    	});
 
     	//Add tooltip to nodes
 		$(".node-title").each(function(n){
@@ -271,9 +279,7 @@ $(document).ready(function(){
 	}
 
 	function str_to_date(str){
-		var dt = new Date(parseInt(str.substring(0,5), 10),        // Year
-                  parseInt(str.substring(6, 8), 10) - 1, // Month (0-11)
-                  parseInt(str.substring(9), 10));    // Day
+		var dt = new Date(str);
 		return dt;
 	}
 
@@ -294,6 +300,10 @@ $(document).ready(function(){
 
 			ul.animate({"height":height});
 		
+		} else {
+			$('#error-modal-title').text('Node unavailable');
+			$('#error-modal-body').text('This node will be available when your conference is over');
+			$('#error-modal').modal('show');
 		}
 		return false;
 	});
@@ -411,6 +421,5 @@ $(document).ready(function(){
     
 	$('#new-adress-geocodify input').removeClass('geocodifyInput');
     $('#new-adress-geocodify input').addClass('form-control');
-
 
 });

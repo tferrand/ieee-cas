@@ -16,7 +16,7 @@ var nodemailer = require("nodemailer");
 
 var cronJob = require('cron').CronJob;
 var job = new cronJob({
-  cronTime: '00 53 13 * * 0-6',
+  cronTime: '00 57 16 * * 0-6',
   onTick: function() {
     // Runs every weekday (Monday through Friday)
     // at 11:30:00 AM. It does not run on Saturday
@@ -193,7 +193,7 @@ io.sockets.on('connection', function (socket, pseudo) {
     //update node progression
     socket.on('update_node_progression', function(conference_id, node_id, percentage) {
         pool.getConnection(function (err, connection){
-            connection.query('UPDATE node_conference SET progression = '+percentage+' WHERE conference_id='+conference_id+' AND node_id='+node_id, function(err, rows, fields) {
+            connection.query('UPDATE node_conference SET progression = '+percentage+' WHERE conference_id='+conference_id+' AND node_id='+node_id+'', function(err, rows, fields) {
                 connection.release();
                 if (err) throw err;
 
@@ -223,7 +223,7 @@ io.sockets.on('connection', function (socket, pseudo) {
                 if (err) throw err;
 
                 console.log(rows.insertId);
-                select_node_list(connection, rows.insertId); //create node for new conference
+                select_node_list(connection, rows.insertId, dataConf.new_start); //create node for new conference
                 select_tasks_list(connection, rows.insertId); //create tasks for new conference
 
                 connection.release();
@@ -249,23 +249,47 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.emit('create_conf_ok');
     }
 
-    function select_node_list(connection, conference_id){
+    function select_node_list(connection, conference_id, conference_start){
         console.log('In select_node_list()');
-        connection.query('SELECT id FROM node WHERE model_id = 1 ORDER BY node_nbr', function(err, rows, fields) {
+        connection.query('SELECT id, percentage FROM node WHERE model_id = 1 ORDER BY node_nbr', function(err, rows, fields) {
             if (err) throw err;
             console.log('In select_node_list() query');
-            create_node_conference(connection, rows, conference_id);
+            create_node_conference(connection, rows, conference_id, conference_start);
         });
     }
 
-    function create_node_conference(connection, nodes, conference_id){
+    function create_node_conference(connection, nodes, conference_id, conference_start){
         console.log('In create_node_conference()');
         for (var i = 0; i < nodes.length; i++) {
             console.log(nodes[i].id);
-            connection.query('INSERT INTO node_conference (node_id, conference_id, progression) VALUES ('+nodes[i].id+', '+conference_id+', 0)', function(err, rows, fields) {
+
+            var confStartDate = new Date(conference_start);
+            var currentDate = new Date(getDate());
+
+            var period = confStartDate.getTime() - currentDate.getTime();
+            period = Math.ceil(period / 1000 / 60 / 60 / 24);
+
+            var node_days = (period*nodes[i].percentage)/100;
+            connection.query('INSERT INTO node_conference (node_id, conference_id, progression, end_date) VALUES ('+nodes[i].id+', '+conference_id+', 0, DATE_ADD(NOW(), INTERVAL '+node_days+' day))', function(err, rows, fields) {
                 if (err) throw err;
             });
         }
+    }
+
+    function getDate() {
+        var now     = new Date(); 
+        var year    = now.getFullYear();
+        var month   = now.getMonth()+1; 
+        var day     = now.getDate();
+ 
+        if(month.toString().length == 1) {
+            var month = '0'+month;
+        }
+        if(day.toString().length == 1) {
+            var day = '0'+day;
+        }   
+        var date = year+'-'+month+'-'+day+' 00:00:00';   
+        return date;
     }
 
 
