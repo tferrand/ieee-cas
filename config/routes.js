@@ -21,7 +21,7 @@ module.exports = function(app){
 	app.get('/error', function(req, res, next){
 
 		// On génère la vue en indiquant à HoganJS l'erreur à afficher dans la vue
-		res.locals = { error : 'Login ou mot de passe incorrecte. Veuillez réessayer.' };
+		res.locals = { error : 'Login or password not correct. Please retry.' };
 		return res.render('login');
 
 	});
@@ -68,10 +68,11 @@ module.exports = function(app){
 
 	// Demande de calendrier
 	app.get('/calendar', function(req, res){
-
 		return res.render('calendar');
-
 	});
+
+
+
 
 	// --------------------------------------------------------------------------------------
 	// Politique des identifications possibles
