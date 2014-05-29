@@ -16,7 +16,7 @@ $(document).ready(function(){
     		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
 					+'<div class="conference-header-left">'
-						+'<h1>'+data.conferences[conferenceId].title+'('+data.conferences[conferenceId].acronym+')</h1>'
+						+'<h1>'+data.conferences[conferenceId].title+' ('+data.conferences[conferenceId].acronym+')</h1>'
 						+'<h2><b>ID : </b>'+data.conferences[conferenceId].id_iee+'</h2>'
 						+'<p><b>Lieu : </b>'+data.conferences[conferenceId].adress+'</p>'
 						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start+' to '+data.conferences[conferenceId].end+'</p>'
@@ -399,27 +399,5 @@ $(document).ready(function(){
         },
         title: "<span class='glyphicon glyphicon-bell' style='margin-right:10px;'></span>Notifications"
 	});
-
-
-	//New conference
-	$('#new-conference-modal').modal({
-	  keyboard: false,
-	  show: false
-	});
-
-	$("#new-conference-btn").click(function(){
-		$("#new-conference-modal").modal("show");
-	});
-
-
-	//geocodify
-	$("#new-adress-geocodify").geocodify({
-        onSelect: function (result) { 
-        	//alert(result); 
-        }
-    });
-    
-	$('#new-adress-geocodify input').removeClass('geocodifyInput');
-    $('#new-adress-geocodify input').addClass('form-control');
 
 });

@@ -1,5 +1,27 @@
 $(document).ready(function(){
+	//New conference modal
+	$('#new-conference-modal').modal({
+	  keyboard: false,
+	  show: false
+	});
 
+	//Click on new conference button
+	$("#new-conference-btn").click(function(){
+		$("#new-conference-modal").modal("show");
+	});
+
+
+	//geocodify
+	$("#new-adress-geocodify").geocodify({
+        onSelect: function (result) { 
+        	//alert(result); 
+        }
+    });
+	$('#new-adress-geocodify input').removeClass('geocodifyInput');
+    $('#new-adress-geocodify input').addClass('form-control');
+
+
+    //Click on validate create conference
 	$('#new-conference-validate').click(function(){
 		var tcOk = verifTC();
 		var idOk = verifID($('#new-id-ieee'));

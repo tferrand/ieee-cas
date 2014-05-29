@@ -66,14 +66,6 @@ module.exports = function(app){
 	});
 
 
-	// Demande de calendrier
-	app.get('/calendar', function(req, res){
-		return res.render('calendar');
-	});
-
-
-
-
 	// --------------------------------------------------------------------------------------
 	// Politique des identifications possibles
 
