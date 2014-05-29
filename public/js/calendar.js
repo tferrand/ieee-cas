@@ -15,7 +15,7 @@ $(document).ready(function() {
 				title : data.conferences[conferenceId].title,
 				start : data.conferences[conferenceId].start,
 				end : data.conferences[conferenceId].end,
-				url: '/tferrand@isep.fr/conference/'+data.conferences[conferenceId].id_iee
+				url: '/'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee
 			}
 		}
 

@@ -64,13 +64,16 @@ $(document).ready(function(){
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
 						+'<span class="node-date" data-end_date="'+data.nodes[nodeId].end_date+'">('+calc_days(data.nodes[nodeId].end_date,getDate())+' days)</span>'
-						+'<span class="node-percentage"></span>'
+						+'<span class="node-percentage">'+data.nodes[nodeId].progression+'%</span>'
 					+'</a>'
 					+'<ul></ul>'
 				+'</li>');
 
     		socket.emit('get_tasks', data.nodes[nodeId].node_id, $('#conf-id').data('conference_id'));
     		socket.emit('get_tutos', data.nodes[nodeId].node_id);
+
+    		//update node percentage color
+			updateColor(data.nodes[nodeId].node_id, data.nodes[nodeId].progression);
     	}
 
     	$(".node-date").each(function(n){
@@ -147,7 +150,7 @@ $(document).ready(function(){
 			placement:'right'
 		});
 
-		nodePercentage(data.tasks[0].node_id);
+		//nodePercentage(data.tasks[0].node_id);
 		calculatePercentage();
 
     });
@@ -360,17 +363,19 @@ $(document).ready(function(){
 		$('li#node_id_'+node_id+' .node-percentage').text(percentage+'%');
 		socket.emit('update_node_progression',$('#conf-id').data('conference_id'),node_id,percentage);
 		
-		if(percentage == 100){
-			updateColor(node_id, 'green');
-		} else if (percentage < 100 && percentage > 0){
-			updateColor(node_id, 'orange');
-		} else {
-			updateColor(node_id, 'red');
-		}
+		updateColor(node_id, percentage);
 		console.log(percentage);
 	}
 
-	function updateColor(node_id, color){
+	function updateColor(node_id, percentage){
+		var color;
+		if(percentage == 100){
+			color = 'green';
+		} else if (percentage < 100 && percentage > 0){
+			color = 'orange';
+		} else {
+			color = 'red';
+		}
 		$('li#node_id_'+node_id+' span.node-percentage').css({'background-color':color, 'border-color':color});
 		$('li#node_id_'+node_id).css('border-left-color',color);
 		$('li#node_id_'+node_id+' .node-circle').css('border-color',color);
