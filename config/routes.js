@@ -3,6 +3,8 @@ var passport   = require('passport');
 var myPassport = require('./passport');
 var pool=require('./connection_db').initPool();
 
+var modelConferences = require('../models/conferences');
+
 
 module.exports = function(app){
 
@@ -28,11 +30,14 @@ module.exports = function(app){
 
 	// Page protégée
 	app.get('/home', myPassport.ensureAuthenticated, function(req, res, next){
-
+		// modelConferences.get_tcs(function(rows){
+		// 	console.log('The tcs are : ', rows);
+		// 	var tcs = rows;
+		// });
+	
 		// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
-		res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type  } };
+		res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type} };
 		return res.render('home');
-
 	});
 
 	// Page protégée
