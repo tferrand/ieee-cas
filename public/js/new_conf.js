@@ -133,7 +133,6 @@ $(document).ready(function(){
 	});
 	function verifStartDate(field){
 		var start_date = field.val();
-		console.log(start_date);
 
 	    if (start_date == "") {
 	        needFix(field,false);
@@ -150,7 +149,6 @@ $(document).ready(function(){
 	});
 	function verifEndDate(field){
 		var end_date = field.val();
-		console.log(end_date);
 
 	    if (end_date == "") {
 	        needFix(field,false);
@@ -162,21 +160,47 @@ $(document).ready(function(){
 	}
 
 	//Compare dates
+	function getDate() {
+	    var now     = new Date(); 
+	    var year    = now.getFullYear();
+	    var month   = now.getMonth()+1; 
+	    var day     = now.getDate();
+ 
+	    if(month.toString().length == 1) {
+	        var month = '0'+month;
+	    }
+	    if(day.toString().length == 1) {
+	        var day = '0'+day;
+	    }   
+	    var date = year+'-'+month+'-'+day;   
+	    return date;
+	}
+
+	function str_to_date(str){
+		var dt = new Date(str);
+		return dt;
+	}
+
+	function calc_days(date1, date2){
+		var distance = str_to_date(date1).getTime() - str_to_date(date2).getTime();
+		distance = Math.ceil(distance / 1000 / 60 / 60 / 24);
+		return distance;
+	}
+
 	function comparingDates(){
 		var start_date = $('#new-start-date').val();
 		var end_date = $('#new-end-date').val();
 
-		var dNow = new Date();
-		var utc = new Date(dNow.getTime() + dNow.getTimezoneOffset() * 60000);
-		var utcdate= (utc.getMonth()+1) + '/' + utc.getDate() + '/' + utc.getFullYear() + ' ' + utc.getHours() + ':' + utc.getMinutes();;
-		console.log(utcdate);
+		var dist = calc_days(start_date.substr(0,10), getDate());
+		console.log(start_date.substr(0,10));
 
 		if (new Date(end_date) < new Date(start_date)) {
 			alert('Wrong date order.');
 			return false;
-		} /*else if {
+		} else if (dist < 180) {
+			alert('Time is too short between now and the starting date.')
 			return false;
-		}*/
+		}
 		else {
 			return true;
 		}
@@ -219,7 +243,6 @@ $(document).ready(function(){
 	//Verification checkbox TC
 	function verifTC(){
 		countingTC = $( "input:checked" ).length;
-		console.log(countingTC);
 		if(countingTC >= 3){
 			return true;
 		}
