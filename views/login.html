@@ -5,6 +5,12 @@
 			<strong>Warning !</strong> {{error}}
 		</div>
 		{{/error}}
+		
+<script>
+		$(document).ready(function() {
+    $(".navbar").hide();
+});
+</script>
 
 		<div class="wrap-login">
 			<form id="formLogin" action="/auth/local" method="POST" class="form-signin">
