@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 02 Juin 2014 à 11:15
+-- Généré le: Lun 02 Juin 2014 à 12:37
 -- Version du serveur: 5.6.12-log
 -- Version de PHP: 5.4.12
 
@@ -172,19 +172,6 @@ INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `
 (126, 14, 14, '0000-00-00', '2015-12-17', 0),
 (127, 15, 14, '0000-00-00', '2016-01-05', 0),
 (128, 16, 14, '0000-00-00', '2016-01-13', 0);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `sponsor`
---
-
-CREATE TABLE IF NOT EXISTS `sponsor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `photo` mediumtext,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -371,42 +358,6 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 -- --------------------------------------------------------
 
 --
--- Structure de la table `tc_sponsor`
---
-
-CREATE TABLE IF NOT EXISTS `tc_sponsor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `type` enum('tc','sponsor') DEFAULT NULL,
-  `login` varchar(45) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
-
---
--- Contenu de la table `tc_sponsor`
---
-
-INSERT INTO `tc_sponsor` (`id`, `name`, `type`, `login`, `password`) VALUES
-(1, 'Analog Signal Processing', 'tc', 'tc1@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(2, 'Biomedical and Life Science Circuits and Systems', 'tc', 'tc2@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(3, 'Cellular Nanoscale Networks and Array Computing', 'tc', 'tc3@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(4, 'Circuits & Systems for Communications', 'tc', 'tc4@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(5, 'Circuits and Systems Education and Outreach', 'tc', 'tc5@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(6, 'Computer-Aided Network Design', 'tc', 'tc6@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(7, 'Digital Signal Processing', 'tc', 'tc7@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(8, 'Multimedia Systems & Applications', 'tc', 'tc8@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(9, 'Nanoelectronics and Gigascale Systems', 'tc', 'tc9@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(10, 'Neural Systems & Applications', 'tc', 'tc10@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(11, 'Nonlinear Circuits & Systems', 'tc', 'tc11@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(12, 'Power and Energy Circuits and Systems', 'tc', 'tc12@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(13, 'Sensory Systems', 'tc', 'tc13@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(14, 'Visual Signal Processing & Communications', 'tc', 'tc14@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a'),
-(15, 'VLSI Systems & Applications', 'tc', 'tc15@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `tuto`
 --
 
@@ -444,22 +395,37 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(45) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
-  `birthday` date DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `affiliation` varchar(90) DEFAULT NULL,
-  `type` enum('vpConference','organizer','admin') DEFAULT NULL,
+  `type` enum('vpConference','organizer','admin','tc','sponsor') DEFAULT NULL,
   `photo` mediumtext,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `birthday`, `affiliation`, `type`, `photo`, `created_at`, `updated_at`) VALUES
-(1, 'tferrand@isep.fr', 'ab4f63f9ac65152575886860dde480a1', 'Thomas', 'Fe', '2012-12-04', 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17'),
-(2, 'vp@isep.fr', '08f41e2b56730d87f1232d525303ba14', 'VP', 'VP', NULL, NULL, 'vpConference', NULL, '2014-05-18 15:16:26', '2014-05-18 15:16:26');
+INSERT INTO `user` (`id`, `email`, `password`, `first_name`, `last_name`, `name`, `affiliation`, `type`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 'tferrand@isep.fr', 'ab4f63f9ac65152575886860dde480a1', 'Thomas', 'Fe', NULL, 'Test', 'organizer', NULL, '2014-05-08 01:57:17', '2014-05-08 01:57:17'),
+(2, 'vp@isep.fr', '08f41e2b56730d87f1232d525303ba14', 'VP', 'VP', NULL, NULL, 'vpConference', NULL, '2014-05-18 15:16:26', '2014-05-18 15:16:26'),
+(3, 'tc1@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Analog Signal Processing', NULL, 'tc', NULL, NULL, NULL),
+(5, 'tc2@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Biomedical and Life Science Circuits and Systems', NULL, 'tc', NULL, NULL, NULL),
+(6, 'tc3@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Cellular Nanoscale Networks and Array Computing', NULL, 'tc', NULL, NULL, NULL),
+(7, 'tc4@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Circuits & Systems for Communications', NULL, 'tc', NULL, NULL, NULL),
+(8, 'tc5@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Circuits and Systems Education and Outreach', NULL, 'tc', NULL, NULL, NULL),
+(9, 'tc6@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Computer-Aided Network Design', NULL, 'tc', NULL, NULL, NULL),
+(10, 'tc7@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Digital Signal Processing', NULL, 'tc', NULL, NULL, NULL),
+(11, 'tc8@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Multimedia Systems & Applications', NULL, 'tc', NULL, NULL, NULL),
+(12, 'tc9@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Nanoelectronics and Gigascale Systems', NULL, 'tc', NULL, NULL, NULL),
+(13, 'tc10@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Neural Systems & Applications', NULL, 'tc', NULL, NULL, NULL),
+(14, 'tc11@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Nonlinear Circuits & Systems', NULL, 'tc', NULL, NULL, NULL),
+(15, 'tc12@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Power and Energy Circuits and Systems', NULL, 'tc', NULL, NULL, NULL),
+(16, 'tc13@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Sensory Systems', NULL, 'tc', NULL, NULL, NULL),
+(17, 'tc14@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'Visual Signal Processing & Communications', NULL, 'tc', NULL, NULL, NULL),
+(18, 'tc15@ieee.com', '5c4fefda27cfe84c3999be13e6b8608a', NULL, NULL, 'VLSI Systems & Applications', NULL, 'tc', NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables exportées
@@ -476,8 +442,8 @@ ALTER TABLE `conference`
 -- Contraintes pour la table `conference_tc_sponsor`
 --
 ALTER TABLE `conference_tc_sponsor`
-  ADD CONSTRAINT `fk_conference_tc_sponsor_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_conference_tc_sponsor_tc_sponsor1` FOREIGN KEY (`tc_sponsor_id`) REFERENCES `tc_sponsor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_conference_tc_sponsor_tc_sponsor1` FOREIGN KEY (`tc_sponsor_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_conference_tc_sponsor_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Contraintes pour la table `node`
