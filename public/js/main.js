@@ -16,7 +16,7 @@ $(document).ready(function(){
     		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
 					+'<div class="conference-header-left">'
-						+'<h1>'+data.conferences[conferenceId].title+'('+data.conferences[conferenceId].acronym+')</h1>'
+						+'<h1>'+data.conferences[conferenceId].title+' ('+data.conferences[conferenceId].acronym+')</h1>'
 						+'<h2><b>ID : </b>'+data.conferences[conferenceId].id_iee+'</h2>'
 						+'<p><b>Lieu : </b>'+data.conferences[conferenceId].adress+'</p>'
 						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start+' to '+data.conferences[conferenceId].end+'</p>'
@@ -44,6 +44,8 @@ $(document).ready(function(){
     	$('.conf-title').text(data.conference[0].title+' ('+data.conference[0].acronym+')');
     	$('#conf-location').append(data.conference[0].adress);
     	$('#conf-date').append('from '+data.conference[0].start+' to '+data.conference[0].end);
+    	$('#conf-date').data('start_date', data.conference[0].start.substr(0,10));
+    	$('#conf-date').data('end_date', data.conference[0].end.substr(0,10));
     	$model_id=data.conference[0].model_id;
 
     	//On fait une demande au serveur pour récupérer les noeuds
@@ -62,14 +64,23 @@ $(document).ready(function(){
 						+'<span class="node-circle"></span>'
 						+'<span class="node-title">'+data.nodes[nodeId].name+'</span>'
 						+'<span class="node-date" data-end_date="'+data.nodes[nodeId].end_date+'">('+calc_days(data.nodes[nodeId].end_date,getDate())+' days)</span>'
-						+'<span class="node-percentage"></span>'
+						+'<span class="node-percentage">'+data.nodes[nodeId].progression+'%</span>'
 					+'</a>'
 					+'<ul></ul>'
 				+'</li>');
 
     		socket.emit('get_tasks', data.nodes[nodeId].node_id, $('#conf-id').data('conference_id'));
     		socket.emit('get_tutos', data.nodes[nodeId].node_id);
+
+    		//update node percentage color
+			updateColor(data.nodes[nodeId].node_id, data.nodes[nodeId].progression);
     	}
+
+    	$(".node-date").each(function(n){
+    		if($(this).data('end_date') > $("#conf-date").data('start_date')){
+    			$(this).parent().data('openable', "no");
+    		}
+    	});
 
     	//Add tooltip to nodes
 		$(".node-title").each(function(n){
@@ -139,7 +150,7 @@ $(document).ready(function(){
 			placement:'right'
 		});
 
-		nodePercentage(data.tasks[0].node_id);
+		//nodePercentage(data.tasks[0].node_id);
 		calculatePercentage();
 
     });
@@ -271,9 +282,7 @@ $(document).ready(function(){
 	}
 
 	function str_to_date(str){
-		var dt = new Date(parseInt(str.substring(0,5), 10),        // Year
-                  parseInt(str.substring(6, 8), 10) - 1, // Month (0-11)
-                  parseInt(str.substring(9), 10));    // Day
+		var dt = new Date(str);
 		return dt;
 	}
 
@@ -294,6 +303,10 @@ $(document).ready(function(){
 
 			ul.animate({"height":height});
 		
+		} else {
+			$('#error-modal-title').text('Node unavailable');
+			$('#error-modal-body').text('This node will be available when your conference is over');
+			$('#error-modal').modal('show');
 		}
 		return false;
 	});
@@ -350,17 +363,19 @@ $(document).ready(function(){
 		$('li#node_id_'+node_id+' .node-percentage').text(percentage+'%');
 		socket.emit('update_node_progression',$('#conf-id').data('conference_id'),node_id,percentage);
 		
-		if(percentage == 100){
-			updateColor(node_id, 'green');
-		} else if (percentage < 100 && percentage > 0){
-			updateColor(node_id, 'orange');
-		} else {
-			updateColor(node_id, 'red');
-		}
+		updateColor(node_id, percentage);
 		console.log(percentage);
 	}
 
-	function updateColor(node_id, color){
+	function updateColor(node_id, percentage){
+		var color;
+		if(percentage == 100){
+			color = 'green';
+		} else if (percentage < 100 && percentage > 0){
+			color = 'orange';
+		} else {
+			color = 'red';
+		}
 		$('li#node_id_'+node_id+' span.node-percentage').css({'background-color':color, 'border-color':color});
 		$('li#node_id_'+node_id).css('border-left-color',color);
 		$('li#node_id_'+node_id+' .node-circle').css('border-color',color);
@@ -389,28 +404,5 @@ $(document).ready(function(){
         },
         title: "<span class='glyphicon glyphicon-bell' style='margin-right:10px;'></span>Notifications"
 	});
-
-
-	//New conference
-	$('#new-conference-modal').modal({
-	  keyboard: false,
-	  show: false
-	});
-
-	$("#new-conference-btn").click(function(){
-		$("#new-conference-modal").modal("show");
-	});
-
-
-	//geocodify
-	$("#new-adress-geocodify").geocodify({
-        onSelect: function (result) { 
-        	//alert(result); 
-        }
-    });
-    
-	$('#new-adress-geocodify input').removeClass('geocodifyInput');
-    $('#new-adress-geocodify input').addClass('form-control');
-
 
 });

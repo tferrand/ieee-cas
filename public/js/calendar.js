@@ -4,37 +4,59 @@ $(document).ready(function() {
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
-	
-	//socket.emit('get_user_conferences', 1);
-	
+		
 	socket.on('get_user_conferences', function(data){
-				test = [];
+		console.log(data);
+
+		conferencesData = [];
 
 		for (var conferenceId in data.conferences){
-    				
-
-			
-			test[conferenceId] = {
+			conferencesData[conferenceId] = {
 				title : data.conferences[conferenceId].title,
 				start : data.conferences[conferenceId].start,
-				end : data.conferences[conferenceId].end
+				end : data.conferences[conferenceId].end,
+				url: '/'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee
 			}
-		
 		}
+
+		var date = new Date(data.conferences[0].start);
+		var year1 = date.getFullYear();
+		var month1 = date.getMonth();
+		var day1 = date.getDate();
 		
 		$('#calendar').fullCalendar({
+			year: year1,
+			month: month1,
+			date: day1,
 			header: {
 				left: 'prev,next today',
 				center: 'title',
-				right: 'month,basicWeek,basicDay'
+				right: 'month,basicWeek'
 			},
 			editable: true,
-			events: test
-
+			events: conferencesData
 		});
-			    	console.log(data);
+
+		$('#calendar').hide();
 
     });
+
+
+    //Show/Hide list/calendar view of conferences
+    $('#show_list').click(function(){
+    	$(this).siblings().removeClass('active');
+    	$(this).addClass('active');
+    	$('#conferences-wrap').show();
+    	$('#calendar').hide();
+    });
 	
+	$('#show_calendar').click(function(){
+		$(this).siblings().removeClass('active');
+		$(this).addClass('active');
+    	$('#calendar').show();
+    	$('#conferences-wrap').hide();
+    });
+
+
 	
 });
