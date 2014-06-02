@@ -18,4 +18,16 @@ var get_user_conferences = function(socket, user_id, user_type){
     });
 }
 
+var get_tcs = function(cb){
+    pool.getConnection(function (err, connection){
+        connection.query('SELECT name, id FROM tc_sponsor WHERE type = "tc"', function(err, rows, fields) {
+            connection.release();
+            if (err) throw err;
+
+            cb(rows);
+        });
+    });
+}
+
 exports.get_user_conferences = get_user_conferences;
+exports.get_tcs = get_tcs;

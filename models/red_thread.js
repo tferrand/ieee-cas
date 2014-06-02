@@ -38,7 +38,7 @@ var get_tasks = function(socket, node_id, conference_id){
 
 var get_task_infos = function (socket, task_id) {
 	pool.getConnection(function (err, connection){
-        connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, tasks_list.description, tasks_list.link, tasks_list.link_name, tasks_list.date, node.name as node_name from tasks_list INNER JOIN node ON node.id = tasks_list.node_id WHERE tasks_list.id ='+task_id, function(err, rows, fields) {
+        connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, tasks_list.description, tasks_list.link, tasks_list.link_name, tasks_list.date, tasks_list.upload, node.name as node_name from tasks_list INNER JOIN node ON node.id = tasks_list.node_id WHERE tasks_list.id ='+task_id, function(err, rows, fields) {
             connection.release();
             if (err) throw err;
 

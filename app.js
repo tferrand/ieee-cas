@@ -105,7 +105,7 @@ io.sockets.on('connection', function (socket, pseudo) {
 
 
 /***TEST DES CRON JOBS***/ //Ca marche
-modelCron.cronNodeMail(190);
+modelCron.cronNodeMail(5);
 /*******************/
 
 

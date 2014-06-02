@@ -4,7 +4,6 @@
 			<small><cite title="user" id="user_type" data-user_type="{{user.type}}">{{user.type}}'s user : </cite><cite title="user" id="user_login" data-user_login="{{user.login}}">{{user.login}}</cite>&nbsp;&nbsp;| User ID : <cite id="user_id" data-user_id="{{user.id}}">{{user.id}}</cite> </small>
 		</blockquote>
 
-
 		<div class="btn-group" style="margin-bottom:20px;">
 			<button type="button" class="btn btn-default active" id="show_list">List View</button>
 			<button type="button" class="btn btn-default" id="show_calendar">Calendar View</button>
@@ -12,3 +11,154 @@
 		
 		<div id="calendar"></div>
 		<div id="conferences-wrap"></div>
+
+		<div id="new-conference-modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 id="new-conference-modal-title" class="modal-title">Create new conference</h4>
+					</div>
+					<div class="modal-body" id="new-conference-modal-body">
+						
+						<label for="new-id-ieee">ID IEEE</label>
+    					<input type="text" class="form-control" id="new-id-ieee">
+
+    					<label for="new-title">Title</label>
+    					<input type="text" class="form-control" id="new-title">
+
+    					<label for="new-acronym">Acronym</label>
+    					<input type="text" class="form-control" id="new-acronym">
+
+    					<div class="row">
+						  <div class="col-md-6">
+						  	<label for="new-start-date">Start Date</label>
+    						<input type="datetime-local" class="form-control" id="new-start-date">
+						  </div>
+						  <div class="col-md-6">
+						  	<label for="new-end-date">End Date</label>
+    						<input type="datetime-local" class="form-control" id="new-end-date">
+						  </div>
+						</div>
+
+						<label for="new-adress">Adress</label>
+    					<form id="new-adress-geocodify"></form>
+
+    					<label for="new-description">Description</label>
+    					<textarea class="form-control" rows="3" id="new-description"></textarea>
+
+						<label for="new-model">Model</label>
+    					<select id="new-model" class="form-control">
+						  <option value="1">Financial</option>
+						  <option value="2">Technical</option>
+						</select>
+
+    					<label>Technical Committees</label>
+    					<div id="wrap_tc" class="row checkboxes">
+
+							<div class="col-md-4">
+		    					<div class="checkbox">
+									<label>
+										<input id="tc1" type="checkbox" value="1">
+										Analog Signal Processing
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc2" type="checkbox" value="2">
+										Biomedical and Life Science Circuits and Systems
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc3" type="checkbox" value="3">
+										Cellular Nanoscale Networks and Array Computing
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc4" type="checkbox" value="4">
+										Circuits & Systems for Communications
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc5" type="checkbox" value="5">
+										Circuits and Systems Education and Outreach
+									</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+		    					<div class="checkbox">
+									<label>
+										<input id="tc6" type="checkbox" value="6">
+										Computer-Aided Network Design
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc7" type="checkbox" value="7">
+										Digital Signal Processing
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc8" type="checkbox" value="8">
+										Multimedia Systems & Applications
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc9" type="checkbox" value="9">
+										Nanoelectronics and Gigascale Sys
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc10" type="checkbox" value="10">
+										Neural Systems & Applications
+									</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+		    					<div class="checkbox">
+									<label>
+										<input id="tc11" type="checkbox" value="11">
+										Nonlinear Circuits & Systems
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc12" type="checkbox" value="12">
+										Power and Energy Circuits and Systems
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc12" type="checkbox" value="13">
+										Sensory Systems
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc13" type="checkbox" value="14">
+										Visual Signal Processing & Communications
+									</label>
+								</div>
+								<div class="checkbox">
+									<label>
+										<input id="tc14" type="checkbox" value="15">
+										VLSI Systems & Applications
+									</label>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="new-conference-validate"><span class="glyphicon glyphicon-ok"></span>Create conference</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
