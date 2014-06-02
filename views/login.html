@@ -5,14 +5,28 @@
 			<strong>Warning !</strong> {{error}}
 		</div>
 		{{/error}}
+		<style>
+			.col{margin:0 10px; float:left; display:inline;overflow: hidden;
+}
+            .col-670{width:670px;overflow: hidden;
+}
+            .col-250{width:250px; float:right; margin-top:40px;overflow: hidden;
+}
+			.top{margin-top:60px;}
+			.frame{ display: block;
+                width: 100%;
+                border: 1px solid #2d6ca2;
+        }}
+		</style>
 		
 <script>
 		$(document).ready(function() {
     $(".navbar").hide();
 });
 </script>
+		<div class="frame">
 
-		<div class="wrap-login">
+<div class="col col670 top">
 			<form id="formLogin" action="/auth/local" method="POST" class="form-signin">
 				<h2 class="form-signin-heading">Please sign in to IEEE-CAS</h2>
 				<input value="tferrand@isep.fr" id="username" name="username" type="email" class="form-control" placeholder="Email address" required autofocus>
@@ -22,4 +36,11 @@
 				</label> -->
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 			</form>
-	    </div> <!-- /container -->
+	     <!-- /container -->
+		</div>
+		<div class="col-250 top">
+		<img src="../../img/ieee.jpg" width="150" height="150"  /> <br/>
+		<h3><i>Creating conferences had never been so  <b>easy</b></i></h3>
+		</div>
+		</div>
+		
