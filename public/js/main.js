@@ -170,6 +170,12 @@ $(document).ready(function(){
     		$("#task-modal-link").hide();
     	}
 
+    	if(data.task_infos[0].upload != 0){
+    		$('#task-modal-upload').show();
+    	} else {
+    		$('#task-modal-upload').hide();
+    	}
+
 		$("#task-modal-validate").data("task_id",data.task_infos[0].id);
 		
 		$("#task-modal").modal("show");

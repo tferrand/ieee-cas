@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 			var datatcs = {};
 			$('#wrap_tc input:checked').each(function(n){
-				datatcs[n] = $(this).attr('id');
+				datatcs[n] = $(this).val();
 			});
 			console.log(datatcs);
 
