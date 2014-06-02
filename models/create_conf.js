@@ -10,6 +10,7 @@ var createNewConf = function(socket, dataConf){
             console.log(rows.insertId);
             select_node_list(connection, rows.insertId, dataConf.new_start); //create node for new conference
             select_tasks_list(connection, rows.insertId); //create tasks for new conference
+            insert_tcs(connection, dataConf.tcs, rows.insertId);
 
             connection.release();
 
@@ -18,6 +19,14 @@ var createNewConf = function(socket, dataConf){
     });
 }
 
+function insert_tcs(connection, tcs, conference_id){
+    for (var i = 0; i < tcs.length; i++) {
+        console.log(tcs[i]);
+        connection.query('INSERT INTO conference_tc_sponsor (tc_sponsor_id, conference_id) VALUES ('+conference_id+', '+tcs[i]+')', function(err, rows, fields) {
+            if (err) throw err;
+        });
+    }
+}
 
 function select_tasks_list(connection, conference_id){
     connection.query('SELECT tasks_list.id FROM tasks_list INNER JOIN node ON tasks_list.node_id = node.id WHERE node.model_id = 1 ORDER BY tasks_list.node_id', function(err, rows, fields) {
