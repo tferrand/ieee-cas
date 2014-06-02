@@ -37,9 +37,11 @@ $(document).ready(function(){
 		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk){
 			//return true;
 
-			var datatcs = {};
+			var datatcs = [];
+
 			$('#wrap_tc input:checked').each(function(n){
-				datatcs[n] = $(this).val();
+				//datatcs[n] = $(this).val();
+				datatcs.push($(this).val());
 			});
 			console.log(datatcs);
 
