@@ -108,8 +108,11 @@ io.sockets.on('connection', function (socket, pseudo) {
     //Upload de fichiers
     ss(socket).on('file', function(stream, data) {
         var filename = path.basename(data.name);
-        stream.pipe(fs.createWriteStream(filename));
-        
+        stream.pipe(fs.createWriteStream(filename)); 
+    });
+
+    socket.on('insert_file_db', function(data){
+        console.log('test test test test');
         modelUpload.uploadFile(socket, data);
     });
 

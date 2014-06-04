@@ -8,7 +8,7 @@ $(document).ready(function(){
 		var stream = ss.createStream();
 
 		// upload a file to the server.
-		ss(socket).emit('file', stream, {name: file.name, size: file.size, conference_id: $('#conf-id').data('conference_id'), task_id:$('#task-modal-validate').data('task_id')});
+		ss(socket).emit('file', stream, {name: file.name, size: file.size});
 		ss.createBlobReadStream(file).pipe(stream);
 
 		var blobStream = ss.createBlobReadStream(file);
@@ -21,6 +21,7 @@ $(document).ready(function(){
 		  $('#upload_progress').css('width', upload_progress+'%');
 
 		  if(upload_progress == 100){
+		  	socket.emit('insert_file_db', {name: file.name, conference_id: $('#conf-id').data('conference_id'), task_id:$('#task-modal-validate').data('task_id')});
 			setTimeout(function(){
 				reset_upload_progress();
 			}, 2000);
