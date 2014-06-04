@@ -30,7 +30,6 @@ module.exports = function(app){
 	// On définie les middlewares qui seront en charge de traiter toutes les requêtes
 	// L'ordre de définition des middlewares est important (middleware appelés les uns après les autres)
 	app.configure(function() {
-
 		app.use(express.logger('dev'));                     // Affichage des requêtes sur la console ('default', 'short', 'tiny', 'dev')
 		app.use(express.static(__dirname + '/../public'));  // Répertoire des fichiers statiques (Image, CSS, etc), desservie sans autorisation
 

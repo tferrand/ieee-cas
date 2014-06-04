@@ -10,7 +10,7 @@ var createNewConf = function(socket, dataConf){
             console.log(rows.insertId);
             select_node_list(connection, rows.insertId, dataConf.new_start); //create node for new conference
             select_tasks_list(connection, rows.insertId); //create tasks for new conference
-            insert_tcs(connection, dataConf.new_tcs, rows.insertId);
+            insert_tcs(connection, dataConf.new_tcs, rows.insertId); //create tcs relations with conference
 
             connection.release();
 

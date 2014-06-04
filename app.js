@@ -9,6 +9,10 @@ var myConfig   = require('./config/config');
 var myRoutes   = require('./config/routes');
 var pool       = require('./config/connection_db').initPool();
 
+var ss = require('socket.io-stream'); // for file uploading
+var path = require('path');
+var fs = require("fs");
+
 // --------------------------------------------------------------------------
 // Chargement des variables de configuration
 
@@ -95,10 +99,15 @@ io.sockets.on('connection', function (socket, pseudo) {
         modelRedThread.get_tutos(socket, node_id);
     });
 
-
     //get infos création conf
     socket.on('create_conf', function(dataConf) {
         modelNewConf.createNewConf(socket, dataConf);
+    });
+
+    //Upload de fichiers
+    ss(socket).on('file', function(stream, data) {
+        var filename = path.basename(data.name);
+        stream.pipe(fs.createWriteStream(filename));
     });
 
 });

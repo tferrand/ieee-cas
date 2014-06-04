@@ -149,7 +149,7 @@ body  ul.red-wire > li.node-list > ul > li.task:active {
 }
 
 .modal .panel{
-	margin-top:10px;
+	margin-top:20px;
 	margin-bottom:10px;
 	text-align:justify;
 }
@@ -383,4 +383,24 @@ li.task span.glyphicon.glyphicon-ok{
 
 h1.conf-title{
 	font-size: 19px;
+}
+
+.file_upload{
+	position:absolute;
+	z-index:2;
+	top:0;
+	left:0;
+	filter: alpha(opacity=0);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	opacity:0;
+	background-color:transparent;
+	color:transparent;
+	height: 35px;
+	width: 116px;
+}
+
+.wrap_upload_progress{
+	margin-top: 10px;
+	margin-bottom: 0;
+	display: none;
 }
