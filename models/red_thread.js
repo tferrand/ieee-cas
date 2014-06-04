@@ -26,7 +26,7 @@ var get_nodes = function(socket, model_id, conference_id){
 
 var get_tasks = function(socket, node_id, conference_id){
 	pool.getConnection(function (err, connection){
-        connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, task_validation.validation, task_validation.limit_date from tasks_list INNER JOIN task_validation ON tasks_list.id = task_validation.tasks_list_id  WHERE node_id ='+node_id+' AND task_validation.conference_id='+conference_id, function(err, rows, fields) {
+        connection.query('SELECT tasks_list.id, tasks_list.node_id, tasks_list.name, task_validation.validation, task_validation.limit_date, task_validation.file_uploaded from tasks_list INNER JOIN task_validation ON tasks_list.id = task_validation.tasks_list_id  WHERE node_id ='+node_id+' AND task_validation.conference_id='+conference_id, function(err, rows, fields) {
             connection.release();
             if (err) throw err;
 

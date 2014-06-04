@@ -34,6 +34,7 @@ var modelNewConf = require('./models/create_conf');
 var modelRedThread = require('./models/red_thread');
 var modelConferences = require('./models/conferences');
 var modelCron = require('./models/cron');
+var modelUpload = require('./models/upload');
 
 
 // --------------------------------------------------------------------------
@@ -108,6 +109,8 @@ io.sockets.on('connection', function (socket, pseudo) {
     ss(socket).on('file', function(stream, data) {
         var filename = path.basename(data.name);
         stream.pipe(fs.createWriteStream(filename));
+        
+        modelUpload.uploadFile(socket, data);
     });
 
 });

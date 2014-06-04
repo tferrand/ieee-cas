@@ -121,7 +121,7 @@ $(document).ready(function(){
     		}
 
     		$('#node_id_'+data.tasks[taskId].node_id+' ul').append(
-    			'<li class="task" data-task_id="'+data.tasks[taskId].id+'" data-validation="'+data.tasks[taskId].validation+'" data-limit_date="'+limit_date+'" data-toggle="tooltip" data-original-title="Show description">'+data.tasks[taskId].name+'</li>'
+    			'<li class="task" id="task_'+data.tasks[taskId].id+'" data-task_id="'+data.tasks[taskId].id+'" data-validation="'+data.tasks[taskId].validation+'" data-limit_date="'+limit_date+'" data-file_uploaded="'+data.tasks[taskId].file_uploaded+'" data-toggle="tooltip" data-original-title="Show description">'+data.tasks[taskId].name+'</li>'
     		);
 
     	}
@@ -172,6 +172,13 @@ $(document).ready(function(){
 
     	if(data.task_infos[0].upload != 0){
     		$('#task-modal-upload').show();
+    		if($('#task_'+data.task_infos[0].id+'').data('file_uploaded') == 0){
+    			$('#task-modal-upload-input').show();
+    			$('#task-modal-uploaded').hide();
+    		} else {
+    			$('#task-modal-upload-input').hide();
+    			$('#task-modal-uploaded').show();
+    		}
     	} else {
     		$('#task-modal-upload').hide();
     	}

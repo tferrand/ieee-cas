@@ -8,7 +8,7 @@ $(document).ready(function(){
 		var stream = ss.createStream();
 
 		// upload a file to the server.
-		ss(socket).emit('file', stream, {name: file.name, size: file.size});
+		ss(socket).emit('file', stream, {name: file.name, size: file.size, conference_id: $('#conf-id').data('conference_id'), task_id:$('#task-modal-validate').data('task_id')});
 		ss.createBlobReadStream(file).pipe(stream);
 
 		var blobStream = ss.createBlobReadStream(file);
@@ -38,4 +38,16 @@ $(document).ready(function(){
 
 		$('#upload-file-info').text('');
 	}
+
+
+	socket.on('file_upload', function(data) {
+		if(data.response == "ok"){
+			console.log("file uploaded");
+			$('#task-modal-upload-input').hide();
+			$('#task-modal-uploaded').show();
+			$('#task_'+data.task_id).data('file_uploaded',1);
+		} else {
+			console.log("file not uploaded");
+		}
+	});
 });
