@@ -1,26 +1,18 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 02 Juin 2014 à 12:37
--- Version du serveur: 5.6.12-log
--- Version de PHP: 5.4.12
+-- Généré le: Mer 04 Juin 2014 à 22:17
+-- Version du serveur: 5.5.25
+-- Version de PHP: 5.4.4
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `ieee-cas`
 --
-CREATE DATABASE IF NOT EXISTS `ieee-cas` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `ieee-cas`;
 
 -- --------------------------------------------------------
 
@@ -28,7 +20,7 @@ USE `ieee-cas`;
 -- Structure de la table `conference`
 --
 
-CREATE TABLE IF NOT EXISTS `conference` (
+CREATE TABLE `conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
@@ -46,14 +38,14 @@ CREATE TABLE IF NOT EXISTS `conference` (
   PRIMARY KEY (`id`,`user_id`,`model_id`),
   KEY `fk_conference_user1_idx` (`user_id`),
   KEY `fk_conference_model1_idx` (`model_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Contenu de la table `conference`
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acronym`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-(14, 1, 1, 51651561, 'test1', 'test1', '60 Route du Dom, 83230 Bormes-les-Mimosas, France', 'kjlkmjmkljm', '2015-09-16 00:00:00', '2015-09-17 00:00:00', 1, NULL, '2014-06-02 12:50:22', '2014-06-02 12:50:22');
+(15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 7, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
 
 -- --------------------------------------------------------
 
@@ -61,7 +53,7 @@ INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acron
 -- Structure de la table `conference_tc_sponsor`
 --
 
-CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
+CREATE TABLE `conference_tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tc_sponsor_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -71,7 +63,41 @@ CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
   PRIMARY KEY (`id`,`tc_sponsor_id`,`conference_id`),
   KEY `fk_conference_tc_sponsor_tc_sponsor1_idx` (`tc_sponsor_id`),
   KEY `fk_conference_tc_sponsor_conference1_idx` (`conference_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `conference_tc_sponsor`
+--
+
+INSERT INTO `conference_tc_sponsor` (`id`, `tc_sponsor_id`, `conference_id`, `active`, `created_at`, `updated_at`) VALUES
+(1, 5, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(2, 6, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(3, 8, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(4, 11, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `files`
+--
+
+CREATE TABLE `files` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `conference_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `conference_id` (`conference_id`),
+  KEY `task_id` (`task_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+
+--
+-- Contenu de la table `files`
+--
+
+INSERT INTO `files` (`id`, `conference_id`, `task_id`, `name`, `path`) VALUES
+(14, 15, 20, 'NOTRE PROJET.pdf', 'NOTRE PROJET.pdf');
 
 -- --------------------------------------------------------
 
@@ -79,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
 -- Structure de la table `model`
 --
 
-CREATE TABLE IF NOT EXISTS `model` (
+CREATE TABLE `model` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -99,7 +125,7 @@ INSERT INTO `model` (`id`, `name`) VALUES
 -- Structure de la table `node`
 --
 
-CREATE TABLE IF NOT EXISTS `node` (
+CREATE TABLE `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `model_id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -139,7 +165,7 @@ INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `percentage`, `created
 -- Structure de la table `node_conference`
 --
 
-CREATE TABLE IF NOT EXISTS `node_conference` (
+CREATE TABLE `node_conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -149,29 +175,29 @@ CREATE TABLE IF NOT EXISTS `node_conference` (
   PRIMARY KEY (`id`,`node_id`,`conference_id`),
   KEY `fk_node_conference_node1_idx` (`node_id`),
   KEY `fk_node_conference_conference1_idx` (`conference_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=145 ;
 
 --
 -- Contenu de la table `node_conference`
 --
 
 INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`, `progression`) VALUES
-(113, 1, 14, '0000-00-00', '2014-09-28', 20),
-(114, 2, 14, '0000-00-00', '2014-11-26', 0),
-(115, 3, 14, '0000-00-00', '2015-01-25', 0),
-(116, 4, 14, '0000-00-00', '2015-03-24', 0),
-(117, 5, 14, '0000-00-00', '2015-05-22', 0),
-(118, 6, 14, '0000-00-00', '2015-07-05', 0),
-(119, 7, 14, '0000-00-00', '2015-07-20', 0),
-(120, 8, 14, '0000-00-00', '2015-08-09', 0),
-(121, 9, 14, '0000-00-00', '2015-09-08', 0),
-(122, 10, 14, '0000-00-00', '2015-09-12', 0),
-(123, 11, 14, '0000-00-00', '2015-09-17', 0),
-(124, 12, 14, '0000-00-00', '2015-09-29', 0),
-(125, 13, 14, '0000-00-00', '2015-10-19', 0),
-(126, 14, 14, '0000-00-00', '2015-12-17', 0),
-(127, 15, 14, '0000-00-00', '2016-01-05', 0),
-(128, 16, 14, '0000-00-00', '2016-01-13', 0);
+(129, 1, 15, '0000-00-00', '2014-09-08', 60),
+(130, 2, 15, '0000-00-00', '2014-10-26', 40),
+(131, 3, 15, '0000-00-00', '2014-12-15', 6),
+(132, 4, 15, '0000-00-00', '2015-02-01', 0),
+(133, 5, 15, '0000-00-00', '2015-03-22', 0),
+(134, 6, 15, '0000-00-00', '2015-04-27', 0),
+(135, 7, 15, '0000-00-00', '2015-05-09', 0),
+(136, 8, 15, '0000-00-00', '2015-05-26', 0),
+(137, 9, 15, '0000-00-00', '2015-06-20', 0),
+(138, 10, 15, '0000-00-00', '2015-06-23', 0),
+(139, 11, 15, '0000-00-00', '2015-06-27', 0),
+(140, 12, 15, '0000-00-00', '2015-07-07', 0),
+(141, 13, 15, '0000-00-00', '2015-07-23', 0),
+(142, 14, 15, '0000-00-00', '2015-09-10', 0),
+(143, 15, 15, '0000-00-00', '2015-09-25', 0),
+(144, 16, 15, '0000-00-00', '2015-10-03', 0);
 
 -- --------------------------------------------------------
 
@@ -179,7 +205,7 @@ INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `
 -- Structure de la table `tasks_list`
 --
 
-CREATE TABLE IF NOT EXISTS `tasks_list` (
+CREATE TABLE `tasks_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -209,7 +235,7 @@ INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_
 (17, 2, 'Secure W-8 and/ or W-9 forms for tax compliance', NULL, NULL, NULL, NULL, 0),
 (18, 3, 'Develop process/ identity system for paper management', NULL, NULL, NULL, NULL, 0),
 (19, 3, 'Develop technical program, establish paper submission process and deadlines', NULL, NULL, NULL, NULL, 0),
-(20, 3, 'Establish a call for paper (CFP)', NULL, NULL, NULL, NULL, 0),
+(20, 3, 'Establish a call for paper (CFP)', NULL, NULL, NULL, NULL, 1),
 (21, 3, 'Establish a visa process for international attendees and post on conference website', NULL, NULL, NULL, NULL, 0),
 (22, 3, 'Submit conference budget with written IEEE OU approval(s) for headquarter review', NULL, NULL, NULL, NULL, 0),
 (23, 3, 'Submit Principles of Business Conduct Compliance Certificate and Conflict of Interests Disclosure Statement (POBC/COI) forms', NULL, NULL, NULL, NULL, 0),
@@ -270,90 +296,91 @@ INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_
 -- Structure de la table `task_validation`
 --
 
-CREATE TABLE IF NOT EXISTS `task_validation` (
+CREATE TABLE `task_validation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `conference_id` int(11) NOT NULL,
   `tasks_list_id` int(11) NOT NULL,
   `validation` tinyint(1) NOT NULL DEFAULT '0',
+  `file_uploaded` tinyint(4) NOT NULL DEFAULT '0',
   `limit_date` date DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`conference_id`,`tasks_list_id`),
   KEY `fk_task_validation_conference1_idx` (`conference_id`),
   KEY `fk_task_validation_tasks_list1_idx` (`tasks_list_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=529 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=595 ;
 
 --
 -- Contenu de la table `task_validation`
 --
 
-INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `limit_date`, `created_at`, `updated_at`) VALUES
-(463, 14, 1, 1, NULL, '2014-06-02 12:50:23', '2014-06-02 12:50:23'),
-(464, 14, 2, 0, NULL, '2014-06-02 12:50:23', '2014-06-02 12:50:23'),
-(465, 14, 9, 0, NULL, '2014-06-02 12:50:23', '2014-06-02 12:50:23'),
-(466, 14, 11, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(467, 14, 12, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(468, 14, 13, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(469, 14, 14, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(470, 14, 15, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(471, 14, 16, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(472, 14, 17, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(473, 14, 22, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(474, 14, 23, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(475, 14, 24, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(476, 14, 25, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(477, 14, 26, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(478, 14, 27, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(479, 14, 28, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(480, 14, 29, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(481, 14, 30, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(482, 14, 31, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(483, 14, 32, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(484, 14, 18, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(485, 14, 19, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(486, 14, 20, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(487, 14, 21, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(488, 14, 33, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(489, 14, 34, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(490, 14, 35, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(491, 14, 37, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(492, 14, 38, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(493, 14, 39, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(494, 14, 40, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(495, 14, 41, 0, NULL, '2014-06-02 12:50:24', '2014-06-02 12:50:24'),
-(496, 14, 42, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(497, 14, 43, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(498, 14, 44, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(499, 14, 45, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(500, 14, 46, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(501, 14, 47, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(502, 14, 48, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(503, 14, 49, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(504, 14, 50, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(505, 14, 51, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(506, 14, 52, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(507, 14, 55, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(508, 14, 56, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(509, 14, 53, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(510, 14, 54, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(511, 14, 57, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(512, 14, 58, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(513, 14, 59, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(514, 14, 60, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(515, 14, 61, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(516, 14, 62, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(517, 14, 63, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(518, 14, 64, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(519, 14, 65, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(520, 14, 66, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(521, 14, 67, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(522, 14, 68, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(523, 14, 69, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(524, 14, 70, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(525, 14, 71, 0, NULL, '2014-06-02 12:50:25', '2014-06-02 12:50:25'),
-(526, 14, 72, 0, NULL, '2014-06-02 12:50:26', '2014-06-02 12:50:26'),
-(527, 14, 73, 0, NULL, '2014-06-02 12:50:26', '2014-06-02 12:50:26'),
-(528, 14, 74, 0, NULL, '2014-06-02 12:50:26', '2014-06-02 12:50:26');
+INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validation`, `file_uploaded`, `limit_date`, `created_at`, `updated_at`) VALUES
+(529, 15, 1, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(530, 15, 2, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(531, 15, 9, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(532, 15, 11, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(533, 15, 12, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(534, 15, 13, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(535, 15, 14, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(536, 15, 15, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(537, 15, 16, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(538, 15, 17, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(539, 15, 24, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(540, 15, 25, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(541, 15, 26, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(542, 15, 27, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(543, 15, 28, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(544, 15, 29, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(545, 15, 30, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(546, 15, 31, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(547, 15, 32, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(548, 15, 18, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(549, 15, 19, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(550, 15, 20, 0, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(551, 15, 21, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(552, 15, 22, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(553, 15, 23, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(554, 15, 33, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(555, 15, 34, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(556, 15, 35, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(557, 15, 37, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(558, 15, 38, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(559, 15, 41, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(560, 15, 39, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(561, 15, 40, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(562, 15, 42, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(563, 15, 43, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(564, 15, 44, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(565, 15, 45, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(566, 15, 46, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(567, 15, 47, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(568, 15, 48, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(569, 15, 49, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(570, 15, 50, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(571, 15, 51, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(572, 15, 52, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(573, 15, 53, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(574, 15, 54, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(575, 15, 55, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(576, 15, 56, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(577, 15, 57, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(578, 15, 58, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(579, 15, 59, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(580, 15, 60, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(581, 15, 61, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(582, 15, 62, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(583, 15, 63, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(584, 15, 64, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(585, 15, 65, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(586, 15, 66, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(587, 15, 67, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(588, 15, 68, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(589, 15, 69, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(590, 15, 70, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(591, 15, 71, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(592, 15, 72, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(593, 15, 73, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(594, 15, 74, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
 
 -- --------------------------------------------------------
 
@@ -361,7 +388,7 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 -- Structure de la table `tuto`
 --
 
-CREATE TABLE IF NOT EXISTS `tuto` (
+CREATE TABLE `tuto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -377,11 +404,11 @@ CREATE TABLE IF NOT EXISTS `tuto` (
 INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`, `type`) VALUES
 (1, 1, 'Test tuto', 'http://www.google.com', 'tuto'),
 (2, 1, 'tuto 2', 'http://www.test.com', 'tuto'),
-(3, 3, 'netbeans', 'http://www.google.com', 'tuto'),
+(3, 3, 'netbeans', 'https://fr.netbeans.org/', 'tuto'),
 (4, 1, 'Tool 1', 'test', 'tool'),
-(5, 2, 'Eclipse', 'hey.com', 'tool'),
+(5, 2, 'Eclipse', 'http://www.eclipse.org/', 'tool'),
 (6, 3, 'ePaper', '', 'tool'),
-(7, 3, 'EDAS', '', 'tool');
+(7, 3, 'EDAS', 'http://www.edas.info/', 'tool');
 
 -- --------------------------------------------------------
 
@@ -389,7 +416,7 @@ INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`, `type`) VALUES
 -- Structure de la table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -442,8 +469,15 @@ ALTER TABLE `conference`
 -- Contraintes pour la table `conference_tc_sponsor`
 --
 ALTER TABLE `conference_tc_sponsor`
-  ADD CONSTRAINT `fk_conference_tc_sponsor_tc_sponsor1` FOREIGN KEY (`tc_sponsor_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_conference_tc_sponsor_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_conference_tc_sponsor_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_conference_tc_sponsor_tc_sponsor1` FOREIGN KEY (`tc_sponsor_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `files`
+--
+ALTER TABLE `files`
+  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`),
+  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `tasks_list` (`id`);
 
 --
 -- Contraintes pour la table `node`
@@ -470,7 +504,3 @@ ALTER TABLE `tasks_list`
 ALTER TABLE `task_validation`
   ADD CONSTRAINT `fk_task_validation_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_task_validation_tasks_list1` FOREIGN KEY (`tasks_list_id`) REFERENCES `tasks_list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
