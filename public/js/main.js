@@ -485,5 +485,13 @@ $(document).ready(function(){
 				$('#edit_conf').hide();
 	}
 
-});
 
+	$('.nav.navbar-nav li').hover(
+		function() {
+			$( this ).addClass( "active" );
+		}, function() {
+			$( this ).removeClass( "active" );
+		}
+	);
+
+});

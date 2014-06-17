@@ -101,6 +101,7 @@ function getDate() {
 
 function sendTCMail(email,id_conference){
     console.log('Envoyer un mail à '+email+'.');
+
     console.log('');
 
     var transport = nodemailer.createTransport("SMTP", {
@@ -130,4 +131,18 @@ function sendTCMail(email,id_conference){
     });
 }
 
+var getUserConfModels = function(socket, user_id){
+    pool.getConnection(function (err, connection){
+        connection.query('SELECT model_id, title, acronym, adress, description FROM conference WHERE user_id='+user_id+' ORDER BY id desc', function(err, rows, fields) {
+            if (err) throw err;
+
+            connection.release();
+
+            console.log(rows);
+            socket.emit('get_user_conf_models', {conf_models : rows});
+        });
+    });
+}
+
 exports.createNewConf = createNewConf;
+exports.getUserConfModels = getUserConfModels;
