@@ -514,6 +514,7 @@ $(document).ready(function(){
 	//hide edit conf for tcs
 	if($("#user_type").attr("data-user_type")== "tc"){
 				$('#edit_conf').hide();
+				$('#nav-create-conf').hide();
 	}
 
 

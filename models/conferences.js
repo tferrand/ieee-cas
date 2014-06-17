@@ -53,7 +53,6 @@ var set_conference_to_sponsor = function(socket, conference_id,tc_id, active){
             socket.emit('set_conference_to_sponsor', {conferences: rows});
         });
 
-
     });
 }
 
@@ -67,6 +66,17 @@ var get_tcs = function(cb){
         });
     });
 }
+
+/*var get_tc_name = function(name){
+    pool.getConnection(function (err, connection){
+        connection.query('SELECT name FROM user WHERE type = "tc" AND id=', function(err, rows, fields) {
+            connection.release();
+            if (err) throw err;
+
+            name(rows);
+        });
+    });
+}*/
 
 var getTcsConfirmation = function(socket, conference_id){
     pool.getConnection(function (err, connection){
