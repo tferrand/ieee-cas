@@ -32,7 +32,7 @@ $(document).ready(function(){
 				            +'</div>'
 				            +'<span class="progress-completed">'+data.conferences[conferenceId].progression+'%</span>'
 				        +'</div>'
-						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">See the red thread</a></button>'
+						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">See the red wire</a></button>'
 					+'</div>'
 				+'</div>'
     		);
@@ -483,7 +483,6 @@ $(document).ready(function(){
 	//hide edit conf for tcs
 	if($("#user_type").attr("data-user_type")== "tc"){
 				$('#edit_conf').hide();
-				$('#nav-create-conf').hide();
 	}
 
 
