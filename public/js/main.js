@@ -332,7 +332,11 @@ $(document).ready(function(){
 			$("#error-modal").modal("show");
 		} else {
 			if($(this).data('validation') == 0){
-				$('#modal-footer-buttons').show();
+				if($("#user_type").attr("data-user_type")== "tc"){
+					$('#modal-footer-buttons').hide();
+				}else{
+					$('#modal-footer-buttons').show();
+				}
 				$('#modal-footer-validated').hide();
 			} else {
 				$('#modal-footer-buttons').hide();
