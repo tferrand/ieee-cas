@@ -3,15 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
-<<<<<<< HEAD
 -- Généré le: Sam 14 Juin 2014 à 10:14
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
-=======
--- Généré le: Mar 17 Juin 2014 à 10:07
--- Version du serveur: 5.6.12-log
--- Version de PHP: 5.4.12
->>>>>>> FETCH_HEAD
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -59,11 +53,7 @@ CREATE TABLE IF NOT EXISTS `conference` (
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acronym`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-<<<<<<< HEAD
-(15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 12, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
-=======
 (15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 9, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
->>>>>>> FETCH_HEAD
 
 -- --------------------------------------------------------
 
@@ -355,13 +345,8 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 (546, 15, 31, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (547, 15, 32, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (548, 15, 18, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-<<<<<<< HEAD
 (549, 15, 19, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (550, 15, 20, 1, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-=======
-(549, 15, 19, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(550, 15, 20, 0, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
->>>>>>> FETCH_HEAD
 (551, 15, 21, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (552, 15, 22, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (553, 15, 23, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
