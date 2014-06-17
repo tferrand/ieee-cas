@@ -1,0 +1,24 @@
+		{{! Commentaire : on affiche les infos de l'utilisateur connecté }}
+		<blockquote style="display:none;">
+			<p>You are connected, so you can access this page.</p>
+			<small><cite title="user" id="user_type" data-user_type="{{user.type}}">{{user.type}}'s user : </cite><cite title="user" id="user_login" data-user_login="{{user.login}}">{{user.login}}</cite>&nbsp;&nbsp;| User ID : <cite id="user_id" data-user_id="{{user.id}}">{{user.id}}</cite> </small>
+			<h2 id="conf-id" data-conference_id="" data-conference_id_ieee="{{conf.id}}"><b>CONF ID : </b>{{conf.id}}</h2>
+			<h2 id="sponsor-response" data-sponsor_id="" data-sponsor_response="{{response}}"><b>Sponsor response : </b>{{response}}</h2>
+			<h2 id="sponsor-response-message" data-sponsor_message_id="" data-sponsor_response_message="{{message}}"><b>Sponsor response : </b>{{message}}</h2>
+		</blockquote>
+
+		<div class="btn-group" style="margin-bottom:20px;">
+			<button type="button" class="btn btn-default active" id="show_list">List View</button>
+			<button type="button" class="btn btn-default" id="show_calendar">Calendar View</button>
+		</div>
+		
+		<div id="calendar"></div>
+		<div id="conferences-wrap"></div>
+
+		<div id="sp_mess" class="conference-header accueil" style="display:none;">
+					<div class="conference-header-right">
+						<span>{{message}}</span><span class="glyphicon glyphicon-ok"></span>
+					</div>
+	    </div>
+
+		
