@@ -40,6 +40,8 @@ module.exports = function(app){
 		return res.render('home');
 	});
 
+
+
 	// Page protégée
 	app.get('/:login/:conference/:id', myPassport.ensureAuthenticated, function(req, res, next){
 		
@@ -49,7 +51,7 @@ module.exports = function(app){
                 connection.release();
                 if (err) throw err;
 
-                if((req.params.email == req.user.login && rows[0].user_id == req.user.id)||req.user.type=="vpConference"){
+                if((req.params.email == req.user.login && rows[0].user_id == req.user.id)||req.user.type=="vpConference" ||req.user.type=="tc"){
 					// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
 					res.locals = { 'conference' : {'id' : req.params.id}, 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type } };
 					return res.render('filrouge');

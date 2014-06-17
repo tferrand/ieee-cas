@@ -1,4 +1,6 @@
 var pool = require('../config/connection_db').initPool();
+var nodemailer = require("nodemailer");
+
 
 var createNewConf = function(socket, dataConf){
     console.log(dataConf);
@@ -89,6 +91,40 @@ function getDate() {
     return date;
 }
 
+
+function sendTCMail(rows){
+    console.log('Envoyer un mail à '+rows.email+'.');
+/*    console.log(rows.title+' - '+rows.name);
+    console.log('Vous avez jusqu\'au '+rows.end_date+' pour valider le noeud "'+rows.name+'".');*/
+    console.log('');
+
+    var transport = nodemailer.createTransport("SMTP", {
+        service: "Gmail",
+        auth: {
+            user: "reminder.ieee.cas@gmail.com",
+            pass: "passieee"
+        }
+    });
+
+    var mailOptions = {
+        from: "noreply@ieee.cas",
+        to: rows.email,
+        subject: "Sponsor IEEE-CAS conference",
+        generateTextFromHTML: true,
+        html:   "<h3>Hello,</h3>"+
+                "<p>You have a demand for a Sponsorship : "+rows.end_date
+        
+    }
+
+    transport.sendMail(mailOptions, function(error, response){  //callback
+        if(error){
+           console.log(error);
+        }else{
+           console.log("Message sent: " + response.message);
+        }
+        transport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
+    });
+}
 
 var getUserConfModels = function(socket, user_id){
     pool.getConnection(function (err, connection){
