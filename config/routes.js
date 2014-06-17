@@ -30,27 +30,24 @@ module.exports = function(app){
 
 	// Page protégée
 	app.get('/home', myPassport.ensureAuthenticated, function(req, res, next){
-		// modelConferences.get_tcs(function(rows){
-		// 	console.log('The tcs are : ', rows);
-		// 	var tcs = rows;
-		// });
-	
 		// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
 		res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type} };
 		return res.render('home');
 	});
 
-	app.get('/sponsor/:id', myPassport.ensureAuthenticated, function(req, res, next){
+	app.get('/sponsor/:id_conf', myPassport.ensureAuthenticated, function(req, res, next){
 	 	if(req.user.type=="tc"){
-			// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
-			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type}, 'conference' : {'id' : req.params.id} };
+			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type}, 'conf' : {'id' : req.params.id_conf}, 'response':'','message':'' };
 			return res.render('sponsor');
 	 	}
 	});
-	app.get('/sponsoranswer/:id/:response', myPassport.ensureAuthenticated, function(req, res, next){
+	app.get('/answer/:id_confe/:response', myPassport.ensureAuthenticated, function(req, res, next){
 		if(req.user.type=="tc"){
-			// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
-			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type},'conference' : {'id' : req.params.id}, 'response':req.params.response};
+			var message='The conference has been refused to be sponsored ';
+			if(req.params.response == "1"){
+				message='The conference has been sponsored ';
+			}
+			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type},'conf' : {'id' : req.params.id_confe}, 'response':req.params.response,'message':message};
 			return res.render('sponsor');
 		}
 	});
