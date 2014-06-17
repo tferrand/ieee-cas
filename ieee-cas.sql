@@ -1,18 +1,32 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
+<<<<<<< HEAD
 -- Généré le: Sam 14 Juin 2014 à 10:14
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
+=======
+-- Généré le: Mar 17 Juin 2014 à 10:07
+-- Version du serveur: 5.6.12-log
+-- Version de PHP: 5.4.12
+>>>>>>> FETCH_HEAD
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `ieee-cas`
 --
+CREATE DATABASE IF NOT EXISTS `ieee-cas` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ieee-cas`;
 
 -- --------------------------------------------------------
 
@@ -20,7 +34,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `conference`
 --
 
-CREATE TABLE `conference` (
+CREATE TABLE IF NOT EXISTS `conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `model_id` int(11) NOT NULL,
@@ -45,7 +59,11 @@ CREATE TABLE `conference` (
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acronym`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
+<<<<<<< HEAD
 (15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 12, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
+=======
+(15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 9, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
+>>>>>>> FETCH_HEAD
 
 -- --------------------------------------------------------
 
@@ -53,11 +71,11 @@ INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acron
 -- Structure de la table `conference_tc_sponsor`
 --
 
-CREATE TABLE `conference_tc_sponsor` (
+CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tc_sponsor_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`tc_sponsor_id`,`conference_id`),
@@ -70,10 +88,10 @@ CREATE TABLE `conference_tc_sponsor` (
 --
 
 INSERT INTO `conference_tc_sponsor` (`id`, `tc_sponsor_id`, `conference_id`, `active`, `created_at`, `updated_at`) VALUES
-(1, 5, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(2, 6, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(3, 8, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(4, 11, 15, 0, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
+(1, 5, 15, 1, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(2, 6, 15, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(3, 8, 15, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(4, 11, 15, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
 
 -- --------------------------------------------------------
 
@@ -81,7 +99,7 @@ INSERT INTO `conference_tc_sponsor` (`id`, `tc_sponsor_id`, `conference_id`, `ac
 -- Structure de la table `files`
 --
 
-CREATE TABLE `files` (
+CREATE TABLE IF NOT EXISTS `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `conference_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL,
@@ -107,7 +125,7 @@ INSERT INTO `files` (`id`, `conference_id`, `task_id`, `name`, `path`) VALUES
 -- Structure de la table `model`
 --
 
-CREATE TABLE `model` (
+CREATE TABLE IF NOT EXISTS `model` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -127,7 +145,7 @@ INSERT INTO `model` (`id`, `name`) VALUES
 -- Structure de la table `node`
 --
 
-CREATE TABLE `node` (
+CREATE TABLE IF NOT EXISTS `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `model_id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -167,7 +185,7 @@ INSERT INTO `node` (`id`, `model_id`, `name`, `node_nbr`, `percentage`, `created
 -- Structure de la table `node_conference`
 --
 
-CREATE TABLE `node_conference` (
+CREATE TABLE IF NOT EXISTS `node_conference` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
@@ -207,7 +225,7 @@ INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `
 -- Structure de la table `tasks_list`
 --
 
-CREATE TABLE `tasks_list` (
+CREATE TABLE IF NOT EXISTS `tasks_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -298,7 +316,7 @@ INSERT INTO `tasks_list` (`id`, `node_id`, `name`, `description`, `link`, `link_
 -- Structure de la table `task_validation`
 --
 
-CREATE TABLE `task_validation` (
+CREATE TABLE IF NOT EXISTS `task_validation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `conference_id` int(11) NOT NULL,
   `tasks_list_id` int(11) NOT NULL,
@@ -337,8 +355,13 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 (546, 15, 31, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (547, 15, 32, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (548, 15, 18, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+<<<<<<< HEAD
 (549, 15, 19, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (550, 15, 20, 1, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+=======
+(549, 15, 19, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(550, 15, 20, 0, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+>>>>>>> FETCH_HEAD
 (551, 15, 21, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (552, 15, 22, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (553, 15, 23, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
@@ -390,7 +413,7 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 -- Structure de la table `tuto`
 --
 
-CREATE TABLE `tuto` (
+CREATE TABLE IF NOT EXISTS `tuto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -418,7 +441,7 @@ INSERT INTO `tuto` (`id`, `node_id`, `name`, `link`, `type`) VALUES
 -- Structure de la table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
@@ -506,3 +529,7 @@ ALTER TABLE `tasks_list`
 ALTER TABLE `task_validation`
   ADD CONSTRAINT `fk_task_validation_conference1` FOREIGN KEY (`conference_id`) REFERENCES `conference` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_task_validation_tasks_list1` FOREIGN KEY (`tasks_list_id`) REFERENCES `tasks_list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

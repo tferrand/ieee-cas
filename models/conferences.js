@@ -8,6 +8,9 @@ var get_user_conferences = function(socket, user_id, user_type){
         if(user_type=="vpConference"){
             request='SELECT * from conference ORDER BY start';
         }
+        if(user_type=="tc"){
+            request='SELECT c.* from conference c INNER JOIN  conference_tc_sponsor ctc ON ctc.conference_id=c.id WHERE (ctc.tc_sponsor_id='+user_id+' AND ctc.active=1) ORDER BY c.start';
+        }
         connection.query(request, function(err, rows, fields) {
             connection.release();
             if (err) throw err;
