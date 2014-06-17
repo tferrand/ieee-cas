@@ -24,7 +24,7 @@ function insert_tcs(connection, tcs, conference_id){
     console.log(tcs);
     for (var i = 0; i < tcs.length; i++) {
         console.log('tcs : '+tcs[i]);
-        connection.query('INSERT INTO conference_tc_sponsor (tc_sponsor_id, conference_id, active, created_at, updated_at) VALUES ('+tcs[i]+', '+conference_id+', 0, NOW(), NOW())', function(err, rows, fields) {
+        connection.query('INSERT INTO conference_tc_sponsor (tc_sponsor_id, conference_id, created_at, updated_at) VALUES ('+tcs[i]+', '+conference_id+', NOW(), NOW())', function(err, rows, fields) {
             if (err) throw err;
         });
     }
