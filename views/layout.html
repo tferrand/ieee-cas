@@ -45,24 +45,22 @@
 	        </div>
 	        <div class="collapse navbar-collapse">
 	          <ul class="nav navbar-nav">
-	            <li class="active"><a href="/home">Home</a></li>
-	            <li><a id="new-conference-btn" href="#">Create New Conference</a></li>
-	            <!-- <li><a href="#contact">Contact</a></li> -->
-	            <!-- <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-	              <ul class="dropdown-menu">
-	                <li><a href="#">Action</a></li>
-	                <li><a href="#">Another action</a></li>
-	                <li><a href="#">Something else here</a></li>
-	                <li class="divider"></li>
+	            <li><a href="/home">Home</a></li>
+	            <!-- <li><a id="new-conference-btn" href="#">Create New Conference</a></li> -->
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create New Conference <b class="caret"></b></a>
+	              <ul class="dropdown-menu" style="width:100%; padding:0;">
+	                <li><a href="#" class="new-conference-btn" data-model="blank">Blank</a></li>
+	                <li><a href="#" class="new-conference-btn" data-model="from_model">From Model</a></li>
+	                <!-- <li class="divider"></li>
 	                <li class="dropdown-header">Nav header</li>
 	                <li><a href="#">Separated link</a></li>
-	                <li><a href="#">One more separated link</a></li>
+	                <li><a href="#">One more separated link</a></li> -->
 	              </ul>
-	            </li> -->
+	            </li>
 	          </ul>
 	          <ul class="nav navbar-nav navbar-right">
-		        <li><a href="/logout">Logout</a></li>
+		        <li><a href="/logout">({{user.login}} - {{user.type}}) <b>Logout</b></a></li>
 		      </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -71,6 +69,164 @@
 		<div class="container" style="width:100%; padding-top:70px;">			
 			{{{ yield }}}
 		</div>
+
+		<div id="new-conference-modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 id="new-conference-modal-title" class="modal-title">Create new conference</h4>
+					</div>
+					<div class="modal-body" id="new-conference-modal-body">
+						<div id="conf_models">
+							<label for="conf_models_select">Select one of your previous conferences model to pre-fill some informations about your new conference :</label>
+    						<select id="conf_models_select" class="form-control"></select>
+						</div>
+						
+						
+						<div id="new-inputs">
+							<label for="new-id-ieee">ID IEEE</label>
+	    					<input type="text" class="form-control" id="new-id-ieee">
+
+	    					<label for="new-title">Title</label>
+	    					<input type="text" class="form-control" id="new-title">
+
+	    					<label for="new-acronym">Acronym</label>
+	    					<input type="text" class="form-control" id="new-acronym">
+
+	    					<div class="row">
+							  <div class="col-md-6">
+							  	<label for="new-start-date">Start Date</label>
+	    						<input type="datetime-local" class="form-control" id="new-start-date">
+							  </div>
+							  <div class="col-md-6">
+							  	<label for="new-end-date">End Date</label>
+	    						<input type="datetime-local" class="form-control" id="new-end-date">
+							  </div>
+							</div>
+
+							<label for="new-adress">Adress</label>
+	    					<form id="new-adress-geocodify"></form>
+
+	    					<label for="new-description">Description</label>
+	    					<textarea class="form-control" rows="3" id="new-description"></textarea>
+
+							<label for="new-model">Model</label>
+	    					<select id="new-model" class="form-control">
+							  <option value="1">Financial</option>
+							  <option value="2">Technical</option>
+							</select>
+
+	    					<label>Technical Committees</label>
+	    					<div id="wrap_tc" class="row checkboxes">
+
+								<div class="col-md-4">
+			    					<div class="checkbox">
+										<label>
+											<input id="tc1" type="checkbox" value="3">
+											Analog Signal Processing
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc2" type="checkbox" value="5">
+											Biomedical and Life Science Circuits and Systems
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc3" type="checkbox" value="6">
+											Cellular Nanoscale Networks and Array Computing
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc4" type="checkbox" value="7">
+											Circuits & Systems for Communications
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc5" type="checkbox" value="8">
+											Circuits and Systems Education and Outreach
+										</label>
+									</div>
+								</div>
+								<div class="col-md-4">
+			    					<div class="checkbox">
+										<label>
+											<input id="tc6" type="checkbox" value="9">
+											Computer-Aided Network Design
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc7" type="checkbox" value="10">
+											Digital Signal Processing
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc8" type="checkbox" value="11">
+											Multimedia Systems & Applications
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc9" type="checkbox" value="12">
+											Nanoelectronics and Gigascale Sys
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc10" type="checkbox" value="13">
+											Neural Systems & Applications
+										</label>
+									</div>
+								</div>
+								<div class="col-md-4">
+			    					<div class="checkbox">
+										<label>
+											<input id="tc11" type="checkbox" value="14">
+											Nonlinear Circuits & Systems
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc12" type="checkbox" value="15">
+											Power and Energy Circuits and Systems
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc12" type="checkbox" value="16">
+											Sensory Systems
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc13" type="checkbox" value="17">
+											Visual Signal Processing & Communications
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input id="tc14" type="checkbox" value="18">
+											VLSI Systems & Applications
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" id="new-conference-validate"><span class="glyphicon glyphicon-ok"></span>Create conference</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 	</body>
 

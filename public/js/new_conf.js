@@ -6,10 +6,40 @@ $(document).ready(function(){
 	});
 
 	//Click on new conference button
-	$("#new-conference-btn").click(function(){
+	$(".new-conference-btn").click(function(){
+		if($(this).data('model') == 'from_model'){
+			socket.emit('get_user_conf_models', $('#user_id').data('user_id'));
+			$('#new-inputs').hide();
+			$('#conf_models').show();
+			$('#new-conference-validate').hide();
+		} else {
+			$('#conf_models').hide();
+			$('#new-inputs').show();
+			$('#new-conference-validate').show();
+		}
 		$("#new-conference-modal").modal("show");
 	});
 
+	//when we receive user conferences models
+	socket.on('get_user_conf_models', function(data){
+		$('#conf_models_select').html('');
+		$('#conf_models_select').append('<option value=""></option>');
+		for (var position in data.conf_models){
+			$('#conf_models_select').append('<option data-title="'+data.conf_models[position].title+'" data-acronym="'+data.conf_models[position].acronym+'" data-adress="'+data.conf_models[position].adress+'" data-description="'+data.conf_models[position].description+'" data-model_id="'+data.conf_models[position].model_id+'">'+data.conf_models[position].title+' ('+data.conf_models[position].acronym+')</option>')
+		}
+	});
+
+
+	$('#conf_models_select').on('change', function() {
+		$('#new-title').val($(this).find(':selected').data('title'));
+		$('#new-acronym').val($(this).find(':selected').data('acronym'));
+		$('#new-adress-geocodify-input').val($(this).find(':selected').data('adress'));
+		$('#new-description').val($(this).find(':selected').data('description'));
+
+		// $('#conf_models').hide();
+		$('#new-inputs').show();
+		$('#new-conference-validate').show();
+	});
 
 	//geocodify
 	$("#new-adress-geocodify").geocodify({
@@ -48,6 +78,7 @@ $(document).ready(function(){
 	 		var dataConf = {
 	 			user_id : $('#user_id').data('user_id'),
 	 			model_id : 1,
+	 			// model_id : $('#new-model').val(),
 	 			new_id_ieee : $('#new-id-ieee').val(),
 	 			new_title : $('#new-title').val(),
 	 			new_acronym : $('#new-acronym').val(),

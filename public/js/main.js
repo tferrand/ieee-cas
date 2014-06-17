@@ -445,4 +445,13 @@ $(document).ready(function(){
         title: "<span class='glyphicon glyphicon-bell' style='margin-right:10px;'></span>Notifications"
 	});
 
+
+	$('.nav.navbar-nav li').hover(
+		function() {
+			$( this ).addClass( "active" );
+		}, function() {
+			$( this ).removeClass( "active" );
+		}
+	);
+
 });

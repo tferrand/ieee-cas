@@ -119,6 +119,10 @@ io.sockets.on('connection', function (socket, pseudo) {
         modelConferences.getTcsConfirmation(socket, conference_id);
     });
 
+    socket.on('get_user_conf_models', function(user_id){
+        modelNewConf.getUserConfModels(socket, user_id);
+    });
+
 });
 
 console.log(__dirname+'/tmp');
