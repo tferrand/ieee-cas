@@ -1,5 +1,5 @@
 		{{! Commentaire : on affiche les infos de l'utilisateur connecté }}
-		<blockquote>
+		<blockquote style="display:none;">
 			<p>You are connected, so you can access this page.</p>
 			<small><cite title="user" id="user_type" data-user_type="{{user.type}}">{{user.type}}'s user : </cite><cite title="user" id="user_login" data-user_login="{{user.login}}">{{user.login}}</cite>&nbsp;&nbsp;| User ID : <cite id="user_id" data-user_id="{{user.id}}">{{user.id}}</cite> </small>
 		</blockquote>
@@ -28,6 +28,11 @@
 		        </div>
 				<button type="button" class="btn btn-warning" style="width:100%;"><span class="glyphicon glyphicon-pencil"></span>Edit conference</button>
 			</div>
+		</div>
+
+		<div id="tcs_warning" class="alert alert-danger" style="display:none;">
+			The technical commitees didn't validate your conference yet... You need three validations, otherwise you will not be able to continue to prepare your conference.
+			<ul id="tcs_warning_list"></ul>
 		</div>
 
 		<ul class="red-wire"></ul>
@@ -139,7 +144,7 @@
 
 
 
-		<button type="button" id="notif_button" class="btn btn-default" data-container="body" data-toggle="popover">
+		<!-- <button type="button" id="notif_button" class="btn btn-default" data-container="body" data-toggle="popover">
   			Test Notifications
 		</button>
 
@@ -172,7 +177,7 @@
 					<p class="date">16/03, à 13h35</p>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div id="new-conference-modal" class="modal fade">
 			<div class="modal-dialog">

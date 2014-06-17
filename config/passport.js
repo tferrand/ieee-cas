@@ -109,7 +109,7 @@ var ensureAuthenticated = function(req, res, next) {
 	// isAuthenticated fournit par Passport
 	if (req.isAuthenticated()) return next();
 	
-	res.locals = { error : 'Veuillez d\'abord vous connecter' };
+	res.locals = { error : 'Please login' };
 	res.render('login');
 
 }

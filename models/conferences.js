@@ -29,5 +29,17 @@ var get_tcs = function(cb){
     });
 }
 
+var getTcsConfirmation = function(socket, conference_id){
+    pool.getConnection(function (err, connection){
+        connection.query('SELECT user.name, conference_tc_sponsor.active FROM conference_tc_sponsor INNER JOIN user ON user.id = conference_tc_sponsor.tc_sponsor_id WHERE conference_id ='+conference_id, function(err, rows, fields) {
+            connection.release();
+            if (err) throw err;
+            console.log('the tcs are :'+rows);
+            socket.emit('get_tcs_confirmation', {tcs : rows});
+        });
+    });
+}
+
 exports.get_user_conferences = get_user_conferences;
 exports.get_tcs = get_tcs;
+exports.getTcsConfirmation = getTcsConfirmation;

@@ -50,6 +50,9 @@ $(document).ready(function(){
 
     	//On fait une demande au serveur pour récupérer les noeuds
     	socket.emit('get_nodes', $model_id, $('#conf-id').data('conference_id'));
+
+    	//get technical commitees confirmation
+    	socket.emit('get_tcs_confirmation', $('#conf-id').data('conference_id'));
     });
 
     // Quand on reçoit les noeuds
@@ -249,6 +252,26 @@ $(document).ready(function(){
 					+'</div>'
 	    		);
     		}
+    	}
+    });
+
+	// Quand on reçoit les noeuds
+    socket.on('get_tcs_confirmation', function(data) {
+    	conference_status = 0;
+    	for (var position in data.tcs){
+    		if(data.tcs[position].active == null){
+    			$('#tcs_warning_list').append('<li>'+data.tcs[position].name+' : Not yet validated</li>');
+    		} else if (data.tcs[position].active == 0){
+    			$('#tcs_warning_list').append('<li>'+data.tcs[position].name+' : Refused</li>');
+    		} else {
+    			$('#tcs_warning_list').append('<li>'+data.tcs[position].name+' : Validated</li>');
+    			conference_status += 1;
+    		}
+    	}
+    	if(conference_status >= 3){ //tcs validated the conference
+    		$('#tcs_warning').remove();
+    	} else {
+    		$('#tcs_warning').show();
     	}
     });
 

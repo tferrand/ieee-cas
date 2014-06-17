@@ -404,3 +404,7 @@ h1.conf-title{
 	margin-bottom: 0;
 	display: none;
 }
+
+#tcs_warning_list{
+	margin-top: 10px;
+}

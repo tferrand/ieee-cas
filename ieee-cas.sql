@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 04 Juin 2014 à 22:17
+-- Généré le: Sam 14 Juin 2014 à 10:14
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -45,7 +45,7 @@ CREATE TABLE `conference` (
 --
 
 INSERT INTO `conference` (`id`, `user_id`, `model_id`, `id_iee`, `title`, `acronym`, `adress`, `description`, `start`, `end`, `progression`, `photo`, `created_at`, `updated_at`) VALUES
-(15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 7, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
+(15, 1, 1, 12345678, 'TexMex Cap', 'TXM Conf', 'Îles Sandwich du Sud, Géorgie du Sud et les Îles Sandwich du Sud', 'lorem ipsum', '2015-06-26 08:00:00', '2015-06-28 20:00:00', 12, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11');
 
 -- --------------------------------------------------------
 
@@ -90,14 +90,16 @@ CREATE TABLE `files` (
   PRIMARY KEY (`id`),
   KEY `conference_id` (`conference_id`),
   KEY `task_id` (`task_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `files`
 --
 
 INSERT INTO `files` (`id`, `conference_id`, `task_id`, `name`, `path`) VALUES
-(14, 15, 20, 'NOTRE PROJET.pdf', 'NOTRE PROJET.pdf');
+(14, 15, 20, 'NOTRE PROJET.pdf', 'NOTRE PROJET.pdf'),
+(15, 15, 20, '1-INFORMATIONS TECHNIQUES PALISEP.pdf', '1-INFORMATIONS TECHNIQUES PALISEP.pdf'),
+(16, 15, 20, '1-INFORMATIONS TECHNIQUES PALISEP.pdf', '1-INFORMATIONS TECHNIQUES PALISEP.pdf');
 
 -- --------------------------------------------------------
 
@@ -184,7 +186,7 @@ CREATE TABLE `node_conference` (
 INSERT INTO `node_conference` (`id`, `node_id`, `conference_id`, `start_date`, `end_date`, `progression`) VALUES
 (129, 1, 15, '0000-00-00', '2014-09-08', 60),
 (130, 2, 15, '0000-00-00', '2014-10-26', 40),
-(131, 3, 15, '0000-00-00', '2014-12-15', 6),
+(131, 3, 15, '0000-00-00', '2014-12-15', 20),
 (132, 4, 15, '0000-00-00', '2015-02-01', 0),
 (133, 5, 15, '0000-00-00', '2015-03-22', 0),
 (134, 6, 15, '0000-00-00', '2015-04-27', 0),
@@ -334,9 +336,9 @@ INSERT INTO `task_validation` (`id`, `conference_id`, `tasks_list_id`, `validati
 (545, 15, 30, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (546, 15, 31, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (547, 15, 32, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(548, 15, 18, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(549, 15, 19, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
-(550, 15, 20, 0, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(548, 15, 18, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(549, 15, 19, 1, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
+(550, 15, 20, 1, 1, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (551, 15, 21, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (552, 15, 22, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),
 (553, 15, 23, 0, 0, NULL, '2014-06-02 16:59:11', '2014-06-02 16:59:11'),

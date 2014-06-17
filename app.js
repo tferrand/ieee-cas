@@ -115,6 +115,10 @@ io.sockets.on('connection', function (socket, pseudo) {
         modelUpload.uploadFile(socket, data);
     });
 
+    socket.on('get_tcs_confirmation', function(conference_id){
+        modelConferences.getTcsConfirmation(socket, conference_id);
+    });
+
 });
 
 console.log(__dirname+'/tmp');
