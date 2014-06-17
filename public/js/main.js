@@ -29,7 +29,7 @@ $(document).ready(function(){
 				            +'</div>'
 				            +'<span class="progress-completed">'+data.conferences[conferenceId].progression+'%</span>'
 				        +'</div>'
-						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'">See the red wire</a></button>'
+						+'<a class="btn btn-info" style="width:200px;" href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'"><span class="glyphicon glyphicon-arrow-right" style="margin-right:10px;"></span>See the red wire</a>'
 					+'</div>'
 				+'</div>'
     		);
