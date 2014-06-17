@@ -40,6 +40,22 @@ module.exports = function(app){
 		return res.render('home');
 	});
 
+	app.get('/sponsor/:id', myPassport.ensureAuthenticated, function(req, res, next){
+	 	if(req.user.type=="tc"){
+			// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
+			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type}, 'conference' : {'id' : req.params.id} };
+			return res.render('sponsor');
+	 	}
+	});
+	app.get('/sponsoranswer/:id/:response', myPassport.ensureAuthenticated, function(req, res, next){
+		if(req.user.type=="tc"){
+			// On génère la vue en indiquant à HoganJS les infos de l'user à afficher dans la vue
+			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type},'conference' : {'id' : req.params.id}, 'response':req.params.response};
+			return res.render('sponsor');
+		}
+	});
+
+
 
 
 	// Page protégée

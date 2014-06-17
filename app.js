@@ -65,6 +65,11 @@ io.sockets.on('connection', function (socket, pseudo) {
         modelRedThread.get_conference(socket, conference_id);
     });
 
+    //get conf to sponsor
+    socket.on('get_conference_to_sponsor', function(conference_id) {
+        modelConferences.get_conference_to_sponsor(socket, conference_id);
+    });
+
     //get nodes
     socket.on('get_nodes', function(model_id, conference_id) {
         modelRedThread.get_nodes(socket, model_id, conference_id);

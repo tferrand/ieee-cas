@@ -21,6 +21,21 @@ var get_user_conferences = function(socket, user_id, user_type){
     });
 }
 
+var get_conference_to_sponsor = function(socket, conference_id){
+    pool.getConnection(function (err, connection){
+        if (err) throw err;
+        var request='SELECT * from conference WHERE id = '+conference_id;
+        
+        connection.query(request, function(err, rows, fields) {
+            connection.release();
+            if (err) throw err;
+            console.log("the id of the conference to sponsor : "+conference_id);
+            console.log('row of the sponsors: ', rows);
+            socket.emit('get_conference_to_sponsor', {conferences: rows});
+        });
+    });
+}
+
 var get_tcs = function(cb){
     pool.getConnection(function (err, connection){
         connection.query('SELECT name, id FROM user WHERE type = "tc"', function(err, rows, fields) {
@@ -44,5 +59,6 @@ var getTcsConfirmation = function(socket, conference_id){
 }
 
 exports.get_user_conferences = get_user_conferences;
+exports.get_conference_to_sponsor = get_conference_to_sponsor;
 exports.get_tcs = get_tcs;
 exports.getTcsConfirmation = getTcsConfirmation;

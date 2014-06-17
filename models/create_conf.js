@@ -1,5 +1,8 @@
 var pool = require('../config/connection_db').initPool();
 var nodemailer = require("nodemailer");
+var nconf = require('nconf');
+nconf.file({ file: 'settings.json' });
+
 
 
 var createNewConf = function(socket, dataConf){
@@ -27,6 +30,10 @@ function insert_tcs(connection, tcs, conference_id){
     for (var i = 0; i < tcs.length; i++) {
         console.log('tcs : '+tcs[i]);
         connection.query('INSERT INTO conference_tc_sponsor (tc_sponsor_id, conference_id, created_at, updated_at) VALUES ('+tcs[i]+', '+conference_id+', NOW(), NOW())', function(err, rows, fields) {
+            if (err) throw err;
+        });
+        connection.query('SELECT email FROM user WHERE id='+tcs[i], function(err, rows, fields) {
+            sendTCMail(rows[0].email,conference_id)
             if (err) throw err;
         });
     }
@@ -75,6 +82,7 @@ function create_node_conference(connection, nodes, conference_id, conference_sta
     }
 }
 
+
 function getDate() {
     var now     = new Date(); 
     var year    = now.getFullYear();
@@ -91,10 +99,8 @@ function getDate() {
     return date;
 }
 
-function sendTCMail(rows){
-    console.log('Envoyer un mail à '+rows.email+'.');
-/*    console.log(rows.title+' - '+rows.name);
-    console.log('Vous avez jusqu\'au '+rows.end_date+' pour valider le noeud "'+rows.name+'".');*/
+function sendTCMail(email,id_conference){
+    console.log('Envoyer un mail à '+email+'.');
     console.log('');
 
     var transport = nodemailer.createTransport("SMTP", {
@@ -106,12 +112,11 @@ function sendTCMail(rows){
     });
 
     var mailOptions = {
-        from: "noreply@ieee.cas",
-        to: rows.email,
+        from: "no-reply@ieee.com",
+        to: email,
         subject: "Sponsor IEEE-CAS conference",
         generateTextFromHTML: true,
-        html:   "<h3>Hello,</h3>"+
-                "<p>You have a demand for a Sponsorship : "+rows.end_date
+        html:   '<h3>Hello,</h3><p>You have a demand for a Sponsorship : <a href="http://' + nconf.get('host') + ':' + nconf.get('port') + '/sponsor/'+id_conference+'">See the conference</a>'
         
     }
 
