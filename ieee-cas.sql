@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `conference_tc_sponsor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tc_sponsor_id` int(11) NOT NULL,
   `conference_id` int(11) NOT NULL,
-  `active` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1)  NOT NULL DEFAULT(3),
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`tc_sponsor_id`,`conference_id`),

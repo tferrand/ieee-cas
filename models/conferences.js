@@ -9,7 +9,7 @@ var get_user_conferences = function(socket, user_id, user_type){
             request='SELECT * from conference ORDER BY start';
         }
         if(user_type=="tc"){
-            request='SELECT c.* from conference c INNER JOIN  conference_tc_sponsor ctc ON ctc.conference_id=c.id WHERE (ctc.tc_sponsor_id='+user_id+' AND ctc.active=1) ORDER BY c.start';
+            request='SELECT c.*,ctc.id as id_conf_sponsor, ctc.active from conference c INNER JOIN  conference_tc_sponsor ctc ON ctc.conference_id=c.id WHERE (ctc.tc_sponsor_id='+user_id+' AND (ctc.active=1 OR ctc.active=3)) ORDER BY c.start';
         }
         connection.query(request, function(err, rows, fields) {
             connection.release();
@@ -21,7 +21,7 @@ var get_user_conferences = function(socket, user_id, user_type){
     });
 }
 
-var get_conference_to_sponsor = function(socket, conference_id){
+/*var get_conference_to_sponsor = function(socket, conference_id){
     pool.getConnection(function (err, connection){
         if (err) throw err;
         var request='SELECT * from conference WHERE id = '+conference_id;
@@ -34,7 +34,7 @@ var get_conference_to_sponsor = function(socket, conference_id){
             socket.emit('get_conference_to_sponsor', {conferences: rows},conference_id);
         });
     });
-}
+}*/
 
 var set_conference_to_sponsor = function(socket, conference_id,tc_id, active){
     pool.getConnection(function (err, connection){
@@ -45,6 +45,7 @@ var set_conference_to_sponsor = function(socket, conference_id,tc_id, active){
         connection.query(update, function(err, rows, fields) {
             if (err) throw err;
         });
+
         
         var request='SELECT * from conference WHERE id = '+conference_id;
         connection.query(request, function(err, rows, fields) {
@@ -90,7 +91,7 @@ var getTcsConfirmation = function(socket, conference_id){
 }
 
 exports.get_user_conferences = get_user_conferences;
-exports.get_conference_to_sponsor = get_conference_to_sponsor;
+//exports.get_conference_to_sponsor = get_conference_to_sponsor;
 exports.set_conference_to_sponsor = set_conference_to_sponsor;
 exports.get_tcs = get_tcs;
 exports.getTcsConfirmation = getTcsConfirmation;

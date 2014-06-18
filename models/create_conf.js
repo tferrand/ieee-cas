@@ -113,11 +113,11 @@ function sendTCMail(email,id_conference){
     });
 
     var mailOptions = {
-        from: "no-reply@ieee.com",
+        from: "reminder.ieee.cas@gmail.com",
         to: email,
         subject: "Sponsor IEEE-CAS conference",
         generateTextFromHTML: true,
-        html:   '<h3>Hello,</h3><p>You have a demand for a Sponsorship : <a href="http://' + nconf.get('host') + ':' + nconf.get('port') + '/sponsor/'+id_conference+'">See the conference</a>'
+        html:   '<h3>Hello,</h3><p>You have a demand for a Sponsorship : <a href="http://' + nconf.get('host') + ':' + nconf.get('port') + '/home">See the conference</a>'
         
     }
 

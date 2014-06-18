@@ -5,9 +5,9 @@ $(document).ready(function(){
 
     if(location_url.indexOf("conference") >= 0){
     	socket.emit('get_conference', $("#conf-id").data('conference_id_ieee'));
-    
+    /*
     } else if(location_url.indexOf("sponsor") >= 0){
-    	socket.emit('get_conference_to_sponsor', $("#conf-id").data('conference_id_ieee'));
+    	socket.emit('get_conference_to_sponsor', $("#conf-id").data('conference_id_ieee'));*/
 
     } else if(location_url.indexOf("answer") >= 0){
     	socket.emit('set_conference_to_sponsor', $("#conf-id").data('conference_id_ieee'),$('#user_id').data('user_id'),$('#sponsor-response').data('sponsor_response'));
@@ -19,7 +19,20 @@ $(document).ready(function(){
 
     //Quand on recoit les conferences de l'utilisateur
     socket.on('get_user_conferences', function(data){
+    	var tc_accept='';
+    	
     	for (var conferenceId in data.conferences){
+    		if($("#user_type").attr("data-user_type")== "tc"){
+
+	    		if(data.conferences[conferenceId].active=="3"){
+	    			tc_accept='<div class="conference-header accueil">'
+								+'<div class="conference-header-right">'
+									+'<button type="button" class="btn btn-success" style="width:100%;margin-bottom:8px;"><a style="color:white;text-decoration:none;" href="../answer/'+data.conferences[conferenceId].id+'/1">Sponsor it</a></button>'
+									+'<button type="button" class="btn btn-danger" style="width:100%;"><a style="color:white;text-decoration:none;" href="../answer/'+data.conferences[conferenceId].id+'/0">Decline</a></button>'
+								+'</div>'
+							+'</div>';
+	    		}
+    	}
     		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
 					+'<div class="conference-header-left">'
@@ -39,42 +52,12 @@ $(document).ready(function(){
 						+'<a class="btn btn-info" style="width:200px;" href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'"><span class="glyphicon glyphicon-arrow-right" style="margin-right:10px;"></span>See the red wire</a>'
 					+'</div>'
 				+'</div>'
+				+tc_accept
     		);
     	}
     });
 
-    //When the tc receive the conference to sponsor
-    socket.on('get_conference_to_sponsor', function(data,conference_id){
-        		$('#conferences-wrap').append(
-    			'<div class="conference-header accueil">'
-					+'<div class="conference-header-left">'
-						+'<h1>'+data.conferences[0].title+' ('+data.conferences[0].acronym+')</h1>'
-						+'<h2><b>ID : </b>'+data.conferences[0].id_iee+'</h2>'
-						+'<p><b>Lieu : </b>'+data.conferences[0].adress+'</p>'
-						+'<p><b>Horaire : </b>From '+data.conferences[0].start+' to '+data.conferences[0].end+'</p>'
-					+'</div>'
-					+'<div class="conference-header-right">'
-						+'<h3>Progression :</h3>'
-						+'<div class="progress progress-striped">'
-				            +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data.conferences[0].progression+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data.conferences[0].progression+'%">'
-				                +'<span class="sr-only">'+data.conferences[0].progression+'% Complete</span>'
-				            +'</div>'
-				            +'<span class="progress-completed">'+data.conferences[0].progression+'%</span>'
-				        +'</div>'
-						+'<button type="button" class="btn btn-info" style="width:100%;"><span class="glyphicon glyphicon-arrow-right"></span><a href="../'+$('#user_login').data('user_login')+'/conference/'+data.conferences[0].id_iee+'">See the red wire</a></button>'
-					+'</div>'
-				+'</div>'
-				+'<div class="conference-header accueil">'
-					+'<div class="conference-header-right">'
-						+'<button type="button" class="btn btn-success" style="width:100%;margin-bottom:8px;"><a style="color:white;text-decoration:none;" href="../answer/'+conference_id+'/1">Sponsor it</a></button>'
-						+'<button type="button" class="btn btn-danger" style="width:100%;"><a style="color:white;text-decoration:none;" href="../answer/'+conference_id+'/0">Decline</a></button>'
-					+'</div>'
-				+'</div>'
-    		);
-    	
-    });
-
-    //When the tc decide what to do with a conference
+//When the tc decide what to do with a conference
     socket.on('set_conference_to_sponsor', function(data){
         		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
@@ -100,6 +83,7 @@ $(document).ready(function(){
 		$("#sp_mess").show();
     	
     });
+
 
 	$model_id='';
     //Quand on recoit les infos d'une conference pour le fil rouge
