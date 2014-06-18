@@ -308,7 +308,7 @@ $(document).ready(function(){
     socket.on('get_tcs_confirmation', function(data) {
     	conference_status = 0;
     	for (var position in data.tcs){
-    		if(data.tcs[position].active == null){
+    		if(data.tcs[position].active == 3){
     			$('#tcs_warning_list').append('<li>'+data.tcs[position].name+' : Not yet validated</li>');
     		} else if (data.tcs[position].active == 0){
     			$('#tcs_warning_list').append('<li>'+data.tcs[position].name+' : Refused</li>');
