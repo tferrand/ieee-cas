@@ -19,27 +19,25 @@ $(document).ready(function(){
 
     //Quand on recoit les conferences de l'utilisateur
     socket.on('get_user_conferences', function(data){
-    	var tc_accept='';
+    	var button_redwire='';
     	
     	for (var conferenceId in data.conferences){
-    		if($("#user_type").attr("data-user_type")== "tc"){
+    		if($("#user_type").attr("data-user_type")== "tc" && data.conferences[conferenceId].active=="3"){
+	    		button_redwire='<div>'
+	    					+'<a class="btn btn-success tc_button" style="margin-right:4%;" href="../answer/'+data.conferences[conferenceId].id+'/1">Sponsor it</a>'
+							+'<a class="btn btn-danger tc_button" href="../answer/'+data.conferences[conferenceId].id+'/0">Decline</a>'
+	    					+'</div>';
+    		} else {
+    			button_redwire='<a class="btn btn-info" style="width:200px;" href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'"><span class="glyphicon glyphicon-arrow-right" style="margin-right:10px;"></span>See the red wire</a>';
+    		}
 
-	    		if(data.conferences[conferenceId].active=="3"){
-	    			tc_accept='<div class="conference-header accueil">'
-								+'<div class="conference-header-right">'
-									+'<button type="button" class="btn btn-success" style="width:100%;margin-bottom:8px;"><a style="color:white;text-decoration:none;" href="../answer/'+data.conferences[conferenceId].id+'/1">Sponsor it</a></button>'
-									+'<button type="button" class="btn btn-danger" style="width:100%;"><a style="color:white;text-decoration:none;" href="../answer/'+data.conferences[conferenceId].id+'/0">Decline</a></button>'
-								+'</div>'
-							+'</div>';
-	    		}
-    	}
     		$('#conferences-wrap').append(
     			'<div class="conference-header accueil">'
 					+'<div class="conference-header-left">'
 						+'<h1>'+data.conferences[conferenceId].title+' ('+data.conferences[conferenceId].acronym+')</h1>'
 						+'<h2><b>ID : </b>'+data.conferences[conferenceId].id_iee+'</h2>'
-						+'<p><b>Lieu : </b>'+data.conferences[conferenceId].adress+'</p>'
-						+'<p><b>Horaire : </b>From '+data.conferences[conferenceId].start+' to '+data.conferences[conferenceId].end+'</p>'
+						+'<p><b>Location : </b>'+data.conferences[conferenceId].adress+'</p>'
+						+'<p><b>Date : </b>From '+data.conferences[conferenceId].start+' to '+data.conferences[conferenceId].end+'</p>'
 					+'</div>'
 					+'<div class="conference-header-right">'
 						+'<h3>Progression :</h3>'
@@ -49,10 +47,9 @@ $(document).ready(function(){
 				            +'</div>'
 				            +'<span class="progress-completed">'+data.conferences[conferenceId].progression+'%</span>'
 				        +'</div>'
-						+'<a class="btn btn-info" style="width:200px;" href="'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee+'"><span class="glyphicon glyphicon-arrow-right" style="margin-right:10px;"></span>See the red wire</a>'
+				        +button_redwire
 					+'</div>'
 				+'</div>'
-				+tc_accept
     		);
     	}
     });
@@ -405,12 +402,14 @@ $(document).ready(function(){
 		} else {
 			if($(this).data('validation') == 0){
 				if($("#user_type").attr("data-user_type")== "tc"){
-					$('#modal-footer-buttons').hide();
-				}else{
+					$('#task-modal .modal-footer').hide();
+				} else {
+					$('#task-modal .modal-footer').show();
 					$('#modal-footer-buttons').show();
 				}
 				$('#modal-footer-validated').hide();
 			} else {
+				$('#task-modal .modal-footer').show();
 				$('#modal-footer-buttons').hide();
 				$('#modal-footer-validated').show();
 			}

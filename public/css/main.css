@@ -412,3 +412,14 @@ h1.conf-title{
 #conf_models{
 	margin-bottom: 10px;
 }
+
+/*tc button decline/accept*/
+.tc_button{
+	color:white;
+	text-decoration:none;
+	width: 48%;
+}
+
+.navbar-brand{
+	border-right: 1px solid #DFDFDF;
+}
