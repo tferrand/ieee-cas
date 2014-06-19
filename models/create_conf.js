@@ -100,9 +100,7 @@ function getDate() {
 }
 
 function sendTCMail(email,id_conference){
-    console.log('Envoyer un mail à '+email+'.');
-
-    console.log('');
+    console.log('Send a mail to '+email+'.');
 
     var transport = nodemailer.createTransport("SMTP", {
         service: "Gmail",
@@ -117,7 +115,7 @@ function sendTCMail(email,id_conference){
         to: email,
         subject: "Sponsor IEEE-CAS conference",
         generateTextFromHTML: true,
-        html:   '<h3>Hello,</h3><p>You have a demand for a Sponsorship : <a href="http://' + nconf.get('host') + ':' + nconf.get('port') + '/home">See the conference</a>'
+        html:   '<p>Hello,</p><p>You have a demand for a Sponsorship : <a href="http://' + nconf.get('host') + ':' + nconf.get('port') + '/home">See the conference</a>'
         
     }
 
