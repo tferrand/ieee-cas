@@ -8,7 +8,6 @@ var get_conference = function(conference_id, callback){
 
 	        //console.log('The solution is: ', rows);
             callback({conference: rows});
-	        //socket.emit('get_conference', {conference: rows});
 	    });
 	});
 }
@@ -21,7 +20,6 @@ var get_nodes = function(model_id, conference_id, callback){
 
             //console.log('The solution is: ', rows);
             callback({nodes: rows});
-            //socket.emit('get_nodes', {nodes: rows});
         });
     });
 }
@@ -33,7 +31,6 @@ var get_tasks = function(node_id, conference_id, callback){
             if (err) throw err;
 
             callback({tasks: rows});
-            //socket.emit('get_tasks', {tasks: rows});
             console.log(rows);
         });
     });
@@ -46,7 +43,6 @@ var get_task_infos = function (task_id, callback) {
             if (err) throw err;
 
             callback({task_infos: rows});
-            //socket.emit('get_task_infos', {task_infos: rows});
             console.log(rows);
         });
     });
@@ -59,7 +55,6 @@ var validate_task = function (conference_id, task_id, callback) {
             if (err) throw err;
 
             callback({task_id: task_id});
-            //socket.emit('validate_task', {task_id: task_id});
         });
     });
 }
@@ -89,7 +84,6 @@ var get_tutos = function(node_id, callback){
             if (err) throw err;
 
             callback({tutos: rows});
-            //socket.emit('get_tutos', {tutos: rows});
             console.log(rows);
         });
     });

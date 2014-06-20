@@ -67,6 +67,12 @@ $(document).ready(function(){
     	$('#conf-date').data('end_date', data.conference[0].end.substr(0,10));
     	$model_id=data.conference[0].model_id;
 
+    	//copie dans la boite modale edit_conference
+    	$('#edit-title').val(data.conference[0].title);
+    	$('#edit-acronym').val(data.conference[0].acronym);
+    	$('#edit-adress-geocodify-input').val(data.conference[0].adress);
+    	$('#edit-description').val(data.conference[0].description);
+
     	//On fait une demande au serveur pour récupérer les noeuds
     	socket.emit('get_nodes', $model_id, $('#conf-id').data('conference_id'));
 
@@ -496,8 +502,8 @@ $(document).ready(function(){
 
 	//hide edit conf for tcs
 	if($("#user_type").attr("data-user_type")== "tc"){
-				$('#edit_conf').hide();
-				$('#nav-create-conf').hide();
+		$('#edit_conf').hide();
+		$('#nav-create-conf').hide();
 	}
 
 

@@ -35,12 +35,7 @@ module.exports = function(app){
 		return res.render('home');
 	});
 
-/*	app.get('/sponsor/:id_conf', myPassport.ensureAuthenticated, function(req, res, next){
-	 	if(req.user.type=="tc"){
-			res.locals = { 'user' : { 'id' : req.user.id, 'login' : req.user.email, 'type' : req.user.type}, 'conf' : {'id' : req.params.id_conf}, 'response':'','message':'' };
-			return res.render('sponsor');
-	 	}
-	});*/
+
 	app.get('/answer/:id_confe/:response', myPassport.ensureAuthenticated, function(req, res, next){
 		if(req.user.type=="tc"){
 			var message='The conference has been refused to be sponsored ';
@@ -51,9 +46,6 @@ module.exports = function(app){
 			return res.render('sponsor');
 		}
 	});
-
-
-
 
 	// Page protégée
 	app.get('/:login/:conference/:id', myPassport.ensureAuthenticated, function(req, res, next){
@@ -79,9 +71,12 @@ module.exports = function(app){
 
 	// Demande de déconnexion
 	app.get('/logout', function(req, res){
-
 		req.logout();
 		res.redirect('/');
+	});
+
+	app.use(function(req,res){
+	    res.redirect('/');
 	});
 
 

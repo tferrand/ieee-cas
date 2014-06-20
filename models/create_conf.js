@@ -20,7 +20,6 @@ var createNewConf = function(dataConf, callback){
             connection.release();
 
             callback('create_conf_ok');
-            //socket.emit('create_conf_ok');
         });
     });
 }
@@ -139,7 +138,6 @@ var getUserConfModels = function(user_id, callback){
 
             console.log(rows);
             callback({conf_models : rows});
-            //socket.emit('get_user_conf_models', {conf_models : rows});
         });
     });
 }

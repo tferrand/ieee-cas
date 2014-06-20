@@ -17,25 +17,9 @@ var get_user_conferences = function(user_id, user_type, callback){
 
             console.log('The solution is: ', rows);
             callback({conferences: rows});
-            //socket.emit('get_user_conferences', {conferences: rows});
         });
     });
 }
-
-/*var get_conference_to_sponsor = function(socket, conference_id){
-    pool.getConnection(function (err, connection){
-        if (err) throw err;
-        var request='SELECT * from conference WHERE id = '+conference_id;
-        
-        connection.query(request, function(err, rows, fields) {
-            connection.release();
-            if (err) throw err;
-            console.log("the id of the conference to sponsor : "+conference_id);
-            console.log('row of the sponsors: ', rows);
-            socket.emit('get_conference_to_sponsor', {conferences: rows},conference_id);
-        });
-    });
-}*/
 
 var set_conference_to_sponsor = function(conference_id,tc_id, active, callback){
     pool.getConnection(function (err, connection){
@@ -53,7 +37,6 @@ var set_conference_to_sponsor = function(conference_id,tc_id, active, callback){
             connection.release();
             if (err) throw err;
             callback({conferences: rows});
-            //socket.emit('set_conference_to_sponsor', {conferences: rows});
         });
 
     });
@@ -88,7 +71,20 @@ var getTcsConfirmation = function(conference_id, callback){
             if (err) throw err;
             console.log('the tcs are :'+rows);
             callback({tcs : rows});
-            //socket.emit('get_tcs_confirmation', {tcs : rows});
+        });
+    });
+}
+
+var editConference = function(conference_id, dataEdit, callback){
+    console.log(dataEdit);
+    pool.getConnection(function (err, connection){
+        connection.query('UPDATE conference SET title="'+dataEdit.edit_title+'", acronym="'+dataEdit.edit_acronym+'", adress="'+dataEdit.edit_adress+'", description="'+dataEdit.edit_description+'" WHERE id = '+conference_id, function(err, rows, fields) {
+            connection.release();
+            if (err){
+                callback({response: "error"});
+            } else {
+                callback({response: "ok"});
+            }
         });
     });
 }
@@ -98,3 +94,4 @@ exports.get_user_conferences = get_user_conferences;
 exports.set_conference_to_sponsor = set_conference_to_sponsor;
 exports.get_tcs = get_tcs;
 exports.getTcsConfirmation = getTcsConfirmation;
+exports.editConference = editConference;

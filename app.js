@@ -68,10 +68,6 @@ io.sockets.on('connection', function (socket, pseudo) {
             socket.emit('get_conference', data);
         });
     });
-   
-    /*socket.on('get_conference_to_sponsor', function(conference_id) {
-        modelConferences.get_conference_to_sponsor(socket, conference_id);
-    });*/
 
     //set sponsor conf
     socket.on('set_conference_to_sponsor', function(conference_id,tc_id,active) {
@@ -138,32 +134,36 @@ io.sockets.on('connection', function (socket, pseudo) {
         stream.pipe(fs.createWriteStream(__dirname+'/uploaded_files/'+filename)); 
     });
 
+    //Insert file name in db
     socket.on('insert_file_db', function(data){
         modelUpload.uploadFile(data, function(response){
             socket.emit('file_upload', response);
         });
     });
 
+    //get tcs confirmation status
     socket.on('get_tcs_confirmation', function(conference_id){
         modelConferences.getTcsConfirmation(conference_id, function(data){
             socket.emit('get_tcs_confirmation', data);
         });
     });
 
+    //get models conference from user
     socket.on('get_user_conf_models', function(user_id){
         modelNewConf.getUserConfModels(user_id, function(data){
             socket.emit('get_user_conf_models', data);
         });
     });
 
+    //edit conference
+    socket.on('edit_conference', function(conference_id, dataEdit){
+        modelConferences.editConference(conference_id, dataEdit, function(data){
+            socket.emit('edit_conference', data);
+        });
+    });
+
 });
 
-console.log(__dirname+'/tmp');
-
-/***TEST DES CRON JOBS***/ //Ca marche
+/***TEST DES CRON JOBS***/ //Cron 5 jours avant la fin de chaque noeud
 modelCron.cronNodeMail(5);
 /*******************/
-
-
-//server.listen(8080);
- 
