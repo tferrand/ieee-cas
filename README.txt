@@ -75,18 +75,18 @@ La date de fin de chaque noeud est calculée lors de la créattion de la confér
 --------------------------
 
 - Nous avons créé le site en suivant une architecture MVC :
---> Model : dossier /models
---> View : dossier /views
---> Controller : fichier app.js
+--> Model (dossier /models) : Les fonctions pour interagir avec la base de données
+--> View (dossier /views) : Les vues HTML
+--> Controller (fichier app.js) : Interface entre les modèles et le client
 
 - Le fichier app.js sert de "controller", et les intéractions entre le client et le modèle sont gérées dans ce fichier, via socket.io
-- Le serveur reçoit dans la page app.js les requêtes du client via le socket, et fait appel aux fonctions crées dans les différentes pages du "model".
+- Le serveur reçoit dans la page app.js les requêtes du client via le socket, et fait appel aux fonctions créées dans les différentes pages du "model". Certaines de ces fonctions possèdent des fonctions de callback qui permettent au controller de renvoyer des données au client via le socket (socket.emit).
 
 -Le dossier /public contient :
 --> css
 --> fonts
 --> img
 --> js : Nos fichiers javascript client (avec jQuery)
---> lib : librairies bootstrap, jquery, fullCalendar etc...
+--> lib : librairies bootstrap, jquery, fullCalendar, datetimepicker etc...
 
 - Ce site est totalement réalisé en Responsive Design, il peut donc être facilement utilisé sur smartphone ou tablette

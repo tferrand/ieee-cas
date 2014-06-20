@@ -5,7 +5,7 @@ nconf.file({ file: 'settings.json' });
 
 
 
-var createNewConf = function(socket, dataConf){
+var createNewConf = function(dataConf, callback){
     console.log(dataConf);
     //we have to get the start_date and end_date here to calculate the period to put in node_conference
     pool.getConnection(function (err, connection){
@@ -19,7 +19,8 @@ var createNewConf = function(socket, dataConf){
 
             connection.release();
 
-            socket.emit('create_conf_ok');
+            callback('create_conf_ok');
+            //socket.emit('create_conf_ok');
         });
     });
 }
@@ -129,7 +130,7 @@ function sendTCMail(email,id_conference){
     });
 }
 
-var getUserConfModels = function(socket, user_id){
+var getUserConfModels = function(user_id, callback){
     pool.getConnection(function (err, connection){
         connection.query('SELECT model_id, title, acronym, adress, description FROM conference WHERE user_id='+user_id+' ORDER BY id desc', function(err, rows, fields) {
             if (err) throw err;
@@ -137,7 +138,8 @@ var getUserConfModels = function(socket, user_id){
             connection.release();
 
             console.log(rows);
-            socket.emit('get_user_conf_models', {conf_models : rows});
+            callback({conf_models : rows});
+            //socket.emit('get_user_conf_models', {conf_models : rows});
         });
     });
 }

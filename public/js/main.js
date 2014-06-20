@@ -54,33 +54,6 @@ $(document).ready(function(){
     	}
     });
 
-//When the tc decide what to do with a conference
-    socket.on('set_conference_to_sponsor', function(data){
-        		$('#conferences-wrap').append(
-    			'<div class="conference-header accueil">'
-					+'<div class="conference-header-left">'
-						+'<h1>'+data.conferences[0].title+' ('+data.conferences[0].acronym+')</h1>'
-						+'<h2><b>ID : </b>'+data.conferences[0].id_iee+'</h2>'
-						+'<p><b>Lieu : </b>'+data.conferences[0].adress+'</p>'
-						+'<p><b>Horaire : </b>From '+data.conferences[0].start+' to '+data.conferences[0].end+'</p>'
-					+'</div>'
-					+'<div class="conference-header-right">'
-						+'<h3>Progression :</h3>'
-						+'<div class="progress progress-striped">'
-				            +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data.conferences[0].progression+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data.conferences[0].progression+'%">'
-				                +'<span class="sr-only">'+data.conferences[0].progression+'% Complete</span>'
-				            +'</div>'
-				            +'<span class="progress-completed">'+data.conferences[0].progression+'%</span>'
-				        +'</div>'
-					+'</div>'
-				+'</div>'
-				
-    		);
-		
-		$("#sp_mess").show();
-    	
-    });
-
 
 	$model_id='';
     //Quand on recoit les infos d'une conference pour le fil rouge
@@ -484,15 +457,42 @@ $(document).ready(function(){
 	});
 
 
+	//When the tc decide what to do with a conference
+    socket.on('set_conference_to_sponsor', function(data){
+        		$('#conferences-wrap').append(
+    			'<div class="conference-header accueil">'
+					+'<div class="conference-header-left">'
+						+'<h1>'+data.conferences[0].title+' ('+data.conferences[0].acronym+')</h1>'
+						+'<h2><b>ID : </b>'+data.conferences[0].id_iee+'</h2>'
+						+'<p><b>Lieu : </b>'+data.conferences[0].adress+'</p>'
+						+'<p><b>Horaire : </b>From '+data.conferences[0].start+' to '+data.conferences[0].end+'</p>'
+					+'</div>'
+					+'<div class="conference-header-right">'
+						+'<h3>Progression :</h3>'
+						+'<div class="progress progress-striped">'
+				            +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data.conferences[0].progression+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data.conferences[0].progression+'%">'
+				                +'<span class="sr-only">'+data.conferences[0].progression+'% Complete</span>'
+				            +'</div>'
+				            +'<span class="progress-completed">'+data.conferences[0].progression+'%</span>'
+				        +'</div>'
+					+'</div>'
+				+'</div>'
+				
+    		);
+		
+		$("#sp_mess").show();
+    	
+    });
+
 	//Notif
-	$('#notif_button').popover({
-		placement:'top',
-		html : true, 
-        content: function() {
-          return $('#notifExampleHiddenContent').html();
-        },
-        title: "<span class='glyphicon glyphicon-bell' style='margin-right:10px;'></span>Notifications"
-	});
+	// $('#notif_button').popover({
+	// 	placement:'top',
+	// 	html : true, 
+ //        content: function() {
+ //          return $('#notifExampleHiddenContent').html();
+ //        },
+ //        title: "<span class='glyphicon glyphicon-bell' style='margin-right:10px;'></span>Notifications"
+	// });
 
 	//hide edit conf for tcs
 	if($("#user_type").attr("data-user_type")== "tc"){

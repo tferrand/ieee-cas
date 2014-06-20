@@ -11,12 +11,15 @@ $(document).ready(function() {
 		conferencesData = [];
 
 		for (var conferenceId in data.conferences){
-			conferencesData[conferenceId] = {
-				title : data.conferences[conferenceId].title,
-				start : data.conferences[conferenceId].start,
-				end : data.conferences[conferenceId].end,
-				url: '/'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee
+			if(($("#user_type").attr("data-user_type")== "tc" && data.conferences[conferenceId].active=="1") || $("#user_type").attr("data-user_type") != "tc"){
+				conferencesData[conferenceId] = {
+					title : data.conferences[conferenceId].title,
+					start : data.conferences[conferenceId].start,
+					end : data.conferences[conferenceId].end,
+					url: '/'+$('#user_login').data('user_login')+'/conference/'+data.conferences[conferenceId].id_iee
+				}	
 			}
+			
 		}
 
 		var date = new Date(data.conferences[0].start);

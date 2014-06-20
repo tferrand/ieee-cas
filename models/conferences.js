@@ -1,6 +1,6 @@
 var pool = require('../config/connection_db').initPool();
 
-var get_user_conferences = function(socket, user_id, user_type){
+var get_user_conferences = function(user_id, user_type, callback){
 	pool.getConnection(function (err, connection){
         if (err) throw err;
         var request='SELECT * from conference WHERE user_id = '+user_id+' ORDER BY start';
@@ -16,7 +16,8 @@ var get_user_conferences = function(socket, user_id, user_type){
             if (err) throw err;
 
             console.log('The solution is: ', rows);
-            socket.emit('get_user_conferences', {conferences: rows});
+            callback({conferences: rows});
+            //socket.emit('get_user_conferences', {conferences: rows});
         });
     });
 }
@@ -36,7 +37,7 @@ var get_user_conferences = function(socket, user_id, user_type){
     });
 }*/
 
-var set_conference_to_sponsor = function(socket, conference_id,tc_id, active){
+var set_conference_to_sponsor = function(conference_id,tc_id, active, callback){
     pool.getConnection(function (err, connection){
         if (err) throw err;
         
@@ -51,7 +52,8 @@ var set_conference_to_sponsor = function(socket, conference_id,tc_id, active){
         connection.query(request, function(err, rows, fields) {
             connection.release();
             if (err) throw err;
-            socket.emit('set_conference_to_sponsor', {conferences: rows});
+            callback({conferences: rows});
+            //socket.emit('set_conference_to_sponsor', {conferences: rows});
         });
 
     });
@@ -79,13 +81,14 @@ var get_tcs = function(cb){
     });
 }*/
 
-var getTcsConfirmation = function(socket, conference_id){
+var getTcsConfirmation = function(conference_id, callback){
     pool.getConnection(function (err, connection){
         connection.query('SELECT user.name, conference_tc_sponsor.active FROM conference_tc_sponsor INNER JOIN user ON user.id = conference_tc_sponsor.tc_sponsor_id WHERE conference_id ='+conference_id, function(err, rows, fields) {
             connection.release();
             if (err) throw err;
             console.log('the tcs are :'+rows);
-            socket.emit('get_tcs_confirmation', {tcs : rows});
+            callback({tcs : rows});
+            //socket.emit('get_tcs_confirmation', {tcs : rows});
         });
     });
 }

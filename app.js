@@ -57,42 +57,55 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     //get conf of user
     socket.on('get_user_conferences', function(user_id, user_type) {
-        modelConferences.get_user_conferences(socket, user_id, user_type);
+        modelConferences.get_user_conferences(user_id, user_type, function(data){
+            socket.emit('get_user_conferences', data);
+        });
     });
 
     //get conf
     socket.on('get_conference', function(conference_id) {
-        modelRedThread.get_conference(socket, conference_id);
+        modelRedThread.get_conference(conference_id, function(data){
+            socket.emit('get_conference', data);
+        });
     });
-
    
-/*    socket.on('get_conference_to_sponsor', function(conference_id) {
+    /*socket.on('get_conference_to_sponsor', function(conference_id) {
         modelConferences.get_conference_to_sponsor(socket, conference_id);
     });*/
 
     //set sponsor conf
     socket.on('set_conference_to_sponsor', function(conference_id,tc_id,active) {
-        modelConferences.set_conference_to_sponsor(socket, conference_id,tc_id, active);
+        modelConferences.set_conference_to_sponsor(conference_id,tc_id, active, function(data){
+            socket.emit('set_conference_to_sponsor', data);
+        });
     });
 
     //get nodes
     socket.on('get_nodes', function(model_id, conference_id) {
-        modelRedThread.get_nodes(socket, model_id, conference_id);
+        modelRedThread.get_nodes(model_id, conference_id, function(data){
+            socket.emit('get_nodes', data);
+        });
     });
 
     //get tasks name and id and validation
     socket.on('get_tasks', function(node_id, conference_id) {
-        modelRedThread.get_tasks(socket, node_id, conference_id);
+        modelRedThread.get_tasks(node_id, conference_id, function(data){
+            socket.emit('get_tasks', data);
+        });
     });
 
     //get tasks infos (full description)
     socket.on('get_task_infos', function(task_id) {
-        modelRedThread.get_task_infos(socket, task_id);
+        modelRedThread.get_task_infos(task_id, function(data){
+            socket.emit('get_task_infos', data);
+        });
     });
 
     //validate tasks
     socket.on('validate_task', function(conference_id, task_id) {
-        modelRedThread.validate_task(socket, conference_id, task_id);
+        modelRedThread.validate_task(conference_id, task_id, function(data){
+            socket.emit('validate_task', data);
+        });
     });
 
     //update progression
@@ -107,12 +120,16 @@ io.sockets.on('connection', function (socket, pseudo) {
 
     //get tutos
     socket.on('get_tutos', function(node_id) {
-        modelRedThread.get_tutos(socket, node_id);
+        modelRedThread.get_tutos(node_id, function(data){
+            socket.emit('get_tutos', data);
+        });
     });
 
     //get infos création conf
     socket.on('create_conf', function(dataConf) {
-        modelNewConf.createNewConf(socket, dataConf);
+        modelNewConf.createNewConf(dataConf, function(data){
+            socket.emit(data);
+        });
     });
 
     //Upload de fichiers
@@ -122,15 +139,21 @@ io.sockets.on('connection', function (socket, pseudo) {
     });
 
     socket.on('insert_file_db', function(data){
-        modelUpload.uploadFile(socket, data);
+        modelUpload.uploadFile(data, function(response){
+            socket.emit('file_upload', response);
+        });
     });
 
     socket.on('get_tcs_confirmation', function(conference_id){
-        modelConferences.getTcsConfirmation(socket, conference_id);
+        modelConferences.getTcsConfirmation(conference_id, function(data){
+            socket.emit('get_tcs_confirmation', data);
+        });
     });
 
     socket.on('get_user_conf_models', function(user_id){
-        modelNewConf.getUserConfModels(socket, user_id);
+        modelNewConf.getUserConfModels(user_id, function(data){
+            socket.emit('get_user_conf_models', data);
+        });
     });
 
 });

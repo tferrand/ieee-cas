@@ -4,10 +4,17 @@
 			<small><cite title="user" id="user_type" data-user_type="{{user.type}}">{{user.type}}'s user : </cite><cite title="user" id="user_login" data-user_login="{{user.login}}">{{user.login}}</cite>&nbsp;&nbsp;| User ID : <cite id="user_id" data-user_id="{{user.id}}">{{user.id}}</cite> </small>
 		</blockquote>
 
-		<div class="btn-group" style="margin-bottom:20px;">
+		<!-- <div class="btn-group" style="margin-bottom:20px;">
 			<button type="button" class="btn btn-default active" id="show_list">List View</button>
 			<button type="button" class="btn btn-default" id="show_calendar">Calendar View</button>
-		</div>
+		</div> -->
+
+		<h2 style="margin-top:0px;">Conferences List</h2>
+
+		<ul class="nav nav-tabs" style="margin-bottom:10px;">
+			<li id="show_list" class="active"><a href="#">List View</a></li>
+			<li id="show_calendar"><a href="#">Calendar View</a></li>
+		</ul>
 		
 		<div id="calendar"></div>
 		<div id="conferences-wrap"></div>
