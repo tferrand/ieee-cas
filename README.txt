@@ -88,3 +88,5 @@ La date de fin de chaque noeud est calculée lors de la créattion de la confér
 --> img
 --> js : Nos fichiers javascript client (avec jQuery)
 --> lib : librairies bootstrap, jquery, fullCalendar etc...
+
+- Ce site est totalement réalisé en Responsive Design, il peut donc être facilement utilisé sur smartphone ou tablette

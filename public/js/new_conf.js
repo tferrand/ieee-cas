@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	jQuery('#new-start-date, #new-end-date').datetimepicker({
+		format:'Y/m/d H:i',
+  		lang:'en'
+	});
+
+
 	//New conference modal
 	$('#new-conference-modal').modal({
 	  keyboard: false,
@@ -57,20 +63,18 @@ $(document).ready(function(){
 		var idOk = verifID($('#new-id-ieee'));
 		var titleOk= verifTitle($('#new-title'));
 		var acronymOk = verifAcronym($('#new-acronym'));
-		var startDateOk = verifStartDate($('#new-start-date'));
-		var endDateOk = verifEndDate($('#new-end-date'));
+		var startDateOk = verifEmptyDate($('#new-start-date'));
+		var endDateOk = verifEmptyDate($('#new-end-date'));
 		var comparingDatesOk = comparingDates();
 		var adressOk = verifAdress($('#new-adress-geocodify-input'));
 		var descriptionOk = verifDescription($('#new-description'));
 		
 				 
 		if(tcOk && idOk && titleOk && acronymOk && startDateOk && endDateOk && comparingDatesOk && adressOk && descriptionOk){
-			//return true;
 
 			var datatcs = [];
 
 			$('#wrap_tc input:checked').each(function(n){
-				//datatcs[n] = $(this).val();
 				datatcs.push($(this).val());
 			});
 			console.log(datatcs);
@@ -96,7 +100,7 @@ $(document).ready(function(){
 			return false;
 		} 
 		else {
-		   alert("Fill in all the fields.");
+		   alert("Fill in all the fields correctly.");
 		   return false;
 		}
 		comparingDates();
@@ -160,30 +164,15 @@ $(document).ready(function(){
 	};	
 
 
-	//Verification of starting date
-	$('#new-start-date').blur(function(){
-		verifStartDate($(this))
+	//Verification of starting and ending date
+	$('#new-start-date, #new-end-date').blur(function(){
+		verifEmptyDate($(this));
+		comparingDates();
 	});
-	function verifStartDate(field){
-		var start_date = field.val();
+	function verifEmptyDate(field){
+		var date = field.val();
 
-	    if (start_date == "") {
-	        needFix(field,false);
-			return false;
-	    } else {
-	   		needFix(field,true);
-			return true;	
-	   	}
-	}
-
-	//Verification of ending date
-	$('#new-end-date').blur(function(){
-		verifEndDate($(this))
-	});
-	function verifEndDate(field){
-		var end_date = field.val();
-
-	    if (end_date == "") {
+	    if (date == "") {
 	        needFix(field,false);
 			return false;
 	    } else {
@@ -227,14 +216,24 @@ $(document).ready(function(){
 		var dist = calc_days(start_date.substr(0,10), getDate());
 		console.log(start_date.substr(0,10));
 
-		if (new Date(end_date) < new Date(start_date)) {
+		if (new Date(end_date) < new Date(start_date) && dist > 180) {
 			alert('Wrong date order.');
+			needFix($('#new-start-date'), false);
+			needFix($('#new-end-date'), false);
 			return false;
-		} else if (dist < 180) {
-			alert('Time is too short between now and the starting date.')
+		} else if (new Date(end_date) < new Date(start_date) && dist < 180) {
+			alert('Time is too short between now and the starting date, and the date are in the wrong order.');
+			needFix($('#new-start-date'), false);
+			needFix($('#new-end-date'), false);
 			return false;
-		}
-		else {
+		} else if (new Date(end_date) > new Date(start_date) &&  dist < 180){
+			alert('Time is too short between now and the starting date.');
+			needFix($('#new-start-date'), false);
+			needFix($('#new-end-date'), false);
+			return false;
+		} else if (new Date(end_date) > new Date(start_date) &&  dist > 180){
+			needFix($('#new-start-date'), true);
+			needFix($('#new-end-date'), true);
 			return true;
 		}
 	}

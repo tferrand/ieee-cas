@@ -219,7 +219,7 @@ $(document).ready(function(){
     		$("#task-modal-link").hide();
     	}
 
-    	if(data.task_infos[0].upload != 0){
+    	if(data.task_infos[0].upload != 0 && $("#user_type").attr("data-user_type") != "tc"){
     		$('#task-modal-upload').show();
     		if($('#task_'+data.task_infos[0].id+'').data('file_uploaded') == 0){
     			$('#task-modal-upload-input').show();
@@ -282,7 +282,7 @@ $(document).ready(function(){
 							+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
 						+'</div>'
 						+'<div class="panel-body">'
-							+'<a href="#">'+data.tutos[position].link+'</a>'
+							+'<a href="'+data.tutos[position].link+'" target="_blank">'+data.tutos[position].link+'</a>'
 						+'</div>'
 					+'</div>'
 	    		);
@@ -293,7 +293,7 @@ $(document).ready(function(){
 							+'<h3 class="panel-title">'+data.tutos[position].name+'</h3>'
 						+'</div>'
 						+'<div class="panel-body">'
-							+'<a href="#">'+data.tutos[position].link+'</a>'
+							+'<a href="'+data.tutos[position].link+'" target="_blank">'+data.tutos[position].link+'</a>'
 						+'</div>'
 					+'</div>'
 	    		);
